@@ -30,3 +30,4 @@ class Solution(object):
             final_prefix.append(strs[0][idx])
         
         return ''.join([strSingle for strSingle in final_prefix])
+        
