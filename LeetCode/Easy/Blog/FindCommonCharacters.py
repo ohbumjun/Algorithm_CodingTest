@@ -37,6 +37,7 @@ class Solution(object):
             for key in common.keys():
                 common[key] = min(common[key], Counter(A[i])[key] )
         
+        # elements() : 해당 key의 value만큼 key들의 목록을 얻을 수 있다 ( 즉, 0개인 key는 출력이 안된다)
         return sorted(common.elements())
             
                
