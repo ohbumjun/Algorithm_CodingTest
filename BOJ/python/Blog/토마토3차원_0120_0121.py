@@ -1,4 +1,6 @@
 # BFS : 시간 초과
+# https://www.acmicpc.net/problem/7569
+
 import sys
 sys.stdin = open("input.txt", "rt")
 import heapq as hq
