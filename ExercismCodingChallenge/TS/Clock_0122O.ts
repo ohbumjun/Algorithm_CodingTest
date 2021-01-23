@@ -8,6 +8,15 @@ export default class Clock{
         const MINUTES_IN_HOUR = 60;
         const HOURS_IN_DAY = 24
 
+        /*
+        Math.floor : 내림
+        also applies to '-' 
+
+        ex. Math.floor(-1.1) = -2 
+        ex. Math.floor ( -160 // 60) 
+        = Math.floor ( -2.666666) 
+        = -3 ! ( it's not -2 )
+        */
         let _hours   = ( Hour + Math.floor( Minute / 60 ) ) % 24 // 시간이 나온다. 
         let _minutes = Minute % 60
 
@@ -43,6 +52,10 @@ export default class Clock{
         return new Clock(this.Hour , this.Minute - minuteToSub)
     }
 
+    /*
+    Don't forget return type 'boolean' !
+    for 'toBeTruthy()' in test case to happen
+    */
     equals(newClock : Clock) : boolean{
         return this.Hour == newClock.Hour && this.Minute == newClock.Minute;
     }
