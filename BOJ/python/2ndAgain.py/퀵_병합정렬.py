@@ -1,4 +1,4 @@
-# 퀵정렬
+# 퀵정렬 1번째 버전 
 # 전위순회 : 자기 본연의 일을 먼저한다
 '''
 자기 본연의 일을 먼저한다니 ....?
@@ -25,10 +25,10 @@ pivot 값. 맨 오른쪽 값을 기준으로
 오른쪽에는 pivot보다 큰 값.
 을 정렬할 것이다.
 
-i를 통해 배열을 돌면서
+i를 통해 배열을 돌면서 ,
 pivot보다 작은 값을 search 할 것이다.
 
-만약 pivot보다 작은 값을 발견하게 되면
+만약 pivot보다 작은 값을 발견하게 되면 
 pos가 가리키고 있는 값과 i를 바꿔주고
 pos는 1 증가시켜준다. 
 
@@ -73,13 +73,9 @@ from collections import deque
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(10000)
 
-
-
 def quickSort( arr, lt, rt ):
-    
     if lt >= rt : # 원소 개수 1개인 경우 혹은, 아예 partition 내에 원소 없는 경우 종료 
         return
-
     pos = lt
     pivot = arr[rt]
 
@@ -96,15 +92,52 @@ def quickSort( arr, lt, rt ):
 
 
 n = int(input())
-
 arr = [ int(input()) for _ in range(n) ]
-
 
 # 퀵 정렬 : pivot은 맨 처음 값을 잡았다.
 quickSort( arr, 0, len(arr) - 1)
 
 for x in arr:
     print(x)
+
+# 퀵정렬 2번째 버전 -------------------------------------------------
+import sys
+sys.stdin = open("input.txt", "rt")
+from collections import deque
+sys.setrecursionlimit(10000)
+
+n = int(input())
+arr = [ int(input()) for _ in range(n) ]
+print(arr)
+
+def quickSort( arr, low, high ):
+    if low < high :
+        pivotpoint =partition(arr, low, high)
+        quickSort( arr, low, pivotpoint -1 )
+        quickSort( arr, pivotpoint + 1 , high )
+
+def partition( arr, low, high ):
+    pivotitem = arr[low] # 맨 앞의 값을 pivot으로 잡는다
+    i = low + 1
+    j = high
+
+    while i <= j :
+        while arr[i] < pivotitem :
+            i += 1
+        while arr[j] > pivotitem :
+            j -= 1
+        if( i < j ):
+            arr[i], arr[j] = arr[j], arr[i]  # swap
+
+
+    pivotpoint = j
+    arr[low] , arr[pivotpoint] = arr[pivotpoint], arr[low]
+
+    return pivotpoint
+
+quickSort(arr,0,len(arr) - 1)
+print(arr)
+            
 
 
 
