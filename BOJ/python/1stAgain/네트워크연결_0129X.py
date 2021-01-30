@@ -22,6 +22,35 @@ class DisjointSet:
             j = self.U[j]
         return j
 
+    '''
+    여기서 self란, 
+    자신을 호출한 instance, object를 의미하게 되는 것이다
+    예를 들어,
+
+    D1 = DisjointSet(n)
+    D2 = DisjointSet(n)
+    이라고 하면
+
+    D1.union()을 하게 될시
+    DisjointSet class 내의 union 함수가 실행될 것인데,
+    여기서 union함수는 궁금해 할 것이다
+    오케이..내가 호출되서, union 함수를 실행할 것이긴 한데...
+    누군에 대한 update ?
+    D1 ?
+    D2 ?
+
+    이때 바로 self가 역할 하는 것이다
+    self에는 자신을 호출한 D1 에 대한 정보가 들어감으로써
+    update() 로 하여금 
+    아 ~~~ D1 update ? okay !
+
+    self는 마치 포인터 같은 것이다
+    instance를 만들 때마다, 메모리에 새로운 공간이 만들어지고
+    그 새로운 공간에 instance 정보가 할당된다
+
+    self는 포인터 역할을 하여,
+    특정 instance가 위치한 메모리 정보를 가리켜 주는 것이다 
+    '''
     def union( self, p , q ):
         if( p < q ):
             self.U[q] = p
@@ -37,7 +66,7 @@ class DisjointSet:
             return False
 
 # 크루스칼 알고리즘
-def kruskal( n , E )  : # E : 가중치 순서대로 string된 상태여야 한다
+def kruskal( n , E )  : # E : 가중치 순서대로 sort된 상태여야 한다
     F = []
     dset = DisjointSet(n) # n만큼 disjoint set을 만든다, n은 정점 집합의 크기
     while( len(F) < n - 1 ): # F의 size가 n-1이 될때까지 ( edge의 개수 )
@@ -133,14 +162,14 @@ W     = [ [10001] * ( nodes + 1 ) for _ in range( nodes + 1 )  ]
 res   = 0
 
 # 0번째 col, 0번째 row는 -1로 초기화해준다
-for i in range( nodes + 1 ):
+for i in range( nodes + 1 ) :
     W[0][i] = -1
 
-for i in range( nodes + 1 ):
+for i in range( nodes + 1 ) :
     W[i][0] = -1
 
 # 자기 자신까지의 거리는 0으로 만들어준다
-for i in range( 1 , nodes + 1 ):
+for i in range( 1 , nodes + 1 ) :
     W[i][i] = 0
     
 # 연결정보를 저장한다.

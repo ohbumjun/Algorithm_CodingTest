@@ -28,30 +28,30 @@ DFS 탐색을 통해, 길이를 더해나간다.
 탐색을 진행하면서, 가중치 값들을 계속 더해간다.
 
 '''
+# DFS ------------------------------
 import sys
 sys.stdin = open("input.txt", "rt")
 from collections import deque, Counter
 sys.setrecursionlimit(100000)
 import heapq as hq
 
-def dfs( start, tree, weight, ck ) :
+def dfs( start, tree, weight) :
     # start : 스타트 노드
     # tree : 우리가 순회하는 트리
     # weight : 우리가 저장할 weight 배열
-    # ck : ck를 통해, 루트1번에서 시작한 건지, 최장길이 노드를 루트로 한건지 판단
-    # ck가 필요한 이유는, start가 1번 트리이면, weight[start]에 어떤 값도 저장되어 있지 않으므로 setting
-    # 루트노드에서 가장 멀리 떨어진 말단 노드를 탐색하고 나면, 그때의 weight[start]는 이미
-    # 루트노드에서, 해당 말단 노드까지의 가중치 합이 더해진 상태이므로, 아래 if 문 설정 없이 별도 진행 가능
-    if ck == 1:
-        weight[1] = 0 # 루트 1번 노드 가중치 0으로 설정
+    # ch : 이미 방문한 노드는 다시 방문하지 않기 위해 ch 설정
+    ch[start] = 1
 
     for node , w in tree[start] :
-        if( weight[node]  == 0 ):
+        if( weight[node]  == 0 and ch[node] == 0 ):
+            ch[node] = 1
             weight[node] = weight[start] + w
-            dfs( node, tree, weight, ck )
+            print("start, node, weight", start, node, weight[node] )
+            dfs( node, tree, weight)
 
 n = int(sys.stdin.readline())
 tree = [ [] for _ in range(n+1) ]
+ch = [0] * ( n + 1 )
 
 # 입력값 트리 생성
 for _ in range(n-1):
@@ -60,14 +60,64 @@ for _ in range(n-1):
     tree[c_node].append((p_node,w))
 
 weight1 = [ 0 for _ in range(n+1)] # 루트노드로부터의 길이를 저장
-dfs(1, tree, weight1, 1 )
+dfs(1, tree, weight1 )
 
 # 찾은 가장 먼 노드를 기준으로, 제일 멀리 떨어진 루트노드 위치 탐색
 start_node = weight1.index(max(weight1))
-
 weight2 = [ 0 for _ in range(n+1) ] # 가장 멀리 떨어진 노드로부터의 거리 저장
 
-dfs( start_node , tree, weight2 , 2 )
+# 체크리스트 초기화
+for i in range(len(ch)) :
+    ch[i] = 0
 
-
+dfs( start_node , tree, weight2 )
 print(max(weight2))   
+
+
+
+
+### BFS -------------
+import sys
+sys.stdin = open("input.txt", "rt")
+from collections import deque, Counter
+sys.setrecursionlimit(100001)
+
+def bfs(num):
+    maxDist, Node = 0, num
+    queue = deque()
+    queue.append((num, maxDist))
+    ch[num] = 1
+
+    while queue :
+        nowNode , nowDist = queue.popleft()
+        for n in adj[nowNode]:
+            if ch[n[0]] == 0:
+                # 방문 처리
+                ch[n[0]] = 1
+                queue.append((n[0] , n[1] + nowDist ))
+
+                # 최대값 갱신
+                if maxDist < n[1] + nowDist :
+                    maxDist = n[1] + nowDist
+                    Node = n[0]
+
+    return Node, maxDist
+        
+
+n = int(input())
+adj = [ [] for _ in range( n + 1 ) ]
+ch = [0] * ( n + 1 ) 
+
+for _ in range(n-1):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    st, ed, ct = tmp[0], tmp[1], tmp[2]
+    adj[st].append((ed,ct))
+    adj[ed].append((st,ct))
+
+N , D = bfs(1)
+
+# ch 초기화
+for i in range(len(ch)):
+    ch[i] = 0
+
+print(bfs(N)[1])
