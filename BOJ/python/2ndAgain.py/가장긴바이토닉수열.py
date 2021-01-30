@@ -84,6 +84,8 @@ print(len(answer))
 
 '''
 
+
+
 n      = int(input())
 a      = list(map(int, input().split()))
 dInc   = [0 for i in range(n)]
@@ -96,21 +98,17 @@ for i in range(n):
             dInc[i] = dInc[j]
     dInc[i] += 1
 
-
 # 팁 : 가장 긴 감소수열 > 가장 긴 증가수열 원리를, 배열 뒤에서부터 적용하면 된다.
-
 for i in range( n - 1, -1, -1):
     for j in range( n - 1,i,-1):
         if a[i] > a[j] and dDec[i] < dDec[j]:
             dDec[i] = dDec[j]
     dDec[i] += 1
 
-
 # 바이토닉 수열은, 해당 숫자를 기준으로 왼쪽은 증가수열 , 오른쪽은 감소 수열
 # 왼쪽에서 오면서 구한 증가수열, 오른쪽에서 오면서 구한 증가수열 ( 사실 감소 수열 ) 값을 더하면
 # 해당 값이 가운데에 있을 때 ,바이토닉 수열이며 그것의 길이
 # 단, 자기 자신의 값이 2번 카운팅 되므로, 더한 길이의 값 - 1 을 해주어야 한다.
-
 for i in range(n):
     dFinal[i] = dInc[i] + dDec[i] - 1
 
