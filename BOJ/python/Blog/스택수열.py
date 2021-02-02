@@ -20,8 +20,6 @@ for i in range(n):
         cnt += 1
         stack.append(cnt)
         res.append('+')
-        
-       
 
     # 만약 stack 맨 위의 값이, input과 다르다면 : false
     if stack[-1] != inputNum :

@@ -53,7 +53,7 @@ def promising( i, col ):
     # 첫번째 행부터 검사
     flag = True
     k = 1
-
+    # for문이 아니라, while문을 통해서 구현해야 한다는 점 !
     while k < i and flag :
         # and가 아니라, or 이라는 점 !!! 
         if col[i] == col[k] or abs(col[i] - col[k]) == abs( i - k ):
@@ -74,5 +74,15 @@ def n_queens( i, col ) :
                 col[i+1] = j
                 n_queens( i + 1, col )
 
+'''
+이제 중요한 것이다.
+시작 row를 0으로 한다는 것.
+사실상 row 0, col 0은 사용하지 않는다
+
+row를 0 값으로 시작하는 이유는, 
+이후 row 1 에다가 , 모든 값들을 setting 하여
+시작하기 위한 발판의 역할이다 
+
+'''
 n_queens( 0 , col)
 print(cnt)
