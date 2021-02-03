@@ -8,8 +8,9 @@ Lower Bound 란,
 '''
 
 '''
+
 Lower Bound를 먼저 살펴보자.
-< 정렬된 데이터 {1, 3, 5, 7, 9, 11}에서, 8 이상인 값이 처음 나오는 위치를 구하는 과정 >
+< 정렬된 데이터 { 1, 3, 5, 7, 9, 11 } 에서, 8 이상인 값이 처음 나오는 위치를 구하는 과정 >
 
 1) 시작위치 = 1, 끝위치 = 6 설정
 2) 시작 위치 1과, 끝 위치 6의, 중간 위치 3 > 5와 8을 비교한다
@@ -32,10 +33,20 @@ def lower_bound(start, end ,num) :
         mid = ( start + end ) // 2
         if res[mid] == num:
             end = mid
+            '''
+            주의할 점 !
+            여기서 res[mid] == num 
+            즉, 값을 찾았다고 break 시켜줘버리면 안된다.
+
+            왜 ? num이 여러개 있을 수 있고
+            현재 mid idx 보다 앞에 위치할 수도 있기 때문이다.!
+            그래서 계속 탐색을 진행해야 한다.
+            '''
         elif res[mid] < num :
             start = mid + 1
         else:
             end = mid
+            
     
     # 결국 start == end 일때 break 하게 된다
     return end

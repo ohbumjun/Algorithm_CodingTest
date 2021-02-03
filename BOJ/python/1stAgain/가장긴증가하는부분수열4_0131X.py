@@ -39,7 +39,6 @@ def lower_bound( st, ed ,num ):
             ed = mid
         elif arr[mid] == num:
             ed = mid
-            break
     return ed       
     
 
