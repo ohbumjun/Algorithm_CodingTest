@@ -47,6 +47,17 @@ j번째 원소를 증가시킬지 말지 결정하는 것
 그러나, 얘를 현재 뒤집었는데 오히려 전반적으로 1이 감소한다 ? 
 그러면, 여기서 이전까지의 뒤집기 subarray를 끝내고
 + 얘도 안뒤집어야 겠지 .
+그리고 그 시점에서 새로운 subarray를 시작하는 것이다 . 그리고 
+이 순간 만큼은 해당 요소에서 subarray에서 시작하고, 해당 요소에서 끝나느 것
+즉, 이전의 모든 subarray를 다 끊어버리고
+나 혼자 자신만이 최고의 subarray이다
+
+그 반대는, 이전에서 이어온 subarray를 이어받아서
+합쳐놓은 값이, 결국 최고의 subarray이다 
+
+즉, 현재 얘가 subarray set의 마지막 요소라면 ,
+그때의 최대 1 증감은 얼마가 되는 것이냐 !
+
 
 즉, 비교 기준은 
 0 ( 현재 얘를 안뒤집을 것인지 = 1의 증가가 없을 때 )
@@ -73,11 +84,11 @@ ex. 1 0 0 1 이라는 set가 있다고 할 때,
 
 정답 : "4"
 
-! 단, 한가지 고려할 사항이 있다.
+!! 단, 한가지 고려할 사항이 있다.
 무조건 하나는 뒤집어야 한다. 
 ( 뒤집는 idx 범위 1 <= ~~ <= n )
 
-즉, 만약 모든 원소 개수가 1이라면,
+즉, 만약 모든 원소 개수가 1 이라면 ,
 하나는 뒤집어야 하므로,
 처음 총 1의 개수 -1을 해주어야 한다.
 
@@ -100,7 +111,7 @@ for i in range(len(arr)) :
         
 if numOne == n:
     answer = numOne - 1
-    print("middle", answer )
+    print(answer )
     
 else:
     # 1의 개수를 최대로 증가시키는 flip set 구하기 ( subarray ) 구하기
@@ -109,7 +120,7 @@ else:
         globalMax = max( localMax, globalMax )
 
     answer = globalMax + numOne
-    print("sec", answer )
+    print(answer )
 
 
 
