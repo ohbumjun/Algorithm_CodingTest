@@ -20,3 +20,4 @@ while rt < len(arr) :
     rt += 1
 
 print(res)
+
