@@ -88,3 +88,5 @@ while True :
     dijkstra((0,0))
 
     print("Problem " + str(order) + ': ' + str(distance[(N-1,N-1)]))
+
+# 두번째 풀이 : 

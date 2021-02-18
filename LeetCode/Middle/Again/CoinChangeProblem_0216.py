@@ -11,7 +11,10 @@ class Solution:
             for i in range( coin , amount + 1 ) :
                 dy[i] = min( dy[i] , dy[i-coin] + 1 )
         
-        return dy[-1]
+        if dy[-1] == amount + 1 :
+            return -1
+        else:
+            return dy[-1]
         
 '''
 dy[j] : j원을 거슬러주는데 사용되는
