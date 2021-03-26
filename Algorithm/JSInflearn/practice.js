@@ -1,17 +1,12 @@
-function solution(m, arr){
-    let answer = 0
-    let sum = 0
-    let j = 0
-    for(let i = 0 ; i < arr.length; i++ ){
-        sum += arr[i]
-        while(sum > m){
-            sum -= arr[j]
-            j += 1
-        }
-        answer += (i - j + 1)
-    }
-    return answer
+const sum = (v) => v + ( v > 1 ? sum (v - 1) : 0 )
+
+const sum = (v , prev = 0 ) => {
+    prev += v
+    return v > 1 ? sum( v - 1 , prev ) : prev  
 }
 
-let a=[1, 3, 1, 2, 3];
-console.log(solution(5, a));`
+// 삼항 연산자, &&, || 는 메모리에 잡지 않는다 
+
+// prev는 함수 외적 메모리 
+// prev는 loop 밖에 있는 메모리 
+// 왜 loop 밖에 있는 메모리라고 하는거지 ?
