@@ -53,9 +53,45 @@ bfs, dfs를 for문을 돌면서, 모든 정점에 대해 적용하는 이유 ?
 모든 정점이 간선을 지니는 것이 아닐 수도 있기 때문이다 
 
 '''
-
 import sys
-import collections
+from collections import deque
+sys.stdin = open("input.txt", "rt")
+sys.setrecursionlimit(100000)
+
+
+def bfs(start):
+    queue = deque([start])
+    # 소속 부여
+    '''
+    질문 : 왜 무조건 방문 처음하는 정점의 소속을
+    '1'로 해야하는 거야 ??
+
+    '-1'일 수도 있잖아
+
+    자. 우리가 for문을 통해
+    모든 정점에 대해 bfs를 해주는 이유는
+
+    모든 간선에 의해 모든 정점이 연결되지 않을수도 있기 때문에
+    즉, 외딴 정점 혹은, 정점 집합이 존재할수도 있으니까
+    그러면, 여기서 중요한 것은
+    각 정점이 어떤 집합에 속하느냐를 구하는 것이 아니라,
+
+    간선으로 연결된 애들끼리
+    같은 집합이냐 아니냐이기 때문에
+
+    처음방문한 애를 어떤 소속으로 세팅하던 상관없는 것이다 
+    '''
+    label[i] = 1
+    while queue:
+        q = queue.popleft()
+        for node in adj[q]:
+            if label[node] == 0:
+                label[node] = - label[q]
+                queue.append(node)
+            elif label[node] == label[q]:
+                return False
+    return True
+
 
 k = int(sys.stdin.readline())
 
@@ -67,44 +103,56 @@ for _ in range(k):
     adj = [[] for _ in range(v + 1)]
 
     # label : 방문하지 않았다면 -1인 방문 확인 배열
-    label = [-1] * (v + 1)
+    label = [0] * (v + 1)
 
     # 그래프 입력부
     for i in range(e):
         a, b = map(int, sys.stdin.readline().split())
         adj[a].append(b)
         adj[b].append(a)
-    q = collections.deque()
 
-    ans = True
+    isBigraph = True
+    # 모든 정점 처리
+    for i in range(1, len(label)):
+        if label[i] == 0:
+            if bfs(i) == False:
+                isBigraph = False
+                break
+    print("YES" if isBigraph else "NO")
 
-    # BFS > 간선으로 연결되지 않을 수도 있는 경우를 대비하여, 모든 정점에 대해 돈다
-    for i in range(1, v + 1):
-        # ans가 False이면 탈출
-        if not ans:
-            break
-        # 아직 방문하지 않은 정점이 있다면
-        if label[i] == -1:
-            q.append(i)
-            label[i] = 1
-            # bfs 실행
-            while q:
-                # bfs 도중 이분 그래프라 아니라면 탈출
-                if not ans:
-                    break
-                now = q.popleft()
-                for next in adj[now]:
-                    # next ,  즉, 방문할 정점이 방문하지 않았다면, 그룹 번호를 바꿔 방문
-                    if label[next] == -1:
-                        label[next] = (label[now] + 1) % 3
-                        q.append(next)
-                    else:
-                        # next가 방문했으나 , 그룹번호가 같다면, 이분그래프가 아니다
-                        if label[next] == label[now]:
-                            ans = False
 
-    # 정답 출력
-    if ans:
-        print("YES")
-    else:
-        print("NO")
+# DFS 버전 ---------------------------------------------------------------------
+sys.stdin = open("input.txt", "rt")
+sys.setrecursionlimit(100000)
+
+n = int(input())
+input = sys.stdin.readline
+
+
+def dfs(st, group):
+
+    label[st] = group
+    for y in graph[st]:
+        if label[y] == 0:  # 아직 방문하지 않았다면
+            if not dfs(y, -group):
+                return False
+        elif label[y] == group:
+            return False
+    return True
+
+
+for _ in range(n):
+    N, V = map(int, input().split())
+    graph = [[] for _ in range(N + 1)]
+    label = [0] * (N + 1)
+    for _ in range(V):
+        st, ed = map(int, input().split())
+        graph[st].append(ed)
+        graph[ed].append(st)
+    isBy = True
+    for i in range(1, N + 1):
+        if label[i] == 0:
+            if not dfs(i, 1):
+                isBy = False
+                break
+    print("YES" if isBy else "NO")
