@@ -1,4 +1,4 @@
-# 퀵정렬 1번째 버전 
+# 퀵정렬 1번째 버전
 # 전위순회 : 자기 본연의 일을 먼저한다
 '''
 자기 본연의 일을 먼저한다니 ....?
@@ -73,73 +73,70 @@ from collections import deque
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(10000)
 
-def quickSort( arr, lt, rt ):
-    if lt >= rt : # 원소 개수 1개인 경우 혹은, 아예 partition 내에 원소 없는 경우 종료 
+
+def quickSort(arr, lt, rt):
+    if lt >= rt:  # 원소 개수 1개인 경우 혹은, 아예 partition 내에 원소 없는 경우 종료
         return
     pos = lt
     pivot = arr[rt]
 
-    for i in range(lt, rt ):
-        if arr[i] <= pivot :
-            arr[i] , arr[pos] = arr[pos], arr[i]
+    for i in range(lt, rt):
+        if arr[i] <= pivot:
+            arr[i], arr[pos] = arr[pos], arr[i]
             pos += 1
 
     arr[pos], arr[rt] = arr[rt], arr[pos]
 
     quickSort(arr, 0, pos - 1)
     quickSort(arr, pos + 1, rt)
-    
 
 
 n = int(input())
-arr = [ int(input()) for _ in range(n) ]
+arr = [int(input()) for _ in range(n)]
 
 # 퀵 정렬 : pivot은 맨 처음 값을 잡았다.
-quickSort( arr, 0, len(arr) - 1)
+quickSort(arr, 0, len(arr) - 1)
 
 for x in arr:
     print(x)
 
 # 퀵정렬 2번째 버전 -------------------------------------------------
-import sys
 sys.stdin = open("input.txt", "rt")
-from collections import deque
 sys.setrecursionlimit(10000)
 
 n = int(input())
-arr = [ int(input()) for _ in range(n) ]
+arr = [int(input()) for _ in range(n)]
 print(arr)
 
-def quickSort( arr, low, high ):
-    if low < high :
-        pivotpoint =partition(arr, low, high)
-        quickSort( arr, low, pivotpoint -1 )
-        quickSort( arr, pivotpoint + 1 , high )
 
-def partition( arr, low, high ):
-    pivotitem = arr[low] # 맨 앞의 값을 pivot으로 잡는다
+def quickSort(arr, low, high):
+    if low < high:
+        pivotpoint = partition(arr, low, high)
+        quickSort(arr, low, pivotpoint - 1)
+        quickSort(arr, pivotpoint + 1, high)
+
+
+def partition(arr, low, high):
+    pivotitem = arr[low]  # 맨 앞의 값을 pivot으로 잡는다
     i = low + 1
     j = high
 
-    while i <= j :
-        while arr[i] < pivotitem :
+    while i <= j:
+        while arr[i] < pivotitem:
             i += 1
-        while arr[j] > pivotitem :
+        while arr[j] > pivotitem:
             j -= 1
-        if( i < j ):
+        if(i < j):
             arr[i], arr[j] = arr[j], arr[i]  # swap
 
-
     pivotpoint = j
-    arr[low] , arr[pivotpoint] = arr[pivotpoint], arr[low]
+    arr[low], arr[pivotpoint] = arr[pivotpoint], arr[low]
 
     return pivotpoint
 
-quickSort(arr,0,len(arr) - 1)
+
+quickSort(arr, 0, len(arr) - 1)
 print(arr)
-            
-
-
 
 
 # 병합정렬
@@ -158,12 +155,11 @@ mid = ( lt + rt ) // 2
 3) 합치기 
 
 '''
-import sys
-from collections import deque
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(10000)
 
-def MergeSort( st , ed ):
+
+def MergeSort(st, ed):
     '''
     병합정렬의 경우 , 후위순회 이다
     왼쪽 자식의 일을 진행
@@ -199,25 +195,25 @@ def MergeSort( st , ed ):
     정렬이 필요할 때이기 때문에
     lt < rt 일때만 정렬을 수행하는 것이다. 
     '''
-    
+
     # 원소 개수가 1개라면, st == ed가 될 것이다. 이때는 그냥 바로 리턴
 
-    if st < ed :
+    if st < ed:
         # 후위순회 개념이다
-        mid = ( st + ed ) // 2
+        mid = (st + ed) // 2
         # 1) 왼쪽 아래 : 분할시 앞쪽 정렬
-        MergeSort( st, mid )
+        MergeSort(st, mid)
         # 2) 오른쪽 아래 : 분할시 뒤쪽 정렬
-        MergeSort( mid + 1 , ed )
+        MergeSort(mid + 1, ed)
 
         # 다 끝난 이후, 본연의 일, 정렬된 앞,뒤쪽 배열 정렬
         p1 = st
         p2 = mid + 1
         tmp = []
 
-        while p1 <= mid and p2 <= ed :
+        while p1 <= mid and p2 <= ed:
             # 왼쪽 오른쪽 비교
-            if arr[p1] < arr[p2] :
+            if arr[p1] < arr[p2]:
                 tmp.append(arr[p1])
                 p1 += 1
             else:
@@ -225,29 +221,27 @@ def MergeSort( st , ed ):
                 p2 += 1
 
         # 왼쪽이 남았다면
-        if p1 <= mid :
-            tmp += arr[ p1 : mid + 1 ]
+        if p1 <= mid:
+            tmp += arr[p1: mid + 1]
 
-        # 오른쪽이 남았다면 
-        if p2 <= ed :
-            tmp += arr[ p2 : ed + 1 ]
+        # 오른쪽이 남았다면
+        if p2 <= ed:
+            tmp += arr[p2: ed + 1]
 
         # tmp를 원래 arr idx에 붙여넣기
         for i in range(len(tmp)):
             arr[st+i] = tmp[i]
 
-    
-    
-
 
 n = int(input())
 
-arr = [ int(input()) for _ in range(n) ]
+arr = [int(input()) for _ in range(n)]
 
 
 # 퀵 정렬 : pivot은 맨 처음 값을 잡았다.
-MergeSort( 0, len(arr) - 1)
+MergeSort(0, len(arr) - 1)
 
 for x in arr:
     print(x)
 
+# 병합정렬 별도 list tmp 형성 x --------------------------------------
