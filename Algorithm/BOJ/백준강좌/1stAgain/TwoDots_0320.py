@@ -163,9 +163,9 @@ dy = [0, 0, -1, 1]
 res = 0
 
 
-def go(x, y, cnt, color):
+def go(x, y, cnt, color):  # 기준점에서, 특정 점까지 간, "거리"
     global res
-    if chr[x][y] == 1:
+    if chr[x][y] == 1:  # 사이클 : 이미 방문한 기준점 , 다시 방문하기
         return cnt - dist[x][y] >= 4
 
     chr[x][y] = 1
@@ -185,12 +185,23 @@ def go(x, y, cnt, color):
     return False
 
 
+# main ----------------------------------
 for i in range(N):
     for j in range(M):
         if chr[i][j] == 0:
-            ok = go(i, j, 1, arr[i][j])
+            ok = go(i, j, 0, arr[i][j])
             if ok:
                 print("Yes")
                 exit(0)
 
 print("No")
+
+
+'''
+요약 정리 :
+1) 모든 정점 에 대한 싸이클 검사
+- Brute Force
+2) 한 정점에서 시작하여, 싸이클 검사
+- DFS
+
+'''
