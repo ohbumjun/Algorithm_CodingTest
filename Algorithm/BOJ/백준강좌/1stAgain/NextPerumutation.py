@@ -21,7 +21,7 @@ def next_permutation(a):
     j = len(a) - 1
 
     # inverespoint를 기준으로, 오른쪽에 있는 숫자중에서
-    # inverespoint보다 한단계 더 큰 숫자를 찾고
+    # inverespoint보다 "한단계" 더 큰 숫자를 찾고 ( 사실 이게 왜 "한단계" 위라고 표현하는지는 잘 모르겠다 )
     # 해당 숫자와 위치를 바꿔준다
     while a[j] <= a[i-1]:
         j -= 1
