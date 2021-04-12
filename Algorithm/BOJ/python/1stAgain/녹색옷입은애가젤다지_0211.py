@@ -1,4 +1,4 @@
-# 
+#
 
 # 첫번째 풀이 : 정통 ? 다익스트라 알고리즘 >> 시간초과
 '''
@@ -18,75 +18,81 @@ arr[0][0] 이고,
 여기서 출발한다 
 
 '''
+from collections import deque, Counter
 import sys
 sys.stdin = open("input.txt", "rt")
-from collections import deque, Counter
 sys.setrecursionlimit(100000)
 
-dC = [ -1 ,  0, 1, 0 ]
-dR = [  0 , -1, 0, 1 ]
+dC = [-1,  0, 1, 0]
+dR = [0, -1, 0, 1]
 
 # 방문하지 않은 노드 중에서, 가장 최단 거리가 짧은 노드의 번호를 반환
+
+
 def get_smallest_node():
     global N
     minVal = INF
-    index = 0 # 가장 최단 거리가 짧은 노드의 index
+    index = 0  # 가장 최단 거리가 짧은 노드의 index
     for i in range(N):
         for j in range(N):
-            if distance[(i,j)] < minVal and not visited[(i,j)] :
-                minVal = distance[(i,j)]
-                index = (i,j)
+            if distance[(i, j)] < minVal and not visited[(i, j)]:
+                minVal = distance[(i, j)]
+                index = (i, j)
     return index
 
 # 다익스트라 알고리즘
+
+
 def dijkstra(start):
     global N
     # 시작 노드 초기화
-    distance[(start[0],start[1])] = arr[start[0]][start[1]]
-    visited[(start[0],start[1])]  = True
-    # 거리 정보 재할당 
-    for node in graph[(start[0],start[1])] :
-        distance[node[0]] = node[1] + distance[(start[0],start[1])]
+    distance[(start[0], start[1])] = arr[start[0]][start[1]]
+    visited[(start[0], start[1])] = True
+    # 거리 정보 재할당
+    for node in graph[(start[0], start[1])]:
+        distance[node[0]] = node[1] + distance[(start[0], start[1])]
 
     # 시작 노드를 제외한 전체 n - 1 개의 노드에 대해 반복
-    for i in range( N * N -1) :
+    for i in range(N * N - 1):
         # 현재 최단 거리가 가장 짧은 노드를 꺼내서 방문 처리
         now = get_smallest_node()
         visited[now] = True
         # 현재 노드와 연결된 다른 노드 확인
-        for j in graph[now] :
+        for j in graph[now]:
             cost = distance[now] + j[1]
-            if cost < distance[j[0]] :
+            if cost < distance[j[0]]:
                 distance[j[0]] = cost
+
+
 order = 0
-while True :
+while True:
     order += 1
     N = int(input())
-    if N == 0 :
+    if N == 0:
         break
-    
-    INF      = int(1e9) # 무한을 의미하는 값
-    arr      = [ list(map(int,sys.stdin.readline().split())) for _ in range(N) ]
-    visited  = {}
+
+    INF = int(1e9)  # 무한을 의미하는 값
+    arr = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+    visited = {}
     distance = {}
-    graph    = {}
+    graph = {}
 
     for i in range(N):
         for j in range(N):
             # 방문한 적이 있는지 체크하는 목적 리스트 만들기
-            visited[(i,j)] = False
+            visited[(i, j)] = False
             # 최단 거리 테이블을 무한으로 초기화
-            distance[(i,j)] = INF
+            distance[(i, j)] = INF
             for k in range(4):
                 cc = j + dC[k]
                 rr = i + dR[k]
-                if 0 <= cc < N and 0 <= rr < N :
-                    if (i,j) not in graph.keys():
-                        graph[(i,j)] = []
-                    graph[(i,j)].append(( (rr,cc) , arr[rr][cc] ))
-                
-    dijkstra((0,0))
+                if 0 <= cc < N and 0 <= rr < N:
+                    if (i, j) not in graph.keys():
+                        graph[(i, j)] = []
+                    graph[(i, j)].append(((rr, cc), arr[rr][cc]))
 
-    print("Problem " + str(order) + ': ' + str(distance[(N-1,N-1)]))
+    dijkstra((0, 0))
 
-# 두번째 풀이 : 
+    print("Problem " + str(order) + ': ' + str(distance[(N-1, N-1)]))
+
+# 두번째 풀이 :

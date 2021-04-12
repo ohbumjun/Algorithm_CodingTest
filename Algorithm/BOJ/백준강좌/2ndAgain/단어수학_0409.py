@@ -66,74 +66,59 @@ b c d
 
 
 def next_permutation(a):
-    i = len(a) - 1
-
-    while i > 0 and a[i-1] > a[i]:
+    i = len(a)-1
+    while i > 0 and a[i-1] >= a[i]:
         i -= 1
-    if i == 0:
+    if i <= 0:
         return False
-
-    j = len(a) - 1
-    while a[j] < a[i-1]:
+    j = len(a)-1
+    while a[j] <= a[i-1]:
         j -= 1
 
-    a[j], a[i-1] = a[i-1], a[j]
+    a[i-1], a[j] = a[j], a[i-1]
 
+    j = len(a)-1
     while i < j:
         a[i], a[j] = a[j], a[i]
         i += 1
         j -= 1
+
     return True
 
 
 def calc(a, letters, d):
-    # alpha 에 d 관련 문자열 할당하기
     m = len(letters)
-    sum = 0
+    ans = 0
     alpha = dict()
-    for i in range(len(d)):
+    for i in range(m):
         alpha[letters[i]] = d[i]
-    for i in range(len(a)):
+    for s in a:
         now = 0
-        for s in a[i]:
-            now = now * 10 + alpha[s]
-        sum += now
-    return sum
+        for x in s:
+            now = now * 10 + alpha[x]
+        ans += now
+    return ans
 
 
 n = int(input())
-# 문자 목록들을 담을 배열 ( 한줄 한줄 )
-a = [''] * n
-# 문자열 배열
+a = ['']*n
 letters = set()
-# 문자열에 따른 순열목록
-d = [0] * n
-
 for i in range(n):
     a[i] = input()
     for s in a[i]:
         letters.add(s)
-
-# letter 배열 전환
 letters = list(letters)
-
-# d 할당
-for i in range(len(letters)):
-    d[i] = 9 - i  # 이렇게 해주는 이유는, 최대한 큰수부터 d에 저장되게 하려고
-
-
-# next_permutation을 활용 > 오름차순 정렬
+m = len(letters)
+d = [i for i in range(9, 9-m, -1)]
 d.sort()
-
-res = 0
-
+ans = 0
 while True:
     now = calc(a, letters, d)
-    res = max(now, res)
+    if ans < now:
+        ans = now
     if not next_permutation(d):
         break
-
-print(res)
+print(ans)
 
 
 '''
@@ -153,30 +138,24 @@ using namespace std;
 char alpha[256]; 
 
 int calc(vector<string> &a, vector<char> &letters, vector<int> &d) {
+
     int m = letters.size();
     int sum = 0;
-
-    '''
-만일
-letters: A C G H
-d: 9 6 8 7
-이라고 저장되어 있다면
-A = 9, C = 6, G = 8, H = 7 이라고 생각할 수 있다
-
-alpha['A'] = 9  이런 형태로 저장하는 것이다
-'''
 
     for (int i=0; i<m; i++) {
         alpha[letters[i]] = d[i];
     }
 
-    '''
-입력받은 문자열 정보를 기준으로, 계산을 수행하는 함수
-'''
+    // alpha['A'] = 9
+    // alpha['B'] = 8
+    // alpha['C'] = 7
+    // alpha['D'] = 6
+
+
     for (string s : a) {
         int now = 0;
         for (char x : s) {
-            now = now * 10 + alpha[x];
+            now = now * 10 + alpha[x]; 
         }
         sum += now;
     }
@@ -197,13 +176,16 @@ int main() {
     }
     sort(letters.begin(), letters.end());
     letters.erase(unique(letters.begin(), letters.end()), letters.end()); # 여기까지 : 단어 uniq 들 
-    int m = letters.size(); # 문자 개수를 m 
+    int m = letters.size(); # 문자 개수를 
+
+    // 4개 문자열 >> 9 8 7 6 
+    // A, B , D ,G 
 
     vector<int> d; # 순열을 표시하는 배열 
     for (int i=9; i>9-m; i--) {
         d.push_back(i);
     }
-    sort(d.begin(), d.end());
+    sort(d.begin(), d.end()); 
     int ans = 0;
 
     do {
