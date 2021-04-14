@@ -37,6 +37,9 @@ while q:
             if dist[nx][ny] == -1:
                 dist[nx][ny] = dist[x][y] + 1
                 q.append((nx, ny))
+            # dist[nx][ny]가 -1 이 아니라고, 해서 break 하면 안된다
+            # [-1][0][-1]  현재 나는 오른쪽으로 가고 있는데 만일 0을 만났다 ?
+            # break 하면 no. 왜냐하면, 위에서 아래로 한번 내려오면 0 자리를 방문한 것일 수도 있으므로
             nx += dx[k]
             ny += dy[k]
 print(dist[ex][ey]-1)
