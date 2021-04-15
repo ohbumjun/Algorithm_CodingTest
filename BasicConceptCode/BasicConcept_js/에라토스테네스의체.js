@@ -2,15 +2,18 @@
 function prime_list(n){
     let sieve = [ ]
 
+    // 왜 2부터 넣는 거지 ??
     for(let i = 2; i < n; i++){
         sieve.push(true);
     }
+    console.log("sieve", sieve)
 
     let m = parseInt(n ** 0.5 , 10)
     // parseInt :  문자열 인자를 특정 진수의 정수로 반환하기 
     // n의 최대약수가 sqrt(n) 이하이므로 
 
     for(let i =2 ; i< m + 1; i++){
+        // 2,3 은 재치고, 4부터 검사한다는 의미 ?
         if(sieve[i] == true){
             // 해당 배수들을 모두 !! false로 바꾼다 
             for(let j = i  + i ; j < n; j += i){
@@ -20,8 +23,8 @@ function prime_list(n){
     }
 
     // 소수 목록 산출
-    let 소수목록 = []
-    for( let i = 2; i < n; i++ ){
+    let 소수목록 = [2,3]
+    for( let i = 4; i < n; i++ ){
         if( sieve[i] == true)
             소수목록.push(i)
     }
@@ -30,4 +33,4 @@ function prime_list(n){
 
 }
 
-console.log(prime_list(10001))
+console.log(prime_list(10))
