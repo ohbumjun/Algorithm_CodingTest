@@ -67,6 +67,8 @@ for _ in range(t):
             for j in range(10):
                 nxt = nextNum(now, i, j)
                 if nxt != -1:
+                    # 질문 : c 배열 안쓰고, 그냥 d 로만 거리도 체크, 방문 여부도 체크하면 안되나 ?? ex) d[] != 0
+                    # no 왜냐하면, 1033, 1033 같이 st와 ed가 같게 주어지는 경우가 있다. 이 경우에는 d[] != 0 을 하게 되면 +1 이 되어버린다 .실제 답은 0인데
                     if prime[nxt] == True and c[nxt] == False:
                         c[nxt] = True
                         d[nxt] = d[now] + 1
