@@ -15,6 +15,8 @@ class Solution:
 
     def minCoin(self, money):
         minN = int(1e9)
+        # 최소값을 구하는 문제 --> recursive 과정에서 money가 minus가 되면 maxint를 리턴해줘서,
+        # 유효하게 count 처리 되는 것을 방지한다
         if money < 0:
             return minN
         if money in self.mem:

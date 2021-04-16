@@ -18,6 +18,9 @@ arr[0][0] 이고,
 여기서 출발한다 
 
 '''
+from collections import deque
+import math
+import heapq
 from collections import deque, Counter
 import sys
 sys.stdin = open("input.txt", "rt")
@@ -95,4 +98,67 @@ while True:
 
     print("Problem " + str(order) + ': ' + str(distance[(N-1, N-1)]))
 
-# 두번째 풀이 :
+# 두번째 풀이 :  heap 이용
+sys.setrecursionlimit(1001*1001)
+
+'''
+잃을 수 밖에 없는 최소 금액
+최대한, 도둑 루피가 최소인 칸들만 지나서
+해당 정점으로 가야 한다는 것
+
+만약 잃을 수 밖에 없는 최소 금액 == 거리.
+라고 한다면
+
+이는 곧, 최소인 거리를 지나서, 해당 정점까지 가는
+경우의 수를 구하는
+문제와 같다 .
+
+다익스트라를 통해 실행하고
+
+플로이드 와샬을 통해 실행한다 
+
+'''
+dx = [-1, 1, 0, 0]
+dy = [0, 0, 1, -1]
+i = 1
+INF = int(1e9)
+while True:
+    n = int(input())
+    if n == 0:
+        break
+    # 그래프 세팅 : hash table이용
+    dist = dict()
+    rupy = dict()
+    arr = [list(map(int, input().split())) for _ in range(n)]
+    # 간선 연결 정보 setting
+    for x in range(n):
+        for y in range(n):
+            rupy[(x, y)] = []
+            # { (x,y) : [] , ......  } --> [] :( 연결된 정점좌표 , 해당 좌표까지 거리  )
+            for k in range(4):
+                nx = x + dx[k]
+                ny = y + dy[k]
+                if nx < 0 or n <= nx or ny < 0 or n <= ny:
+                    continue
+                rupy[(x, y)].append(((nx, ny), arr[nx][ny]))
+            # dist 세팅
+            dist[(x, y)] = INF
+
+    # 다익스트라 시작
+    # 초기화
+    q = []
+    dist[(0, 0)] = arr[0][0]
+    heapq.heappush(q, ((0, 0), dist[(0, 0)]))
+
+    while q:
+        pos, dis = heapq.heappop(q)
+        x, y = pos[0], pos[1]
+        if dis > dist[(x, y)]:
+            continue
+        for nxt in rupy[(x, y)]:
+            cost = dis + nxt[1]
+            if dist[nxt[0]] > cost:
+                dist[nxt[0]] = cost
+                heapq.heappush(q, (nxt[0], cost))
+    print("Problem %d: %d" % (i, dist[(n-1, n-1)]))
+    i += 1
