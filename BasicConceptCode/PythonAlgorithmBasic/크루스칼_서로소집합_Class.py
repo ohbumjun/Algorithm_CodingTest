@@ -21,12 +21,15 @@ def find_parent(parent, x):
     # 루트 노드를 찾을 때까지, 재귀 호출
     if parent[x] != x:
         parent[x] = find_parent(parent, parent[x])
+        # 구체적으로 이 과정은 어떻게 이루어지는 걸까 ?
     return parent[x]
 
 # 두 원소가 속한 집합 합치기
 
 
 def union_parent(parent, a, b):
+    # 맨처음에는 자기 자신의 값으로 parent가 설정되어 있다 ex) 1, 4
+    # 이 경우에는, 그냥 큰 애에다가, 작은 애를 합친다
     a = find_parent(parent, a)
     b = find_parent(parent, b)
     if a > b:
@@ -52,6 +55,7 @@ for _ in range(e):
     a, b, cost = map(int, input().split())
     # 비용순으로 정렬하기 위해서, 튜플의 첫번째 원소를 비용으로 설정
     edges.append((cost, a, b))
+
 
 # 간선을 비용순으로 정렬
 edges.sort()
