@@ -23,6 +23,12 @@ arr = [list(map(int, input().split())) for _ in range(n)]
 res = 0
 
 # 모든 위치에 대해서, bfs를 실시하고, 거기에서의 최대값을 구한다
+'''
+모든 위치를 탐색하는 시간 복잡도 : O(nm)
+dfs : O(nm)
+
+따라서, 총 시간 복잡도는 O((nm) ^ 2)
+'''
 
 
 def go(i, j):
@@ -37,14 +43,21 @@ def go(i, j):
             nx = x + dx[k]
             ny = y + dy[k]
             if 0 <= nx < n and 0 <= ny < m and dist[nx][ny] == -1:
+                # 이 파트가 중요하다. bfs 이기 때문에, 발견하면 바로 return
                 if arr[nx][ny] == 1:
-                    minD = dist[x][y] + 1
+                    return dist[x][y] + 1
 
                 else:
                     dist[nx][ny] = dist[x][y] + 1
                     q.append((nx, ny))
 
-    res = max(res, minD)
 
+for i in range(n):
+    for j in range(m):
+        # 아기 상어는 건너뛴다
+        if arr[i][j] == 1:
+            continue
+        ans = go(i, j)
+        res = max(res, ans)
 
 print(res)
