@@ -94,7 +94,7 @@ def quickSort(arr, lt, rt):
 n = int(input())
 arr = [int(input()) for _ in range(n)]
 
-# 퀵 정렬 : pivot은 맨 처음 값을 잡았다.
+# 퀵 정렬 : pivot은 맨 마지막 값을 잡았다.
 quickSort(arr, 0, len(arr) - 1)
 
 for x in arr:
@@ -229,7 +229,8 @@ def MergeSort(st, ed):
             tmp += arr[p2: ed + 1]
 
         # tmp를 원래 arr idx에 붙여넣기
-        for i in range(len(tmp)):
+        for i in rang
+        e(len(tmp)):
             arr[st+i] = tmp[i]
 
 
@@ -244,4 +245,4 @@ MergeSort(0, len(arr) - 1)
 for x in arr:
     print(x)
 
-# 병합정렬 별도 list tmp 형성 x --------------------------------------
+# 병합정렬 bottom up --------------------------------------

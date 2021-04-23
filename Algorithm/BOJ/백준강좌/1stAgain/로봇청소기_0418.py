@@ -63,24 +63,6 @@ def next_permutation(a):
     return True
 
 
-def bfs(a, sx, sy):
-    n = len(a)
-    m = len(a[0])
-    dist = [[-1]*m for _ in range(n)]
-    q = deque()
-    q.append((sx, sy))
-    dist[sx][sy] = 0
-    while q:
-        x, y = q.popleft()
-        for k in range(4):
-            nx, ny = x+dx[k], y+dy[k]
-            if 0 <= nx < n and 0 <= ny < m:
-                if dist[nx][ny] == -1 and a[nx][ny] != 'x':
-                    dist[nx][ny] = dist[x][y] + 1
-                    q.append((nx, ny))
-    return dist
-
-
 while True:
     m, n = map(int, input().split())
     if n == 0 and m == 0:
@@ -107,6 +89,7 @@ while True:
         continue
     p = [i+1 for i in range(l-1)]
     ans = -1
+
     while True:
         now = d[0][p[0]]
         for i in range(l-2):
