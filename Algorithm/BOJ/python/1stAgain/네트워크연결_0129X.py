@@ -68,8 +68,6 @@ class DisjointSet:
             return False
 
 # 크루스칼 알고리즘
-
-
 def kruskal(n, E):  # E : 가중치 순서대로 sort된 상태여야 한다
     F = []
     dset = DisjointSet(n)  # n만큼 disjoint set을 만든다, n은 정점 집합의 크기
@@ -110,6 +108,44 @@ for f in F:
 
 print(res)
 
+# 크루스칼 2 
+def find_parent(arr,x):
+      if parent[x] != x:
+            parent[x] = find_parent(parent,parent[x])
+      return parent[x]
+
+def union(arr,a,b):
+    # 맨처음에는 자기 자신의 값으로 parent가 설정되어 있다 ex) 1, 4
+    # 이 경우에는, 그냥 큰 애에다가, 작은 애를 합친다 
+      a = find_parent(arr,a)
+      b = find_parent(arr,b)
+      if a > b :
+            parent[b] = a
+      else:
+            parent[a] = b
+
+n = int(input())
+m = int(input())
+edges  = []
+parent = [-1] * (n+1)
+res = 0
+
+# 부모 정보 초기화
+for i in range(len(parent)):
+      parent[i] = i
+
+for _ in range(m):
+      st,ed,cost = map(int,input().split())
+      edges.append((cost,st,ed))
+# edges 정렬
+edges.sort()
+for edge in edges:
+      cost,st,ed = edge
+
+      if find_parent(parent,st) != find_parent(parent,ed):
+            res += cost
+            union(parent,st,ed)
+print(res)
 
 # prim 알고리즘
 sys.stdin = open("input.txt", "rt")
