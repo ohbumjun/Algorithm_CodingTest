@@ -229,8 +229,7 @@ def MergeSort(st, ed):
             tmp += arr[p2: ed + 1]
 
         # tmp를 원래 arr idx에 붙여넣기
-        for i in rang
-        e(len(tmp)):
+        for i in range(len(tmp)):
             arr[st+i] = tmp[i]
 
 
