@@ -41,6 +41,7 @@ a = [[0]*(m+1)] + [[0]+list(map(int, input().split())) for _ in range(n)]
 d = [[0]*(m+1) for _ in range(n+1)]
 for i in range(1, n+1):
     for j in range(1, m+1):
+        # d[0][0] --> 0
         d[i][j] = max(d[i-1][j], d[i][j-1], d[i-1][j-1])+a[i][j]
 print(d[n][m])
 
@@ -83,10 +84,13 @@ d[1][1] = a[1][1]
 # 그저, 점화식을 채우는 방식만 바뀔 뿐인 것이다
 for i in range(1, n+1):
     for j in range(1, m+1):
+        # 가로
         if j+1 <= m and d[i][j+1] < d[i][j] + a[i][j+1]:
             d[i][j+1] = d[i][j] + a[i][j+1]
+        # 세로
         if i+1 <= n and d[i+1][j] < d[i][j] + a[i+1][j]:
             d[i+1][j] = d[i][j] + a[i+1][j]
+        # 대각선
         if i+1 <= n and j+1 <= m and d[i+1][j+1] < d[i][j] + a[i+1][j+1]:
             d[i+1][j+1] = d[i][j] + a[i+1][j+1]
 print(d[n][m])
@@ -197,8 +201,7 @@ def dfs(x, y):
         elif x == 0:
             dp[x][y] = dfs(x, y-1) + a[x][y]
         else:
-            dp[x][y] = ma
-            x(dfs(x-1, y), dfs(x, y-1), dfs(x-1, y-1)) + a[x][y]
+            dp[x][y] = max(dfs(x-1, y), dfs(x, y-1), dfs(x-1, y-1)) + a[x][y]
         return dp[x][y]
 
 
@@ -246,7 +249,7 @@ d[i][j]를 구했다면, 최소 0이상의 값이 저장되어 있어야 하기 
 d = [[-1]*(m+1) for _ in range(n+1)]
 
 
-def go(i, j):
+def go(i, j):  # go(i,j) --> 시작점에서, i,j까지 최대 캔디 개수
     # bottom up과 달리, 범위를 정해주는 과정
     if i < 1 or j < 1:  # i,j 가 1보다 작으면, 불가능한 경우 --> 0을 return
         return 0
@@ -254,6 +257,8 @@ def go(i, j):
         return d[i][j]
     d[i][j] = max(go(i-1, j), go(i, j-1))+a[i][j]
     return d[i][j]
+
+# dp : recursive(재귀) + memoization(저장)
 
 
 print(go(n, m))
@@ -268,7 +273,7 @@ a = [[0]*(m+1)] + [[0]+list(map(int, input().split())) for _ in range(n)]
 d = [[-1]*(m+1) for _ in range(n+1)]
 
 
-def go(i, j):
+def go(i, j):  # go(i,j) : i,j 에서 끝점까의 최대 캔디 개수
     if i > n or j > m:
         return 0
     if d[i][j] >= 0:

@@ -42,10 +42,10 @@ B도 같은 작업을 진행한다.
 B에서 뽑아낸, all subset sum 들의 집합을 살펴보자. 
 
 all subset sum의 개수는 2 ^ ( n // 2) 개 였다.
-sort에서의 최소 시간 복잡도는 O ( k log k)
+sort에서의 최소 시간 복잡도는 O ( k log k )
 
 그래서 결국 B set의 all subset sum 들의 집합을 sort하는데에는
-2 ^ ( n // 2 ) log ( 2 ^ (n //2) ) 가 걸릴 것이다.
+2 ^ ( n // 2 ) * log ( 2 ^ (n //2) ) 가 걸릴 것이다.
 
 == ( n ) *  ( 2 ^ (n//2) )
 
@@ -53,7 +53,7 @@ sort에서의 최소 시간 복잡도는 O ( k log k)
 자. 이제 A의 all subst sum들 집합의 원소
 하나하나에 대해서
 
-sort 해둔 B all subset sum 집합을, 이진 탐색하면서
+sort 해둔 B all subset sum 집합을, 이진 탐색하면서 ( 참고 : 이진 탐색의 조건 == 정렬 )
 
 현재 A의 subset sum 하나의 원소 + sort된 B all subset sum에서 이진탐색 된수 == max 가 되는 값을
 찾는 것이다.
@@ -70,75 +70,77 @@ sort된 B all subset sum 집합을 한번 이진탐색할때 ( 이진탐색 시�
 '''
 
 # 첫번째 풀이 : 오답 -------------------------------------------------------------------------------
+from collections import deque, Counter
 import sys
 sys.stdin = open("input.txt", "rt")
-from collections import deque, Counter
 sys.setrecursionlimit(100000)
 
-def a_BF(v) :
+
+def a_BF(v):
     # v : 특정 원소 idx
-    if v == len(a_Arr) :
+    if v == len(a_Arr):
         tmpArr = []
-        for i in range( len(a_Arr) ):
-            if a_ch[i] == 1 :
+        for i in range(len(a_Arr)):
+            if a_ch[i] == 1:
                 tmpArr.append(a_Arr[i])
         a_sumArr.append(sum(tmpArr))
     else:
         # 사용한다 = 1, 사용하지 않는다 = 0
         a_ch[v] = 1
-        a_BF( v + 1 )
+        a_BF(v + 1)
         a_ch[v] = 0
-        a_BF( v + 1 )
+        a_BF(v + 1)
 
-def b_BF(v) :
+
+def b_BF(v):
     # v : 특정 원소 idx
-    if v == len(b_Arr) :
+    if v == len(b_Arr):
         tmpArr = []
-        for i in range( len(b_Arr) ):
-            if b_ch[i] == 1 :
+        for i in range(len(b_Arr)):
+            if b_ch[i] == 1:
                 tmpArr.append(b_Arr[i])
         b_sumArr.append(sum(tmpArr))
     else:
         # 사용한다 사용하지 않는다
         b_ch[v] = 1
-        b_BF( v + 1 )
+        b_BF(v + 1)
         b_ch[v] = 0
-        b_BF( v + 1 )
+        b_BF(v + 1)
+
 
 def lower_bound(start, end, target):
-    
+
     global cnt
-    
-    while start < end :
-        mid = ( start + end ) // 2
-        if b_sumArr[mid] > target :
+
+    while start < end:
+        mid = (start + end) // 2
+        if b_sumArr[mid] > target:
             end = mid
-        elif b_sumArr[mid] <= target :
+        elif b_sumArr[mid] <= target:
             start = mid + 1
         else:
             end = mid
             break
-        
+
     return end
 
 
-if __name__ == "__main__" :
-    N , C = map(int, sys.stdin.readline().split())
+if __name__ == "__main__":
+    N, C = map(int, sys.stdin.readline().split())
     inputArr = list(map(int, sys.stdin.readline().strip().split()))
     cnt = 0
-    
-    a_Arr = inputArr[ : len(inputArr) // 2 ]
-    b_Arr = inputArr[len(inputArr) // 2 : ]
-    
+
+    a_Arr = inputArr[: len(inputArr) // 2]
+    b_Arr = inputArr[len(inputArr) // 2:]
+
     a_sumArr = []
     b_sumArr = []
-    a_ch = [0] * ( len(a_Arr) )
-    b_ch = [0] * ( len(b_Arr) )
-
+    a_ch = [0] * (len(a_Arr))
+    b_ch = [0] * (len(b_Arr))
 
     # a, b 이진 탐색
-    a_BF( 0 )
-    b_BF( 0 )
+    a_BF(0)
+    b_BF(0)
 
     # b sort
     a_sumArr.sort()
@@ -146,85 +148,83 @@ if __name__ == "__main__" :
 
     # a_sumArr 의 각 원소에 대해, b_sumArr 이진탐색하면, 찾아내기
     for i in a_sumArr:
-        if C - i < 0: # == 0인 경우를 고려하지 않는 이유는 b_sumArr에 0이 포함된 경우도, 더해주기 위해서이다 
+        if C - i < 0:  # == 0인 경우를 고려하지 않는 이유는 b_sumArr에 0이 포함된 경우도, 더해주기 위해서이다
             continue
         else:
             # return value of "upper_bound" function will be, at which position, least target value is located
             # for ex) if '1' is target, and it's idx == 1 > it means, '0' which is in front of '1' can be also answer
-            # so, return value should be '2' , so that, we can say 
+            # so, return value should be '2' , so that, we can say
             # oh ! if target value is '1', then totally '2' values are possible !
-            ans = lower_bound( 0 , len(b_sumArr) , C - i )
+            ans = lower_bound(0, len(b_sumArr), C - i)
             cnt += ans
-            
 
     print(cnt)
-    
 
 
 # 두번째 풀이 : 정답 -------------------------------------------------------------------------------
 
-def a_BF(v) :
+def a_BF(v):
     # v : 특정 원소 idx
-    if v == len(a_Arr) :
+    if v == len(a_Arr):
         tmpArr = []
-        for i in range( len(a_Arr) ):
-            if a_ch[i] == 1 :
+        for i in range(len(a_Arr)):
+            if a_ch[i] == 1:
                 tmpArr.append(a_Arr[i])
         a_sumArr.append(sum(tmpArr))
     else:
         # 사용한다 = 1, 사용하지 않는다 = 0
         a_ch[v] = 1
-        a_BF( v + 1 )
+        a_BF(v + 1)
         a_ch[v] = 0
-        a_BF( v + 1 )
+        a_BF(v + 1)
 
-def b_BF(v) :
+
+def b_BF(v):
     # v : 특정 원소 idx
-    if v == len(b_Arr) :
+    if v == len(b_Arr):
         tmpArr = []
-        for i in range( len(b_Arr) ):
-            if b_ch[i] == 1 :
+        for i in range(len(b_Arr)):
+            if b_ch[i] == 1:
                 tmpArr.append(b_Arr[i])
         b_sumArr.append(sum(tmpArr))
     else:
         # 사용한다 사용하지 않는다
         b_ch[v] = 1
-        b_BF( v + 1 )
+        b_BF(v + 1)
         b_ch[v] = 0
-        b_BF( v + 1 )
+        b_BF(v + 1)
+
 
 def upper_bound(start, end, target):
-    
+
     global cnt
-    
-    while start < end :
-        mid = ( start + end ) // 2
-        if b_sumArr[mid] <= target :
+
+    while start < end:
+        mid = (start + end) // 2
+        if b_sumArr[mid] <= target:
             start = mid + 1
         else:
             end = mid
 
-        
     return end
 
 
-if __name__ == "__main__" :
-    N , C = map(int, sys.stdin.readline().split())
+if __name__ == "__main__":
+    N, C = map(int, sys.stdin.readline().split())
     inputArr = list(map(int, sys.stdin.readline().strip().split()))
     cnt = 0
-    
-    a_Arr = inputArr[ : len(inputArr) // 2 ]
-    b_Arr = inputArr[len(inputArr) // 2 : ]
-    
+
+    a_Arr = inputArr[: len(inputArr) // 2]
+    b_Arr = inputArr[len(inputArr) // 2:]
+
     a_sumArr = []
     b_sumArr = []
-    a_ch = [0] * ( len(a_Arr) )
-    b_ch = [0] * ( len(b_Arr) )
-
+    a_ch = [0] * (len(a_Arr))
+    b_ch = [0] * (len(b_Arr))
 
     # a, b 이진 탐색
-    a_BF( 0 )
-    b_BF( 0 )
+    a_BF(0)
+    b_BF(0)
 
     # b sort
     a_sumArr.sort()
@@ -232,22 +232,20 @@ if __name__ == "__main__" :
 
     # a_sumArr 의 각 원소에 대해, b_sumArr 이진탐색하면, 찾아내기
     for i in a_sumArr:
-        if C - i < 0: # == 0인 경우를 고려하지 않는 이유는 b_sumArr에 0이 포함된 경우도, 더해주기 위해서이다 
+        if C - i < 0:  # == 0인 경우를 고려하지 않는 이유는 b_sumArr에 0이 포함된 경우도, 더해주기 위해서이다
             continue
         else:
             # return value of "upper_bound" function will be, at which position, least target value is located
             # for ex) if '1' is target, and it's idx == 1 > it means, '0' which is in front of '1' can be also answer
-            # so, return value should be '2' , so that, we can say 
+            # so, return value should be '2' , so that, we can say
             # oh ! if target value is '1', then totally '2' values are possible !
-            ans = upper_bound( 0 , len(b_sumArr) , C - i )
+            ans = upper_bound(0, len(b_sumArr), C - i)
             cnt += ans
-            
 
     print(cnt)
-    
 
 
-#--------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------
 '''
 다른 점 ?
 
