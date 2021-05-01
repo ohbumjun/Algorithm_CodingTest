@@ -1,25 +1,22 @@
 const solution = (arr) => {
-    const max = 259;
-    const n   = 5;
-    // 결국은, 얘를 태울 것인가 말것인가 
-    let ans = 0;
-    const dfs = (idx,sum) => {
-        if(idx == arr.length){
-            if(sum <= max){
-                console.log("sum", sum)
-                ans = Math.max(sum,ans)
-                return
+    // 자신을 기준으로 왼쪽을 본다
+    // 자신보다 작으면서, 가장 큰 숫자를 찾고, 그 해당 숫자의 dp[i] 값 + 1을 해준다
+    const len = arr.length;
+    let answer = 0;
+    let dp = Array(len).fill(0)
+    for(let i = 0 ; i < len; i++){
+        let maxElem = 0 , maxVal = 0;
+        for(let j = 0; j < i ; j++){
+            if(arr[j] < arr[i] && arr[j] > maxElem){
+                maxElem = arr[j]
+                maxVal = dp[j]
             }
-        }else{
-            // 선택
-            dfs(idx+1,sum + arr[idx])
-            // 선택 x
-            dfs(idx+1,sum)
         }
+        dp[i] = maxVal + 1
+        answer = Math.max(dp[i],answer)
     }
-    dfs(0,0,0)
-    console.log(ans)
+    return answer
 }
 
-const arr = [81,58,42,33,61]
-solution(arr)
+const arr = [5 ,3 ,7 ,8 ,6 ,2 ,9 ,4]
+console.log(solution(arr))
