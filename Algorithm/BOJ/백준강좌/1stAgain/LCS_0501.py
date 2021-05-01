@@ -1,8 +1,8 @@
 # https://www.acmicpc.net/problem/9251
-
+# LCS : Longest Common Subsequence
 '''
 Subsequence 
-- 순서 유지하되, 연속일 필요는 없음
+- 순서 유지하되, 연속일 필요는 없음 ( not contiguous )
 
 Substring
 - 순서 유지 + 연속
