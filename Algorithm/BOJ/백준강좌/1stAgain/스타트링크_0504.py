@@ -88,6 +88,9 @@ while q:
         dist[now-D] = dist[now] + 1
         q.append(now-D)
 
+# 여기에서 중요한 점은 dist[g] != 0 이라는 조건이 되어서는 안된다
+# 애초부터 dist 배열을 모두 0으로 초기화하면 안된다
+# 맨처음 g가 s와 같은 값으로 들어오게 되는 경우도 있기 때문이다
 print(dist[G] if dist[G] != -1 else 'use the stairs')
 
 # C++
