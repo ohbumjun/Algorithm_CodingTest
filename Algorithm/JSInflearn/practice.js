@@ -1,22 +1,21 @@
-const solution = (arr) => {
-    // 자신을 기준으로 왼쪽을 본다
-    // 자신보다 작으면서, 가장 큰 숫자를 찾고, 그 해당 숫자의 dp[i] 값 + 1을 해준다
-    const len = arr.length;
-    let answer = 0;
-    let dp = Array(len).fill(0)
-    for(let i = 0 ; i < len; i++){
-        let maxElem = 0 , maxVal = 0;
-        for(let j = 0; j < i ; j++){
-            if(arr[j] < arr[i] && arr[j] > maxElem){
-                maxElem = arr[j]
-                maxVal = dp[j]
+const solution = (product) => {
+    let n = 5, m = 28; answer = 0;
+    product.sort((a,b) => (a[0]+a[1]) - (b[0]+b[1]))
+    // 각 상품을 1/2 해준 다음
+    // 그 이후, 상품을 차례대로 담는 경우 생각하기
+    for(let i = 0 ; i < product.length; i++){
+        let money = m - (product[i][0]/2 + product[i][1])
+        let cnt   = 1
+        for(let j = 0 ; j < n; j++){
+            if(j != i && money - (product[j][0] + product[j][1]) >= 0 ){
+                money -= (product[j][0] + product[j][1])
+                cnt += 1
             }
         }
-        dp[i] = maxVal + 1
-        answer = Math.max(dp[i],answer)
+        answer = Math.max(answer,cnt)
     }
     return answer
 }
 
-const arr = [5 ,3 ,7 ,8 ,6 ,2 ,9 ,4]
-console.log(solution(arr))
+let s = [[6,6],[2,2],[4,3],[4,5],[10,3]]
+console.log(solution(s)); 

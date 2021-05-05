@@ -56,7 +56,13 @@ def bfs(a, x, y, size):
                     q.append((nx, ny))
                     d[nx][ny] = d[x][y] + 1
                     if eat:
+                        # ans에 넣어주는 순서가 매우 중요하다
                         ans.append((d[nx][ny], nx, ny))
+                        # 먹을 수 있는 물고기의 정렬 우선 순위는 다음과 같다
+                        # 1) 거리
+                        # 2) 행 ( 맨 위 )
+                        # 3) 열 ( 맨 왼쪽)
+                        # 이를 있는 그대로 반영하기 위해 위와 같은 원소의 순서로 ans에 넣어주어야 한다
     if not ans:
         return None
     ans.sort()
