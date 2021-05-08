@@ -268,12 +268,18 @@ def gen(k):
         # 우리가 비교하려는 값은 왼쪽 2칸 이동후의 값이지만
         # 해당 왼쪽 2칸을 접근하게 하려면, 원래 값 k를 오른쪽으로 2칸 이동시킨다
         k >>= 2
+        # 이렇게 되면, 맨 나중에 이동시킨 방향이 a[0]에 들어가 있는 형태가 된다
+        # 정말 어떠한 순서대로 이동이 이루어졌는지를 판단하기 위해서는 사실 a를 reverse 한 다음 return 시켜야 한다
+        # 하지만 우리는 그 안에 어떤 숫자가 들어있는지에 대해 상세하게 궁금한 것이 아니라
+        # 그냥 모든 방법을 만드는 것이 필요하다
+        # 그래서 그냥 a를 리턴한다
     return a
 
 # simulate : 구슬 "하나"의 이동 , 언제까지 ? 더이상 이동할 공간이 없을 때까지
 # x, y 는 구슬의 위치
 
 
+# a : 보드, k는 방향 , x와 y는 구슬의 위치
 def simulate(a, k, x, y):
     n = len(a)
     m = len(a[0])
@@ -356,11 +362,9 @@ def check(a, dirs):
     cnt = 0
     # 현재 방향 : k , dirs는 항상 10개의 요소를 갖고 있다 ( 10번의 이동 )
     for k in dirs:
-
         # for문 한번 == 기울임 1번
         cnt += 1
         hole1 = hole2 = False
-
         # 아래 while문은 실제 이동 처리
         while True:
             # a 보드에서 rx, ry에 있는 보드를 k 방향으로 이동시키기
@@ -368,14 +372,14 @@ def check(a, dirs):
             rx, ry = p1.x, p1.y
             p2 = simulate(a, k, bx, by)
             bx, by = p2.x, p2.y
-
             # 기울임 같은 경우에는, 빨강 먼저, 그 다음 파랑 이동
             # p1, p2둘다 이동하지 않았다면, 더이상 이동할 필요가 없는 것 => break 시키기
             if not p1.moved and not p2.moved:
                 break
-            if p1.hole:
+            # 각각 구멍에 빠졌는지도 기록해주어야 한다
+            if p1.hole:  # 빨간 구슬이 구멍에 빠졌다면
                 hole1 = True
-            if p2.hole:
+            if p2.hole:  # 파란 구슬이 구멍에 빠졌다면
                 hole2 = True
 
     # simulate 함수가 return하는 것 : 1) 이동했는가 ? 2) 구멍에 빠졌는가
@@ -395,6 +399,8 @@ def check(a, dirs):
     return -1
 
 
+# 같은 방향으로 연속 2번 이거나 : <-- <--
+# 반대 방향이면 의미가 없다고 했다 : <-- , -->
 def valid(dirs):
     l = len(dirs)
     for i in range(l-1):
