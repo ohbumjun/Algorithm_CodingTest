@@ -68,6 +68,25 @@ b = [0 if i < n // 2 else 1 for i in range(n)]
 arr = [list(map(int, input().split())) for _ in range(n)]
 res = 21412389713
 
+
+'''
+# 아래와 같은 코드는 시간초과
+# 즉, list slicing이 시간이 오래 걸린다 !
+p = [x for x in range(n)]
+while True:
+    mid = len(p) // 2
+    fg = p[:mid]
+    fSum = 0
+    sg = p[mid:]
+    sSum = 0
+
+    for i in range(len(fg)):
+        for j in range(len(fg)):
+            if i == j : continue
+            fSum += s[fg[i]][fg[j]]
+            sSum += s[sg[i]][sg[j]]
+'''
+
 while True:
     first = []
     one = 0

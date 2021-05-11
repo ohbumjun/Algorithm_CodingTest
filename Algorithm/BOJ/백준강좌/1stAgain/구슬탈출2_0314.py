@@ -246,7 +246,7 @@ Red가 Blue에 막혀, 온전히 오른쪽 옆으로 이동하지 못하는 경�
 dx = [0, 0, 1, -1]
 dy = [1, -1, 0, 0]
 
-LIMIT = 10
+LIMIT = 10  # 최대 10번 , 4개의 방향으로 이동할 수 있다 --> 4  ^ 10
 
 
 class Result:
@@ -259,7 +259,12 @@ class Result:
 
 def gen(k):
     # 이진법 표현을 ? 10진수 k를 ?
-    # 4진법 표현으로 변화시키는 것  : 비트 마스크 방법을 활용한다
+    # 4진법 표현으로 변화시키는 것 : 비트 마스크 방법을 활용한다
+    # 방법이 항상 4가지 : 0,1,2,3 으로 각각의 방법을 대응시킬 수 있다
+    # ( ex. 0,1,2,3 = 위,아래,왼,오 )
+    # 이는 4진법에 해당하고, 4진법은, 2진법을 2개씩 묶어서 표현할 수 있다
+    # 따라서, 4진법 형태를 10번 만들어야 한다
+    # 2진법 형태로 20번 만들어주고, 2개씩 묶어주는 방법을 활용할 수도 있다
     a = [0] * LIMIT
     for i in range(LIMIT):
         # 2자리 단위로 비교한다
@@ -278,21 +283,48 @@ def gen(k):
 # simulate : 구슬 "하나"의 이동 , 언제까지 ? 더이상 이동할 공간이 없을 때까지
 # x, y 는 구슬의 위치
 
-
 # a : 보드, k는 방향 , x와 y는 구슬의 위치
+
+
 def simulate(a, k, x, y):
     n = len(a)
     m = len(a[0])
     # 구슬이 있어야 하는데 빈칸이다 ? 이런 경우가 있나 ?
-    # ㅇㅇ 이런 경우 있지. 왜냐하면 우리는 dirs라는 방향 정보에는 우선 모든 종류의 방향 정보를 담고 있으니까
-    # 즉, dirs 안의 정보를 처리하는 것만으로는, 현재 dirs 정보로 이동시키는 구슬이 구멍에 빠졌는지, 안빠졌는지 알 수 없다.
-    # 맨 아래에서 ch == '0', 즉, '빈공'일 경우, 아예 해당 공을 보드에서 빼주도록 처리했다
-    # 그 다음 다시 해당 공에 대해서 simulate 함수를 돌릴 때는
-    # 이렇게 바로 이미 공이 빠졌음을 return 시켜서 아래의 과정을 거치지 않게 해주는 것이다
+    # 지금 우리가, 구슬의 이동을 어떤 방식으로 처리하고 있는지를 봐야 한다
+    # 우리는 구슬을 이동시킬 때 ,빨,파 순서로 이동시키고 있다
+    # [구멍] 빨강, 파랑. 이러한 순서로 위치해 있었다고 해보자
+    # 그렇게 되면, 빨강을 왼쪽으로 한번 이동시키면, 구멍에 빠지게 되고, moved는 true가 된다
+    # 반면, 파랑의 경우, 역시 이동할 수 있으니 moved는 true가 된다
+    # [구멍]파랑
+    # 그런데, 위의 한번의 결과만을 수행하고 나서는, 파랑의 구슬이 구멍에 빠졌는지 여부를 검사하기
+    # 어렵다.
+    # 파랑이 구멍에 빠졌는가 까지를 검사해주어야 하는 이유는,
+    # 지금 우리는, 우선 구슬들을 다 ~ 이동 시킨 다음에, 파랑, 빨강이 둘다 구멍에 빠졌는지 등을
+    # 검사하는 방식을 수행하고 있다
+    # 따라서, 문제의 요구사항대로 빨강이 구멍에 빠졌더라도, 파랑도 구멍에 빠졌다면
+    # 해당 이동 경로는 정답이 될 수 없다
+
+    # 다시 돌아와서
+    # 그렇기에, 이제 한번더 [구멍]파랑. 의 상태에 대해서 이동처리를 해주어야 한다
+    # 자, 다시 말해서, 이미 빨간 구슬은 구멍에 빠졌지만
+    # 다시 빨간 구슬, 파란 구슬 세트에 대해서, 이동 경로 검사를 해주어야 한다는 것이다
+    # 이때, 아래 a[nx][ny] == 'O' 인 경우를 자세히 살펴보면,
+    # 현재 빨간구슬의 위치 x,y 를 그냥 '.'으로 만들어버리는 것을 알 수 있다
+    # x,y의 위치는 nx,ny로 바꿔주지 않은체, 그냥 x,y를 빈칸으로 만들어준다
+    # 즉, 아예 지도에서 제거해버리는 것이다
+    # 이렇게 되면, 다시 빨간색에 대한 이동 검사를 해주었을 때, a[x][y] == '.'인 상태이고
+    # 아래의 코드에 걸린다는 것은, 이미 빨간 구슬이 구멍에 빠졌다는 것을 알려주는 것이다
     if a[x][y] == '.':
         return Result(False, False, x, y)
     # return 될때, 이동을 하고 끝나는 건지. 처음부터 이동 자체를 안했는지 등등
     moved = False
+    # 여기에 왜 while을 붙이는 걸까 ?
+    # simulate함수는 한칸씩 이동시키는 것이 아니다
+    # 빨강, 파랑 순서로 이동시키다고 한다면
+    # 빨강이 이동하지 않을때까지 쭉( simulate 내의 while )
+    # 그다음 파랑이 이동하지 않을때까지 쭉
+    # 빨강, 파랑 위의 2과정을 계속 반복해서( check 내의 while )
+    # 두 구슬이 모두 더이상 이동하지 않을 때까지 반복하는 것이다
     while True:
         # 현재 방향 정보 k
         # k방향으로 이동후 변경된 위치 nx, ny
@@ -450,3 +482,115 @@ for k in range(1 << (LIMIT * 2)):
         ans = cur
 
 print(ans)
+
+
+'''
+C++
+
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+int dx[] = {0,0,1,-1};
+int dy[] = {1,-1,0,0};
+const int LIMIT = 10;
+vector<int> gen(int k) {
+    vector<int> a(LIMIT);
+    for (int i=0; i<LIMIT; i++) {
+        a[i] = (k&3);
+        k >>= 2;
+    }
+    return a;
+}
+pair<bool,bool> simulate(vector<string> &a, int k, int &x, int &y) {
+    if (a[x][y] == '.') return make_pair(false, false);
+    int n = a.size();
+    int m = a[0].size();
+    bool moved = false;
+    while (true) {
+        int nx = x+dx[k];
+        int ny = y+dy[k];
+        if (nx < 0 || nx >= n || ny < 0 || ny >= m) {
+            return make_pair(moved, false);
+        }
+        if (a[nx][ny] == '#') {
+            return make_pair(moved, false);
+        } else if (a[nx][ny] == 'R' || a[nx][ny] == 'B') {
+            return make_pair(moved, false);
+        } else if (a[nx][ny] == '.') {
+            swap(a[nx][ny], a[x][y]);
+            x = nx;
+            y = ny;
+            moved = true;
+        } else if (a[nx][ny] == 'O') {
+            a[x][y] = '.';
+            moved = true;
+            return make_pair(moved, true);
+        }
+    }
+    return make_pair(false, false);
+}
+int check(vector<string> a, vector<int> &dir) {
+    int n = a.size();
+    int m = a[0].size();
+    int hx,hy,rx,ry,bx,by;
+    for (int i=0; i<n; i++) {
+        for (int j=0; j<m; j++) {
+            if (a[i][j] == 'O') {
+                hx = i; hy = j;
+            } else if (a[i][j] == 'R') {
+                rx = i; ry = j;
+            } else if (a[i][j] == 'B') {
+                bx = i; by = j;
+            }
+        }
+    }
+    int cnt = 0;
+    for (int k : dir) {
+        cnt += 1;
+        bool hole1=false, hole2=false;
+        while (true) {
+            auto p1 = simulate(a, k, rx, ry);
+            auto p2 = simulate(a, k, bx, by);
+            if (p1.first == false && p2.first == false) {
+                break;
+            }
+            if (p1.second) hole1 = true;
+            if (p2.second) hole2 = true;
+        }
+        if (hole2) return -1;
+        if (hole1) return cnt;
+    }        
+    return -1;
+}
+bool valid(vector<int> &dir) {
+    int l = dir.size();
+    for (int i=0; i+1<l; i++) {
+        if (dir[i] == 0 && dir[i+1] == 1) return false;
+        if (dir[i] == 1 && dir[i+1] == 0) return false;
+        if (dir[i] == 2 && dir[i+1] == 3) return false;
+        if (dir[i] == 3 && dir[i+1] == 2) return false;
+        if (dir[i] == dir[i+1]) return false;
+    }
+    return true;
+}
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<string> a(n);
+    for (int i=0; i<n; i++) {
+        cin >> a[i];
+    }
+    int ans = -1;
+    for (int k=0; k<(1<<(LIMIT*2)); k++) {
+        vector<int> dir = gen(k);
+        if (!valid(dir)) continue;
+        int cur = check(a, dir);
+        if (cur == -1) continue;
+        if (ans == -1 || ans > cur) ans = cur;
+    }
+    cout << ans << '\n';
+    return 0;
+}
+
+'''
