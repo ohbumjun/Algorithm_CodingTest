@@ -31,12 +31,11 @@ for j in range(t):
     print(res)
 
 # dp 버전 -------------------------------------
-# dp[i][j] : i번째 자리에 j가 왔을 때,
+# dp[i][j] : i번째 자리에 j가 왔을 때, ex) []2
 # 줄어들지 않는 n자리수 개수
 
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(100000)
-
 
 t = int(input())
 for _ in range(t):
