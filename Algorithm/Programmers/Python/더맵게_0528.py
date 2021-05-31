@@ -9,6 +9,7 @@ def solution(scoville, K):
     foodHeap = []
     time = 0
     for s in scoville:
+        # 반드시 이렇게 처음에 heap 에 넣는 과정을 거쳐야 한다!!!
         hq.heappush(foodHeap, s)
     while True:
         # 섞고
