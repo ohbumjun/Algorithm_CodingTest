@@ -53,6 +53,27 @@ def dfs(begin, words, check, target):
         answer += 1
 
 
+'''
+의문점 : 이게 무조건 최소거리를 리턴하는 것인가 ?
+사실 bfs 랑 원리는 똑같다. 
+계속 같은 거리,
+같은 횟수으 변환이 필요한 알파벳들을
+세트로 묶어가는 과정이다
+
+예를 들어
+stack, ans
+hit     0
+hot     1
+dot,lot 2
+lot,dog 3
+dog,log 4
+
+이러한 과정으로 진행된다
+
+여기서 주목할점은 dot을 뽑은 이후, 
+'''
+
+
 def solution(begin, target, words):
     if target not in words:
         return 0
