@@ -31,3 +31,30 @@ def solution(begin, target, words):
     if target not in words:
         return 0
     return bfs(begin, len(words), words, target)
+
+# dfs
+# 스택을 활용한 dfs
+
+
+def dfs(begin, words, check, target):
+    stack = []
+    stack.append(begin)
+    answer = 0
+    while stack:
+        word = stack.pop()
+        if word == target:
+            return answer
+        for w in range(len(words)):
+            if len([i for i in range(len(words[w])) if words[w][i] != word[i]]) == 1:
+                if check[w] == 1:
+                    continue
+                check[w] = 1
+                stack.append(words[w])
+        answer += 1
+
+
+def solution(begin, target, words):
+    if target not in words:
+        return 0
+    check = [0] * len(words)
+    return dfs(begin, words, check, target)
