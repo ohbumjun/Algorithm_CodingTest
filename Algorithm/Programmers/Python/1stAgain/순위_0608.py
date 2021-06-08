@@ -45,12 +45,8 @@ def solution(n, results):
         loses[b].add(a)
 
     for i in range(1, n+1):
-        print("loses")
-        print(loses)
-        print("wins")
-        print(wins)
         for loser in wins[i]:
-            # |= : object 간에 accumulate function으로 활용될 수 있다
+            # |= : set 간에 accumulate function으로 활용될 수 있다
             loses[loser] |= loses[i]
         for winner in loses[i]:
             wins[winner] |= wins[i]
