@@ -1,28 +1,5 @@
 # https://programmers.co.kr/learn/courses/30/lessons/43238
 
-def binary(st, ed, times, n):
-    ans = int(1e9)
-    while st <= ed:
-        mid = (st+ed) // 2
-        if isPassed(n, mid, times):
-            # 어차피 mid값이 가장 이상적인 값이 되어갈 것이기 때문이다
-            ans = mid
-            ed = mid - 1
-        else:
-            st = mid + 1
-    return ans
-
-
-def isPassed(n, mid, times):
-    ans = 0
-    for i in range(len(times)):
-        ans += mid // times[i]
-    if ans >= n:
-        return True
-    else:
-        return False
-
-
 def solution(n, times):
     # 이진 탐색을 수행하기 위해서는 먼저 정렬을 해야 한다
     # pb 1)
@@ -33,7 +10,17 @@ def solution(n, times):
     # 이분탐색을 위해서는 먼저 정렬을 해주어야 한다
     # pb 3)
     # 최대 최소 범위를, 사람의 수가 아니라, '시간'으로 둬야 한다
-    times.sort()
-    st = 1
-    ed = n * times[-1]
-    return binary(st, ed, times, n)
+    minT = 1
+    maxT = max(times) * n
+    ans = int(1e9)
+    while minT < maxT:
+        mid = (minT + maxT) // 2
+        nums = 0
+        for time in times:
+            nums += (mid//time)
+        if nums < n:
+            minT = mid + 1
+        else:
+            ans = mid
+            maxT = mid
+    return ans
