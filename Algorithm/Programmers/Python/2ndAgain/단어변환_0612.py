@@ -46,6 +46,7 @@ def dfs(begin, words, check, target):
             return answer
         for w in range(len(words)):
             if len([i for i in range(len(words[w])) if words[w][i] != word[i]]) == 1:
+                # 이미 한번 검사한 항목에 대해서는 고려하지 않겠다는 의미이다
                 if check[w] == 1:
                     continue
                 check[w] = 1
@@ -79,3 +80,27 @@ def solution(begin, target, words):
         return 0
     check = [0] * len(words)
     return dfs(begin, words, check, target)
+
+
+# 다른 dfs 2)
+def dfs(begin, words, target):
+    stack = [begin]
+    cnt = 0
+    while stack:
+        out = stack[-1]
+        nxt_words = [word for word in words if len(
+            [i for i in range(len(word)) if word[i] != out[i]]) == 1]
+        for word in nxt_words:
+            if word == target:
+                return cnt + 1
+        stack.pop()
+        stack += nxt_words
+        cnt += 1
+    return cnt
+
+
+def solution(begin, target, words):
+    ans = 0
+    if target not in words:
+        return 0
+    return dfs(begin, words, target)

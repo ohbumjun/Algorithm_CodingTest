@@ -1,6 +1,8 @@
 # https://programmers.co.kr/learn/courses/30/lessons/49191
 
 # 1) 파이썬 dfs --> stack을 활용한 dfs
+import sys
+from collections import deque
 from collections import defaultdict
 
 
@@ -33,8 +35,6 @@ def solution(n, results):
 
 
 # 2) 딕셔너리 활용하기
-
-
 def solution(n, results):
     answer = 0
     wins = defaultdict(set)
@@ -53,6 +53,61 @@ def solution(n, results):
 
     for i in range(1, n+1):
         if len(wins[i]) + len(loses[i]) == n - 1:
+            answer += 1
+
+    return answer
+
+
+# 3) DFS
+#sys.stdin = open("input.txt","rt")
+
+cnt = 0
+
+
+def DFS(graph, ch, vertex, flag, n):
+    if ch[vertex] == 1:
+        return
+
+    ch[vertex] = 1
+
+    if flag == 1:
+        for i in range(1, n+1):
+            if graph[vertex][i] == 1 and ch[i] != 1:
+                cnt += 1
+                DFS(graph, ch, i, flag, n)
+    elif flag == -1:
+        for i in range(1, n+1):
+            if graph[vertex][i] == -1 and ch[i] != 1:
+                cnt += 1
+                DFS(graph, ch, i, flag, n)
+
+    return cnt
+
+
+def solution(n, results):
+    answer = 0
+    graph = [[0]*(n+1) for _ in range(n+1)]
+    ch = [0]*(n+1)
+    global cnt
+
+    # 입력 값으로 그래프 만들기
+    for result in results:
+        graph[result[0]][result[1]] = 1
+        graph[result[1]][result[0]] = -1
+
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            ch[j] = 0
+        cnt = 0
+        # 승수 세기
+        DFS(graph, ch, i, 1, n)
+
+        for j in range(1, n+1):
+            ch[j] = 0
+        # 패수 세기
+        DFS(graph, ch, i, -1, n)
+
+        if cnt == n-1:
             answer += 1
 
     return answer
