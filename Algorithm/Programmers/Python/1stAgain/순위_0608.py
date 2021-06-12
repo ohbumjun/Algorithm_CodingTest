@@ -60,28 +60,22 @@ def solution(n, results):
 
 # 3) DFS
 #sys.stdin = open("input.txt","rt")
-
 cnt = 0
 
 
 def DFS(graph, ch, vertex, flag, n):
-    if ch[vertex] == 1:
-        return
-
+    global cnt
     ch[vertex] = 1
-
     if flag == 1:
         for i in range(1, n+1):
-            if graph[vertex][i] == 1 and ch[i] != 1:
+            if graph[vertex][i] == 1 and ch[i] == 0:
                 cnt += 1
                 DFS(graph, ch, i, flag, n)
     elif flag == -1:
         for i in range(1, n+1):
-            if graph[vertex][i] == -1 and ch[i] != 1:
+            if graph[vertex][i] == -1 and ch[i] == 0:
                 cnt += 1
                 DFS(graph, ch, i, flag, n)
-
-    return cnt
 
 
 def solution(n, results):
@@ -99,14 +93,11 @@ def solution(n, results):
         for j in range(1, n+1):
             ch[j] = 0
         cnt = 0
-        # 승수 세기
+        # 승 수 계산
         DFS(graph, ch, i, 1, n)
-
-        for j in range(1, n+1):
-            ch[j] = 0
-        # 패수 세기
+        # 패 수 계산
         DFS(graph, ch, i, -1, n)
-
+        # 승수와 패수를 모두 계산한
         if cnt == n-1:
             answer += 1
 
