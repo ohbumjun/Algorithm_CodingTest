@@ -1,6 +1,10 @@
 # https://programmers.co.kr/learn/courses/30/lessons/42861
 
 # 크루스칼
+from collections import defaultdict
+import heapq as hq
+
+
 def find_parent(parent, v):
     if parent[v] != v:
         parent[v] = find_parent(parent, parent[v])
@@ -78,6 +82,7 @@ def solution(n, costs):
     모든 정점을 방문하는 , 사이클을 형성하지 않으면서
     최소 거리를 구하는 문제라고도 할 수 있다 
     '''
+    # 최대값 초기화
     W = [[int(1e9)]*(n+1) for _ in range(n+1)]
     for cost in costs:
         st, ed, cst = cost
@@ -89,3 +94,38 @@ def solution(n, costs):
         print(w)
     edges = prim(W)
     return sum(edges)
+
+
+# prim 알고리즘 : 간선 기준 Lazy Solution
+def prim(n, costs):
+    mst = []
+    # 간선 정보 저장
+    adj_edges = defaultdict(list)
+    # 방문할 간선 정보 저장 공간
+    for cost in costs:
+        n1, n2, w = cost
+        # heap을 적용하기 위해서 weight, 간선 비용을 맨 처음 원소로 집어넣는다
+        adj_edges[n1].append((w, n1, n2))
+        adj_edges[n2].append((w, n2, n1))
+    # 방문한 간선 정보 저장 공간
+    explored = set()
+    explored.add(0)
+    # 그 다음 방문할 간선
+    toVisit = adj_edges[0]
+    hq.heapify(toVisit)
+
+    # mst
+    mst.append(0)
+    while toVisit:
+        weight, stN, edN = hq.heappop(toVisit)
+        if edN not in explored:
+            explored.add(edN)
+            mst.append(weight)
+            for w, s, e in adj_edges[edN]:
+                if e not in explored:
+                    hq.heappush(toVisit, (w, s, e))
+    return sum(mst)
+
+
+def solution(n, costs):
+    return prim(n, costs)
