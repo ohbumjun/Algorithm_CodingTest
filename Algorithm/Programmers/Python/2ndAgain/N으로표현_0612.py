@@ -5,10 +5,8 @@ def solution(N, number):
     answer = 0
     # set 생성 하기
     s = [set() for x in range(8)]
-
     for i in range(8):
         s[i].add(int((i+1)*str(N)))
-
     for i in range(1, 8):
         for j in range(i):
             for op1 in s[j]:
@@ -26,7 +24,6 @@ def solution(N, number):
     return answer
 
     '''
-    
     1) 숫자를 n개 써서 만드는 경우의 수 
     = 숫자를 n개 이어붙이기
     = (1개 써서 만드는 경우수) U (n-1 개 써서 만드는 경우수)
