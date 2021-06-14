@@ -95,8 +95,9 @@ def solution(n, costs):
     edges = prim(W)
     return sum(edges)
 
-
 # prim 알고리즘 : 간선 기준 Lazy Solution
+
+
 def prim(n, costs):
     mst = []
     # 간선 정보 저장
