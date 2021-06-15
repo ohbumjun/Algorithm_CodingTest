@@ -6,6 +6,7 @@ import heapq as hq
 
 
 def find_parent(parent, v):
+    print("v")
     if parent[v] != v:
         parent[v] = find_parent(parent, parent[v])
     return parent[v]
