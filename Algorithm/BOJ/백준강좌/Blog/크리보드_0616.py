@@ -41,9 +41,7 @@ j의 범위는 어떻게 정의할 수 있을까 ?
 2) 최소의 경우 => 아무것도 출력안하고, 바로 A C V V V V V V ...
 즉, ( A C V V V V V ..) : i번
 j는 i-2보다는 작거나 같아야 한다는 것이다(버퍼에 비어있지 않기 위해 )
-
 따라서 1 <= j <= i - 2 
-
 
 < 시간 복잡도 > 
 O(N ^ 2)
@@ -53,3 +51,25 @@ O(N ^ 2)
 고려해야 하기 때문이다 
 
 '''
+
+n = int(input())
+d = [0] * (n + 1)
+d[1] = 1
+
+for i in range(2, n+1):
+    d[i] = d[i-1] + 1
+    for j in range(1, i-1):
+        d[i] = max(d[i], d[i-(j+2)] * (j+1))
+print(d[n])
+
+# 다른 풀이
+n = int(input())
+if n <= 3:
+    print(n)
+else:
+    dp = [0] * (n+1)
+    dp[1], dp[2], dp[3] = 1, 2, 3
+    for i in range(4, n+1):
+        dp[i] = max(dp[i-3]+3, 2*dp[i-3], 3*dp[i-4], 4*dp[i-5])
+
+    print(dp[n])
