@@ -11,7 +11,6 @@
 Notion 참고
 
 '''
-n = 24
 
 
 def check(a):
@@ -38,8 +37,7 @@ def lu(b):
 
 
 def ld(b):
-    a = b[:]
-    a = lu(a)
+    a = lu(b)
     a = lu(a)
     a = lu(a)
     return a
@@ -61,8 +59,7 @@ def ru(b):
 
 
 def rd(b):
-    a = b[:]
-    a = ru(a)
+    a = ru(b)
     a = ru(a)
     a = ru(a)
     return a
@@ -84,8 +81,7 @@ def ul(b):
 
 
 def ur(b):
-    a = b[:]
-    a = ul(a)
+    a = ul(b)
     a = ul(a)
     a = ul(a)
     return a
@@ -107,8 +103,7 @@ def dl(b):
 
 
 def dr(b):
-    a = b[:]
-    a = dl(a)
+    a = dl(b)
     a = dl(a)
     a = dl(a)
     return a
@@ -130,8 +125,7 @@ def fl(b):
 
 
 def fr(b):
-    a = b[:]
-    a = fl(a)
+    a = fl(b)
     a = fl(a)
     a = fl(a)
     return a
@@ -153,7 +147,6 @@ def bl(b):
 
 
 def br(b):
-    a = b[:]
     a = bl(a)
     a = bl(a)
     a = bl(a)
@@ -169,7 +162,6 @@ elif check(fl(a)) or check(fr(a)) or check(bl(a)) or check(br(a)):
     print(1)
 else:
     print(0)
-
 
 '''
 C++
