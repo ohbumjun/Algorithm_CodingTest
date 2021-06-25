@@ -35,6 +35,8 @@ def go(num, direction, x, y, d):
         if num[sx][sy] != 0:
             temp = num[sx][sy]
             num[sx][sy] = 0
+            # deepcopy를 해주는 이유는
+            # 값복사를 해주기 위함이다
             cur = temp + go(deepcopy(num), deepcopy(direction),
                             sx, sy, direction[sx][sy])
             if ans < cur:
