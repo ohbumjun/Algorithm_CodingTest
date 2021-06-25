@@ -72,6 +72,8 @@ for _ in range(n):
         ans += simulate(green, y, 3)
     if t == 1:
         ans += simulate(blue, x, 1)
+    # 이게 특이한 점이다 ! blue는 t == 2일때 3 대입
+    # t == 3일 때 2 대입
     elif t == 2:
         ans += simulate(blue, x, 3)
     elif t == 3:
