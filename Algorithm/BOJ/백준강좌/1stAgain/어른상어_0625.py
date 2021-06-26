@@ -80,10 +80,13 @@ def move_shark():
                     if shark_next[nx][ny] == 0:
                         shark_next[nx][ny] = no
                         dirs[no] = priority[no][shark_dir][k]
-                    else:
-                        if shark_next[nx][ny] > no:
-                            shark_next[nx][ny] = no
-                            dirs[no] = priority[no][shark_dir][k]
+                    # 이미 해당 칸에 상어가 있는지 비교해줄 필요가 없다
+                    # v.sort()
+                    # 왜냐하면 애초부터 우선순위 높은 애, 번호 낮은 애부터 이동시키기 때문에
+                    # 해당 shark가 이동되어 있는 칸이라면
+                    # 그 보다 번호 높은 애들은 그곳에 shark가 있다면
+                    # 무조건 자기보다 우선 순위가 높은 애기 때문에 이동할 수 없게 되는 것이다
+                    # shark가 없는 곳으로만 가면 된다
 
                     ok = True
                     break
