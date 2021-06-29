@@ -72,6 +72,7 @@ for turn in range(1, 1001):
         else:
             a[x][y][index].direction = opposite(direction)
         direction = a[x][y][index].direction
+        # updata 한 방향에 근거한, 새로운 위치
         nx = x+dx[direction]
         ny = y+dy[direction]
 
