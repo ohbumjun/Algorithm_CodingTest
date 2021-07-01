@@ -9,7 +9,7 @@ sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(100000)
 
 dx = [0, -1, 0, 1]  # 오,위,왼,아
-dy = [1, 0, -1, 0]  # 도, 아 , 왼, 위
+dy = [1, 0, -1, 0]  # 오,위,왼,아
 
 R, C, T = map(int, input().split())
 a = [list(map(int, input().split())) for _ in range(R)]
@@ -22,7 +22,6 @@ def go(sx, sy, z):
     cy = sy + dy[k]
     air_sp[cx][cy] = 0
     q.append((cx, cy))
-
     # 우선 해당 방향대로 이동시킨다
     while q:
         x, y = q.popleft()
@@ -37,10 +36,10 @@ def go(sx, sy, z):
             k = (k + z) % 4
             nx += dx[k]
             ny += dy[k]
+        # break 되는 것은 아닌가 ?
         air_sp[nx][ny] = a[x][y]
         a[x][y] = 0
         q.append((nx, ny))
-
     # 확산된 내용을 반영해야 한다( 이렇게 해주는 이유는 "동시에" 퍼지는 것을 제대로 반영하기 위해 )
     for i in range(R):
         for j in range(C):
