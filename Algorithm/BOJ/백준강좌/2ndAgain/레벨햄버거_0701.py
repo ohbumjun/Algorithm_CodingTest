@@ -1,5 +1,3 @@
-#
-
 # 처음 코드
 n, x = map(int, input().split())
 dp = [0]*(n+1)  # n버거 구성
