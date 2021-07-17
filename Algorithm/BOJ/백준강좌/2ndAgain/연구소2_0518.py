@@ -108,7 +108,6 @@ for vComb in vCombs:
     tmp = bfs()
     if tmp != -1:
         res = min(res, tmp)
-
     for v in vComb:
         x, y = v
         a[x][y] = 2

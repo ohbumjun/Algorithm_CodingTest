@@ -45,7 +45,6 @@ q.append(S)
 
 while q:
     now = q.popleft()
-
     if 0 <= now + U < F+1 and chk[now+U] == -1:
         chk[now+U] = 1
         dist[now+U] = dist[now] + 1
