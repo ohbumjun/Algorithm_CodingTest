@@ -119,6 +119,7 @@ while True:
     if not next_permutation(d):
         break
 print(ans)
+# ans
 
 
 '''
