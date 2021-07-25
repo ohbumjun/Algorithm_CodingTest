@@ -5,7 +5,6 @@
 # hash map 혹은 양방향 연결리스트를 통해
 # 문제를 풀어야 한다
 
-
 # 양방향 연결리스트 활용하기
 def from os import link
 
@@ -90,7 +89,6 @@ def up(cur, i, link_info):
     i : 반복할 횟수
     link_info : 연결관계를 저장함 link_info[node] :[이전 노드의 번호, 다음 노드의 번호]
     """
-
     for _ in range(i):
         pre, post = link_info[cur]
         cur = pre
@@ -110,7 +108,7 @@ def down(cur, i, link_info):
     return cur
 
 
-def recover(cur, status, trash, link_info):
+def recover(status, trash, link_info):
     """
     명령어 Z를 수행하는 함수
     cur : 현재 위치
@@ -124,18 +122,20 @@ def recover(cur, status, trash, link_info):
     deleted, node_info = trash.popitem()
 
     # 존재여부를 업데이트 시켜주고
-    status[deleted] = 1
-    pre, post = node_info
+    status[deleted] = 1  # 삭제x, 존재
+    pre, post = node_info  # [pre,post]
 
     # 연결 정보를 업데이트 해준다.
-    link_info[deleted] = [pre, post]
+    link_info[deleted] = [pre, post]  # --> 연결리스트 중간에 넣기만 !
 
+    # 이후, 연결리스트 넣은 위치, 앞,뒤와 관계를 재설정
+    # A-C-D --> A,B,C-D --> A-B-C-D
     # 이전 노드의 연결정보 업데이트 만약 None이라면 복원된 노드가 맨 앞의 원소이므로 업데이트 X
-    if pre != None:
+    if pre != None:  # pre == None : pre x --> 우리가 삽입한 노드 앞과의 연결관계를 설정할 필요 x
         link_info[pre][1] = deleted
 
     # 이후 노드의 연결정보 업데이트 만약 None이라면 복원된 노드가 맨 뒤의 원소이므로 업데이트 X
-    if post != None:
+    if post != None:  # post == None : 우리가 삽입한 노드가 맨 마지막 ! 뒤와의 연결관계를 설정할 필요 x
         link_info[post][0] = deleted
 
     return
@@ -151,7 +151,7 @@ def delete(cur, status, trash, link_info):
     """
 
     # 현재 위치 삭제
-    status[cur] = 0
+    status[cur] = 0  # 0: 삭제!
 
     # 쓰레기통에 삭제한 정보를 넣어 준다.
     pre, post = link_info[cur]
@@ -162,7 +162,6 @@ def delete(cur, status, trash, link_info):
         # 삭제된 노드의 이전 노드가 마지막 노드로 업데이트
         link_info[pre][1] = None
         return pre
-
     # 만약 삭제된 노드가 첫번쨰 노드였다면
     elif pre == None:
         # 삭제된 노드의 다음 노드가 첫번째 노드로 업데이트
