@@ -80,7 +80,7 @@ bfs 과정을 반복하면 된다
 '''
 
 
-def dfs(L, idx, res):
+def dfs(L, idx, res):  # 경우의 수 구하기
     if L == m:
         vCombs.append([e for e in res])
         return
