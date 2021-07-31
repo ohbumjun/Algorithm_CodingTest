@@ -1,5 +1,81 @@
 # https://www.acmicpc.net/problem/16235
 
+# 최초 풀이
+from copy import deepcopy
+import heapq as hq
+import sys
+from functools import reduce
+from collections import deque, defaultdict
+sys.stdin = open("input.txt", "rt")
+sys.setrecursionlimit(100000)
+
+dx = [0, 0, 1, -1, -1, -1, 1, 1]
+dy = [-1, 1, 0, 0, -1, 1, -1, 1]
+
+N, M, K = map(int, input().split())
+foods = [[5]*N for _ in range(N)]
+trees = [[[] for _ in range(N)] for _ in range(N)]
+A = [list(map(int, input().split())) for _ in range(N)]
+
+for _ in range(M):
+    x, y, age = map(int, input().split())
+    trees[x-1][y-1].append(age)
+
+for _ in range(K):
+    for i in range(N):
+        for j in range(N):
+            if len(trees[i][j]) == 0:
+                continue
+            # 봄
+            trees[i][j].sort()
+            temp = []
+            dead = []
+            for k in range(len(trees[i][j])):
+                if(foods[i][j] >= trees[i][j][k]):
+                    # 양분줄어든다
+                    foods[i][j] -= trees[i][j][k]
+                    # 먹는다
+                    temp.append(trees[i][j][k]+1)
+                else:
+                    # 그외, 양분 부족시, 즉시 죽는다
+                    dead.append(trees[i][j][k])
+            trees[i][j] = temp
+            # 여름
+            for d in dead:
+                foods[i][j] += d // 2
+    trees_copy = deepcopy(trees)
+    # 가을
+    for i in range(N):
+        for j in range(N):
+            for k in range(len(trees[i][j])):
+                if trees[i][j][k] % 5 == 0:
+                    for d in range(8):
+                        ni, nj = i+dx[d], j+dy[d]
+                        if 0 <= ni < N and 0 <= nj < N:
+                            trees_copy[ni][nj].append(1)
+            # 겨울 : 양분 추가
+            foods[i][j] += A[i][j]
+    trees = trees_copy
+
+res = 0
+for i in range(N):
+    for j in range(N):
+        res += len(trees[i][j])
+print(res)
+
+
+'''
+최초풀이 : 시간초과 
+- 왜 ? trees는 3차원 배열 --> 매 year 마다 3차원 배열을
+"깊은복사" 하는 것은 시간이 오래 걸린다.
+
+아래의 정답코드는, 3차원배열을 복사하는 것이 아니라,
+특정 칸에 몇개의 나무가 추가되는지에 대한 정보를 담은
+2차원 배열을 매번 만드는 과정을 통해
+시간을 단축시켰다.
+'''
+
+# 정답
 dx = [-1, -1, -1, 0, 0, 1, 1, 1]
 dy = [-1, 0, 1, -1, 1, -1, 0, 1]
 n, m, l = map(int, input().split())
