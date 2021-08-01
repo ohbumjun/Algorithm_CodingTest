@@ -50,6 +50,9 @@ while len(scv) < 3:
     scv += [0]
 d = [[[-1]*61 for j in range(61)] for i in range(61)]
 
+# d[i][j][k] : scv의 체력이 i,j,k 일때
+# 모두 파괴하는 최소 공격횟수
+
 
 def go(i, j, k):
     if i < 0:
