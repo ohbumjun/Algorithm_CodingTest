@@ -133,6 +133,7 @@ c3 = [[0] * 10 for _ in range(9)]
 
 
 # 입력을 받으면서, 빈칸이 아닌경우, 처리해주기
+#
 for i in range(9):
     for j in range(9):
         if arr[i][j] != 0:
