@@ -60,6 +60,7 @@ for t in range(1, 101):
                 a[i*2+1][j] = v[i][0]
             for i in range(l*2, 100):
                 a[i][j] = 0
+
             if nn < len(v)*2:
                 nn = len(v)*2
         n = nn
