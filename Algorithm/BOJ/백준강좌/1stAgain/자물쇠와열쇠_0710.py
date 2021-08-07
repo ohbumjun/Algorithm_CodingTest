@@ -3,7 +3,8 @@
 import copy
 
 
-def rotate(key, m):
+def rotate(key, m): 
+    # rotate 변경사항 저장할 배열
     rst = [[0] * m for _ in range(m)]
     # 원래 애를 갖다가 쭉 돌면서 ( key 배열 )
     for i in range(m):

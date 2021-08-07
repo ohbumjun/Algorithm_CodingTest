@@ -38,66 +38,86 @@ bfs를 실행한다.
 그 해당 결과를 어디엔가 저장해둔다  
 
 '''
-
+import sys
+import heapq
+import math
 from collections import deque
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
+sys.setrecursionlimit(100000)
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 
-def next_permutation(a):
-    i = len(a)-1
-    while i > 0 and a[i-1] >= a[i]:
+def bfs(maps, sx, sy):
+    d = [[-1]*w for _ in range(h)]
+    d[sx][sy] = 0
+    q = deque()
+    q.append((sx, sy))
+    while q:
+        x, y = q.popleft()
+        for k in range(4):
+            nx, ny = x+dx[k], y+dy[k]
+            if 0 <= nx < h and 0 <= ny < w:
+                if d[nx][ny] == -1 and maps[nx][ny] != 'x':
+                    q.append((nx, ny))
+                    d[nx][ny] = d[x][y] + 1
+    return d
+
+
+def next_permutation(arr):
+    i = len(arr) - 1
+    while i > 0 and arr[i] <= arr[i-1]:
         i -= 1
     if i <= 0:
         return False
-    j = len(a)-1
-    while a[j] <= a[i-1]:
+    j = len(arr) - 1
+    while j > 0 and arr[j] <= arr[i-1]:
         j -= 1
-
-    a[i-1], a[j] = a[j], a[i-1]
-
-    j = len(a)-1
+    arr[j], arr[i-1] = arr[i-1], arr[j]
+    j = len(arr) - 1
     while i < j:
-        a[i], a[j] = a[j], a[i]
+        arr[i], arr[j] = arr[j], arr[i]
         i += 1
         j -= 1
-
     return True
 
 
 while True:
-    m, n = map(int, input().split())
-    if n == 0 and m == 0:
+    w, h = map(int, input().split())
+    ans = -1
+    if w == 0 and h == 0:
         break
-    a = [input() for _ in range(n)]
-    b = [(0, 0)]
-    for i in range(n):
-        for j in range(m):
-            if a[i][j] == 'o':
-                b[0] = (i, j)
-            elif a[i][j] == '*':
-                b.append((i, j))
-    l = len(b)
-    d = [[0]*l for _ in range(l)]
+    maps = [list(input()) for _ in range(h)]
+    places = [0]
+    # 위치 찾기
+    for i in range(h):
+        for j in range(w):
+            if maps[i][j] == 'o':
+                places[0] = (i, j)
+            if maps[i][j] == '*':
+                places.append((i, j))
+        d = [[0]*len(places) for _ in range(len(places))]
+    # 특별한 칸 i 에서, 특별한 칸 j 까지의 거리 구하기
     ok = True
-    for i in range(l):
-        dist = bfs(a, b[i][0], b[i][1])
-        for j in range(l):
-            d[i][j] = dist[b[j][0]][b[j][1]]
+    for i in range(len(places)):
+        sx, sy = places[i][0], places[i][1]
+        dist = bfs(maps, sx, sy)
+        for j in range(len(places)):
+            nx, ny = places[j][0], places[j][1]
+            d[i][j] = dist[nx][ny]
             if d[i][j] == -1:
                 ok = False
-    if not ok:
+    if ok == False:
         print(-1)
         continue
-    p = [i+1 for i in range(l-1)]
-    ans = -1
-
+    # 이제 경우의 수들을 구해주면서, 최소 거리값을 구해가야 한다
+    p = [x for x in range(1, len(places))]
     while True:
-        now = d[0][p[0]]
-        for i in range(l-2):
-            now += d[p[i]][p[i+1]]
-        if ans == -1 or ans > now:
-            ans = now
+        tmp = d[0][p[0]]
+        for i in range(len(p)-1):
+            tmp += d[p[i]][p[i+1]]
+        if ans == -1 or tmp < ans:
+            ans = tmp
         if not next_permutation(p):
             break
     print(ans)
