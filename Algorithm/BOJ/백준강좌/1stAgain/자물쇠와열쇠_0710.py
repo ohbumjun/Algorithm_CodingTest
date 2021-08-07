@@ -3,12 +3,13 @@
 import copy
 
 
-def rotate(key, m): 
+def rotate(key, m):
     # rotate 변경사항 저장할 배열
     rst = [[0] * m for _ in range(m)]
     # 원래 애를 갖다가 쭉 돌면서 ( key 배열 )
     for i in range(m):
         for j in range(m):
+
             # 행은, 위에서, 아래로 // 열은 , 왼쪽에서, 오른쪽으로
             # ---
             # 열.을 기준으로 생각한다면, 회전 후 위치의 관점에서는 위에서 아래로
