@@ -3,10 +3,9 @@
 from copy import deepcopy
 
 n = 4
+#
 dx = [-1, -1, 0, 1, 1, 1, 0, -1]
 dy = [0, -1, -1, -1, 0, 1, 1, 1]
-
-#
 
 
 def go(num, direction, x, y, d):
