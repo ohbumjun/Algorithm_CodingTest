@@ -63,7 +63,14 @@ def bfs(maps, sx, sy):
                     d[nx][ny] = d[x][y] + 1
     return d
 
-
+# 1,2,3 // 1,3,2 // 1,2,3 --> 서로 다른 조합의 수 구하는 코드 
+# 어떻게 이걸 구하냐 !!
+# 1,2,3,4 --> 더러운 공간 (명칭)
+# 모든 애들 : 내림차순 될때까지 반복 
+# 1 2 3 4  --> 4 3 2 1 
+# 1 2 3 4 --> 1 2 4 3 
+# 1 2 4 3 --> 1 3 4 2 --> 1 3 2 4
+# 4,3,2,1 --> 
 def next_permutation(arr):
     i = len(arr) - 1
     while i > 0 and arr[i] <= arr[i-1]:
@@ -88,7 +95,7 @@ while True:
     if w == 0 and h == 0:
         break
     maps = [list(input()) for _ in range(h)]
-    places = [0]
+    places = [0] # 깨끗 + 더러운 칸 
     # 위치 찾기
     for i in range(h):
         for j in range(w):
@@ -96,22 +103,24 @@ while True:
                 places[0] = (i, j)
             if maps[i][j] == '*':
                 places.append((i, j))
-        d = [[0]*len(places) for _ in range(len(places))]
-    # 특별한 칸 i 에서, 특별한 칸 j 까지의 거리 구하기
+    d = [[0]*len(places) for _ in range(len(places))]
+    # 특별한 칸 i 에서, 특별한 칸 j 까지의 거리 구하기 ( 특별한 칸 : places )
+    # d[i][j] 
     ok = True
     for i in range(len(places)):
-        sx, sy = places[i][0], places[i][1]
+        sx, sy = places[i][0], places[i][1] # 0,0 // 1,1 // 2,2
         dist = bfs(maps, sx, sy)
         for j in range(len(places)):
             nx, ny = places[j][0], places[j][1]
-            d[i][j] = dist[nx][ny]
-            if d[i][j] == -1:
+            d[i][j] = dist[nx][ny] # 0,0 ~ 1,1 까지의 거리 
+            if d[i][j] == -1: # 방문 x --> -1
                 ok = False
     if ok == False:
         print(-1)
         continue
     # 이제 경우의 수들을 구해주면서, 최소 거리값을 구해가야 한다
-    p = [x for x in range(1, len(places))]
+    # p : ex) 1,2,3,4 --> 4,3,2,1 ( while --> 각 조합에 대한 최소 거리 )
+    p = [x for x in range(1, len(places))] # 1,1, // 2,2, // 3,3  ---> 3,3 // 2,2 // 1,1 
     while True:
         tmp = d[0][p[0]]
         for i in range(len(p)-1):
