@@ -75,6 +75,7 @@ for i in range(1 << n):
             s += a[j]
     c[s] = True
 i = 1
+##
 while True:
     if c[i] == False:
         break
