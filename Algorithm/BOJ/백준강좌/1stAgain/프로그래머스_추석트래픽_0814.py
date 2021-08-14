@@ -7,8 +7,13 @@ def get_request_count_during_one_second(time, start_and_end_times):
     start_time = time
     end_time = time + 1000
     for start_and_end_time in start_and_end_times:
-        # 다른 작업의 끝나는 시점이, 현재 작업 시작 시점보다 늦고
-        # 혹은, 다른 작업의 시작 시점이, 현재 작업 끝나는 시점보다 빠르고
+        # 다른 작업의 끝나는 시점이,
+        # # 현재 작업 시작 시점보다 늦고
+        # 혹은, 다른 작업의 시작 시점이,
+        # # 현재 작업 끝나는 시점보다 빠르고
+
+        # 여기에서 start_and_end_time[0] < end_time 에서, <= 을 하면 안된다 !
+        # 왜냐하면, 1초라는 것은, 시작시간은 포함하면서 1초, 즉, end_time은 포함하지 않게 되는것이기 때문이다
         if start_and_end_time[1] >= start_time and start_and_end_time[0] < end_time:
             request_count += 1
     return request_count

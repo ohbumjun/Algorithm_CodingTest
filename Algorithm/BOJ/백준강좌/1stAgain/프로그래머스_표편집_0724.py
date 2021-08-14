@@ -1,5 +1,4 @@
-# https://programmers.co.kr/learn/courses/30/lessons/81303
-
+# 
 # 삽입 삭제가 빈번하게 이루어지는 문제의 경우
 # map같은 자료구조는 쉽게 시간초과가 발생하게 된다
 # hash map 혹은 양방향 연결리스트를 통해
