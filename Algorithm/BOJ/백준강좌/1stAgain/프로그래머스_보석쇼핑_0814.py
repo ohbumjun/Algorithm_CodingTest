@@ -4,6 +4,7 @@
 from collections import defaultdict
 
 # 완전탐색으로 하면 정답은 구하지만, 틀리게 될 것이다
+#
 
 
 def solution(gems):
