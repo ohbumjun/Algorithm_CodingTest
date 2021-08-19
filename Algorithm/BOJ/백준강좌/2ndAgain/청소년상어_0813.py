@@ -1,19 +1,20 @@
-#
-
 from copy import deepcopy
 
 n = 4
-##
+# 문제 : 1 ~ 8
 dx = [-1, -1, 0, 1, 1, 1, 0, -1]
 dy = [0, -1, -1, -1, 0, 1, 1, 1]
 
 
 def go(num, direction, x, y, d):
-    for who in range(1, n*n+1):
+    # go --> return 값 : 상어가 x,y에 있을 때, 현재부터 먹을 수 있는 물고기의 최대값
+    # 1) 물고기이동
+    for who in range(1, n*n+1):  # 1~16
         f = False
         for i in range(n):
             for j in range(n):
                 if num[i][j] == who:
+                    # 갈 수 있는 방향을 찾기 ( 45도 씩 )
                     for k in range(8):
                         nx = i+dx[direction[i][j]]
                         ny = j+dy[direction[i][j]]
@@ -29,6 +30,8 @@ def go(num, direction, x, y, d):
                     break
             if f:
                 break
+
+    # 상어이동
     ans = 0
     sx = x+dx[d]
     sy = y+dy[d]
@@ -49,6 +52,7 @@ def go(num, direction, x, y, d):
     return ans
 
 
+# 물고기 번호 , 물고기 방향
 num = [[0]*n for _ in range(n)]
 direction = [[0]*n for _ in range(n)]
 
@@ -58,8 +62,11 @@ for i in range(n):
         num[i][j] = temp[2*j]
         direction[i][j] = temp[2*j+1]
         direction[i][j] -= 1
+
+# ans : 정답 --> 상어가 먹는 최대 물고기
 ans = num[0][0]
-num[0][0] = 0
+num[0][0] = 0  # 0 : 원래 빈칸 or 먹힌애들
+# go(0,0) : 현재상어점수 + go(1,1)  --> go(1,1) : 현재 상어위치(현재 상어 점수) + go(3,3) --> go(3,3)
 ans += go(num, direction, 0, 0, direction[0][0])
 print(ans)
 

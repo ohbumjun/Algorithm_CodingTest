@@ -1,4 +1,4 @@
-#
+# https://www.acmicpc.net/problem/17143
 
 # 첫번째 풀이 : 메모리 초과
 from copy import deepcopy
