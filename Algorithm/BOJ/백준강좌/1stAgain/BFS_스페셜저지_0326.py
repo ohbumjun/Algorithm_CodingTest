@@ -1,7 +1,7 @@
 # https://www.acmicpc.net/problem/16940
 
 '''
-BFS 탐색을 실시했을 때,
+BFS 탐색을 실시했을 때, //// 
 해당 탐색이
 
 입력으로 주어진
