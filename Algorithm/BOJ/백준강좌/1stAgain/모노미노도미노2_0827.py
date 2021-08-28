@@ -64,6 +64,8 @@ green = [[0]*4 for _ in range(6)]
 blue = [[0]*4 for _ in range(6)]
 for _ in range(n):
     t, x, y = map(int, input().split())
+    # 왜 x ? 단순히 시계방향으로 돌리는 것이 아니라
+    # 마치 종이접듯이 접어서 blue를 아래로 내리는 방향
     if t == 1:
         ans += simulate(green, y, 1)
     elif t == 2:
