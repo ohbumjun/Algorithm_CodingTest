@@ -49,7 +49,7 @@ def cal(r, c):
 
 def go(stN, length, r, c):  # length : 8 --> 4 --> 2
     if length == 2:
-        res = stN + cal(r, c)
+        res = stN + cal(r, c)  # --
         print(res-1)
         exit()
     div = length // 2  # 그 다음, 판에서, 행 혹은 열의 1/2
