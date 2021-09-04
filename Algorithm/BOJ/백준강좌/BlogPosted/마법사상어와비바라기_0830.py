@@ -1,3 +1,5 @@
+# https://www.acmicpc.net/problem/21610
+
 from copy import deepcopy
 import sys
 from functools import reduce
