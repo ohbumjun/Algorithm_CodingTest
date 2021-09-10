@@ -32,7 +32,7 @@ while True:
     if belt[0] >= 1:
         robot[0] = 1
         belt[0] -= 1
-    # 4. 내구도 검사 ----
+    # 4. 내구도 검사 ----햣
     s = 0
     for i in range(2*n):
         if belt[i] == 0:
