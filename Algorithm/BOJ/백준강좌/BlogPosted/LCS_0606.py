@@ -4,7 +4,7 @@
 Subsequence 
 - 순서 유지하되, 연속일 필요는 없음 ( not contiguous )
 
-Substring
+Substring 
 - 순서 유지 + 연속
 
 A = 'ACAYKP'
