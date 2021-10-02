@@ -24,6 +24,13 @@ def count(n):
     for i in range(1, N+2):
         if (rests[i] - rests[i-1] - 1) < n:
             continue
+        # 왜 -1을 해주는 것일까 ? 여기에서 n이란, 휴게소를 세울 간격이다
+        # 그런데, 휴게소를 겹치게 세우면 안된다
+        # 다시 말해서, 0부터 n씩 더해가는데, 그 과정에서, 기존의 휴게소 위치에 놓이면 안된다는 것이다
+        # 그런데 만약 rests[i]-rests[i-1] 을 나눠서 더해주면
+        # ex) 100, 200, 300
+        # n : 100 --> 겹치게 놓일 수 있다
+        # 따라서, 미리 이런 사항을 방지하기 위해 애초부터 -1을 빼주고 더해주는 것이다
         num += (rests[i] - rests[i-1] - 1) // n
     print("num : ", num)
     return num
@@ -43,6 +50,6 @@ while st <= ed:
     if cnt <= M:
         ed = mid - 1
         ans = mid
-    else:  # mid 길이를 늘려야 한다는 것인데
+    else:  # mid 길이를 늘려야 한다
         st = mid + 1
 print(ans)
