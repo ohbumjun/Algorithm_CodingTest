@@ -195,6 +195,7 @@ def prim(W):  # W : 입력받은 연결 정보
                 distance[i] = W[i][vnear]
                 nearest[i] = vnear  # 가장 가까운 node 정보고 update
     return F
+#
 
 
 # 최대비용 : 10001
