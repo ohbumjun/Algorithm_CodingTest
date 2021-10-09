@@ -7,6 +7,8 @@ from collections import deque
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(1001*1001)
 
+##
+
 '''
 < 기본 개념 >
 각 숫자를 '정점'
