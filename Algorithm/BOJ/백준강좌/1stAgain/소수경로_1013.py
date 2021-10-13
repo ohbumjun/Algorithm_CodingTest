@@ -50,6 +50,8 @@ prime = [True] * 10001
 # 소수 세팅
 for i in range(2, 10001):
     if prime[i] == True:
+        # i가 아니라 i+i 부터 해주는 이유 ?
+        # 2,3 의 경우는 소수 !!
         for j in range(i+i, 10001, i):
             if j <= 10000:
                 prime[j] = False
@@ -57,11 +59,13 @@ for i in range(2, 10001):
 t = int(input())
 for _ in range(t):
     n, m = map(int, input().split())
+    if n == m:
+        print(-1)
+        continue
     # BFS를 위한 distance, Check 배열 초기화
-    d = [0] * 10001
-    c = [False] * 10001
+    INT_MAX = int(1e9)
+    d = [INT_MAX] * 10001
     d[n] = 0
-    c[n] = True
     q = deque([n])
     while q:
         now = q.popleft()
@@ -69,10 +73,7 @@ for _ in range(t):
             for j in range(10):
                 nxt = nextNum(now, i, j)
                 if nxt != -1:
-                    # 질문 : c 배열 안쓰고, 그냥 d 로만 거리도 체크, 방문 여부도 체크하면 안되나 ?? ex) d[] != 0
-                    # no 왜냐하면, 1033, 1033 같이 st와 ed가 같게 주어지는 경우가 있다. 이 경우에는 d[] != 0 을 하게 되면 +1 이 되어버린다 .실제 답은 0인데
-                    if prime[nxt] == True and c[nxt] == False:
-                        c[nxt] = True
+                    if prime[nxt] == True and d[nxt] > d[now] + 1:
                         d[nxt] = d[now] + 1
                         q.append(nxt)
     print(d[m])
