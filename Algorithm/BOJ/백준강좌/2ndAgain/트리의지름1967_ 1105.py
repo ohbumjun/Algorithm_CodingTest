@@ -29,58 +29,57 @@ DFS 탐색을 통해, 길이를 더해나간다.
 
 '''
 # DFS ------------------------------
+import heapq as hq
+from collections import deque, Counter
 import sys
 sys.stdin = open("input.txt", "rt")
-from collections import deque, Counter
 sys.setrecursionlimit(100000)
-import heapq as hq
 
-def dfs( start, tree, weight) :
+
+def dfs(start, tree, weight):
     # start : 스타트 노드
     # tree : 우리가 순회하는 트리
     # weight : 우리가 저장할 weight 배열
     # ch : 이미 방문한 노드는 다시 방문하지 않기 위해 ch 설정
     ch[start] = 1
 
-    for node , w in tree[start] :
-        if( weight[node]  == 0 and ch[node] == 0 ):
+    for node, w in tree[start]:
+        if ch[node] == 0:
             ch[node] = 1
             weight[node] = weight[start] + w
-            print("start, node, weight", start, node, weight[node] )
-            dfs( node, tree, weight)
+            print("start, node, weight", start, node, weight[node])
+            dfs(node, tree, weight)
+
 
 n = int(sys.stdin.readline())
-tree = [ [] for _ in range(n+1) ]
-ch = [0] * ( n + 1 )
+tree = [[] for _ in range(n+1)]
+ch = [0] * (n + 1)
 
 # 입력값 트리 생성
 for _ in range(n-1):
-    p_node , c_node , w = map(int,sys.stdin.readline().split())
-    tree[p_node].append((c_node,w))
-    tree[c_node].append((p_node,w))
+    p_node, c_node, w = map(int, sys.stdin.readline().split())
+    tree[p_node].append((c_node, w))
+    tree[c_node].append((p_node, w))
 
-weight1 = [ 0 for _ in range(n+1)] # 루트노드로부터의 길이를 저장
-dfs(1, tree, weight1 )
+weight1 = [0 for _ in range(n+1)]  # 루트노드로부터의 길이를 저장
+dfs(1, tree, weight1)
 
 # 찾은 가장 먼 노드를 기준으로, 제일 멀리 떨어진 루트노드 위치 탐색
 start_node = weight1.index(max(weight1))
-weight2 = [ 0 for _ in range(n+1) ] # 가장 멀리 떨어진 노드로부터의 거리 저장
+weight2 = [0 for _ in range(n+1)]  # 가장 멀리 떨어진 노드로부터의 거리 저장
 
 # 체크리스트 초기화
-for i in range(len(ch)) :
+for i in range(len(ch)):
     ch[i] = 0
 
-dfs( start_node , tree, weight2 )
-print(max(weight2))   
+dfs(start_node, tree, weight2)
+print(max(weight2))
 
 
-
-
-### BFS -------------
-import sys
+# BFS -------------
 sys.stdin = open("input.txt", "rt")
-from collections import deque, Counter
 sys.setrecursionlimit(100001)
+
 
 def bfs(num):
     maxDist, Node = 0, num
@@ -88,33 +87,33 @@ def bfs(num):
     queue.append((num, maxDist))
     ch[num] = 1
 
-    while queue :
-        nowNode , nowDist = queue.popleft()
+    while queue:
+        nowNode, nowDist = queue.popleft()
         for n in adj[nowNode]:
             if ch[n[0]] == 0:
                 # 방문 처리
                 ch[n[0]] = 1
-                queue.append((n[0] , n[1] + nowDist ))
+                queue.append((n[0], n[1] + nowDist))
 
                 # 최대값 갱신
-                if maxDist < n[1] + nowDist :
+                if maxDist < n[1] + nowDist:
                     maxDist = n[1] + nowDist
                     Node = n[0]
 
     return Node, maxDist
-        
+
 
 n = int(input())
-adj = [ [] for _ in range( n + 1 ) ]
-ch = [0] * ( n + 1 ) 
+adj = [[] for _ in range(n + 1)]
+ch = [0] * (n + 1)
 
 for _ in range(n-1):
     tmp = list(map(int, sys.stdin.readline().split()))
     st, ed, ct = tmp[0], tmp[1], tmp[2]
-    adj[st].append((ed,ct))
-    adj[ed].append((st,ct))
+    adj[st].append((ed, ct))
+    adj[ed].append((st, ct))
 
-N , D = bfs(1)
+N, D = bfs(1)
 
 # ch 초기화
 for i in range(len(ch)):
