@@ -3,10 +3,9 @@
 # 풀이 링크 :https://suri78.tistory.com/91
 
 
-
+from collections import deque, Counter
 import sys
 sys.stdin = open("input.txt", "rt")
-from collections import deque, Counter
 sys.setrecursionlimit(100000)
 
 '''
@@ -64,23 +63,18 @@ tmp[ i - 1 ] + tmp [i + 1 ]이 되는 것이다.
 같은 원리로 stairs[9] = tmp[8]
 
 '''
-n      = int(input())
-stairs = [ 0, 1, 1, 1, 1, 1, 1, 1, 1 , 1]
-mod    =  1000000000
+n = int(input())
+stairs = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+mod = 1000000000
 
 for _ in range(n-1):
     tmp = stairs[:]
     stairs[0] = tmp[1] % mod
-    for i in range( 1 , 9 ) :
-        stairs[i] = ( tmp[i-1] + tmp[i+1] ) % mod
+    for i in range(1, 9):
+        stairs[i] = (tmp[i-1] + tmp[i+1]) % mod
     stairs[9] = tmp[8]
 
 print(sum(stairs) % mod)
-    
-
-
-
-
 
 
 '''
@@ -114,4 +108,3 @@ print(cnt % 1000000000)
 
 
 '''
-
