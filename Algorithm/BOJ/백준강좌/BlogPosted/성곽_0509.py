@@ -1,4 +1,4 @@
-#
+# https://www.acmicpc.net/problem/2234
 
 # Python 풀이 -----
 import sys

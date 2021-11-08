@@ -140,7 +140,6 @@ def go(x, y):
 # 애초부터 3개가 모두 동일할 수 없는 경우도 있기 때문이다
 if sum % 3 != 0:
     print(0)
-
 else:
     go(x, y)
     if check[sum//3][sum//3]:
