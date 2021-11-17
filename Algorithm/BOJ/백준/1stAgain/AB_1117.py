@@ -23,7 +23,7 @@ for i in range(n):
         a[i] = 'B'
 
 t = "".join(a)
-if t=='B'*n or t=='A'*n:
+if t=='B'*n :
     if k == 0:
         print(t)
     else:
