@@ -110,7 +110,7 @@ for f in F:
 
 print(res)
 
-# 크루스칼 2
+# 크루스칼 2 ----
 
 
 def find_parent(arr, x):
