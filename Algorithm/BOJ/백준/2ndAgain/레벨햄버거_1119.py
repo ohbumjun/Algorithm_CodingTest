@@ -1,4 +1,5 @@
 # 처음 코드
+# https://www.acmicpc.net/problem/16974
 n, x = map(int, input().split())
 dp = [0]*(n+1)  # n버거 구성
 
