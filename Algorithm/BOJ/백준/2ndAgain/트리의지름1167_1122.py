@@ -16,7 +16,7 @@ def bfs(num):
     ch[num] = 1
 
     while queue:
-        q = queue.popleft()
+        q = queue.popleft() #
         print("q", q)
         nowDist = q[1]
         nowNode = q[0]
