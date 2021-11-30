@@ -36,7 +36,7 @@ int main()
     l1.remove(40);
 
     // 조건에 맞는 녀석만 제거
-    l1.remove_if([](int n){return n > 20;}) // int 형 자료를 하나 받아서, 20보다 큰 녀석만 해당 원소가 삭제가 될 것이다 
+    l1.remove_if([](int n){return n > 20; }) // int 형 자료를 하나 받아서, 20보다 큰 녀석만 해당 원소가 삭제가 될 것이다 
     
     return 0;
 }
