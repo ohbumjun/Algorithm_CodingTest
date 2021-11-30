@@ -1,32 +1,5 @@
 # https://www.acmicpc.net/problem/12886
 
-'''
-< 최초 풀이 >
-import sys
-from collections import deque
-sys.setrecursionlimit(100000)
-
-arr = list(map(int,input().split()))
-
-while True :
-    maxVIdx = arr.index(max(arr))
-    minVIdx = arr.index(min(arr))
-
-    minV = arr[minVIdx]
-    arr[minVIdx] += minV
-    arr[maxVIdx] -= minV
-
-    if arr[0] == arr[1] == arr[2] :
-        print(1)
-        break
-
-    if min(arr) == max(arr) :
-        print(-1)
-        break
-
-
-'''
-
 
 '''
 < 해설 >
