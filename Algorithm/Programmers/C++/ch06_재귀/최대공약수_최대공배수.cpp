@@ -1,4 +1,5 @@
 #include <iostream>
+#include <numeric>
 
 // 최대 공약수
 // 유클리드 알고리즘 ( 유클리드 호제법 )
@@ -29,10 +30,10 @@ constexpr std::common_type<M,N> lcm(M m, N n);
 
 int main()
 {
-    int gcd1 = gcd(10.15);
+    int gcd1 = gcd(10,15);
     int lcm1 = lcm(10,15);
     
-    int gcd2 = std::gcd(10.15);
+    int gcd2 = std::gcd(10,15);
     int lcm2 = std::lcm(10,15);
     return 0;
 }
