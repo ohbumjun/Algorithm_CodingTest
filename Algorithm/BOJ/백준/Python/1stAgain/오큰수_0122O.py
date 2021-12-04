@@ -28,7 +28,7 @@ stack에는 idx가 들어간다고 했다.
 result[stack[-1]] = nums[i]를 저장해준다.
 그리고, 다시 stack에서 pop을 시키고
 
-현재 nums[i]와 stack의 맨 위의 값을 비교한다.
+현재 nums[i]와 stack의 맨 위의 값을 비교한다. //
 이 과정을 반복한다.
 
 언제까지 ? stack이 빌때까지
