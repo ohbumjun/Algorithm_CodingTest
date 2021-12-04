@@ -28,7 +28,7 @@ void union_parent(int parent[], int x, int y)
     if (px < py)
         parent[py] = px;
     else
-        parent[px] = py;
+        parent[px] = py; //
 }
 
 struct Edge
