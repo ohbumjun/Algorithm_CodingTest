@@ -166,8 +166,6 @@ st, ed = map(int, input().split())
 st, ed = st-1, ed-1
 
 # bfs ( 해당 무게로 방문할 수 있는가 )
-
-
 def bfs(weight):
     ch = [0]*n
     ch[st] = 1
