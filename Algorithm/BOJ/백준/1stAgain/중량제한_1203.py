@@ -8,7 +8,7 @@ from collections import deque, defaultdict, Counter
 sys.stdin = open("input.txt", "rt")
 sys.setrecursionlimit(100000)
 
-n, m = map(int, input().split())
+n, m = map(int, input().split()) # 
 
 # 풀이 원리
 # 1) 모든 경로의 가짓수를 구하고
