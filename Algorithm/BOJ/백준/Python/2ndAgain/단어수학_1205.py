@@ -123,80 +123,100 @@ print(ans)
 
 
 '''
-C++
-#include <iostream>
-#include <vector>
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<iostream>
+#include<vector>
 #include <algorithm>
+#include <functional>
+#include<queue>
+#include<map>
 #include <set>
-#include <string>
+ 
+#define endl "\n"
+#define INF int(1e9)
 
 using namespace std;
 
-# alpha['a'] : 'a' 라는 문자가 어떤 수인가 --> ex) alpha['a'] == 3 !!
-# 모든 알파벳은 aski 코드 값을 지닌다. 
-# ex) 소문자 : 'a' == 97 >> alpha[97]로 표현될 것이다 
-# ex) 대문자 : 'A' == 65 >> alpha[65]로 표현될 것이다 
-char alpha[256]; 
+char alpha[256];
 
-int calc(vector<string> &a, vector<char> &letters, vector<int> &d) {
-
+int calc(vector<string>& a, vector<char>& letters, vector<int>& d)
+{
     int m = letters.size();
     int sum = 0;
 
-    for (int i=0; i<m; i++) {
+    for (int i = 0; i < m; i++)
+    {
+        // 해당 알파벳과 숫자의 매핑 
         alpha[letters[i]] = d[i];
     }
 
-    // alpha['A'] = 9
-    // alpha['B'] = 8
-    // alpha['C'] = 7
-    // alpha['D'] = 6
-
-
-    for (string s : a) {
+    for (string s : a)
+    {
         int now = 0;
-        for (char x : s) {
-            now = now * 10 + alpha[x]; 
+        for (char x : s)
+        {
+            now = now * 10 + alpha[x];
         }
         sum += now;
     }
-
     return sum;
 }
 
-int main() {
-    int n;
-    cin >> n;
-    vector<string> a(n);
-    vector<char> letters;
-    for (int i=0; i<n; i++) {
-        cin >> a[i];
-        for (char x : a[i]) {
-            letters.push_back(x);
-        }
-    }
-    sort(letters.begin(), letters.end());
-    letters.erase(unique(letters.begin(), letters.end()), letters.end()); # 여기까지 : 단어 uniq 들 
-    int m = letters.size(); # 문자 개수를 
 
-    // 4개 문자열 >> 9 8 7 6 
-    // A, B , D ,G 
+int main(void)
+{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+ 
+   freopen("input_C.txt", "r", stdin);
 
-    vector<int> d; # 순열을 표시하는 배열 
-    for (int i=9; i>9-m; i--) {
-        d.push_back(i);
-    }
-    sort(d.begin(), d.end()); 
-    int ans = 0;
+   int n;
+   cin >> n;
+   vector<string> a(n);
+   vector<char> letters;
 
-    do {
-        int now = calc(a, letters, d); // a는 단어, letter는 알파벳, d는 순열 
-        if (ans < now) {
-            ans = now;
-        }
-    } while (next_permutation(d.begin(), d.end())); # 새로운 순열 만들어주기 
+   for (int i = 0; i < n; i++) {
+       cin >> a[i];
+       for (char x : a[i]) {
+           letters.push_back(x);
+       }
+   }
 
-    cout << ans << '\n';
+   // 오름차순 정렬 
+   sort(letters.begin(), letters.end());
+
+   // unique만 남기기
+   // unique 함수 : "연속된" "중복" 원소를 제일 뒷부분 쓰레기값으로 보낸다
+   // 즉, 먼저 위에서와 같이 sort를 시켜줘야 한다는 것이다.
+   // 그리고 unique가 끝나면, 반환값은 쓰레기값의 첫번째 위치 --> erase를 통해 해당 위치부터 끝까지 지워주기 
+   letters.erase(unique(letters.begin(), letters.end()), letters.end());
+
+   // 문자 개수들 
+   int m = letters.size();
+
+   // 순열을 표시하는 배열
+   vector<int> d;
+   for (int i = 9; i > 9 - m; i--)
+   {
+       d.push_back(i);
+   }
+
+   sort(d.begin(), d.end());
+   int ans = 0;
+
+   do
+   {
+       int now = calc(a, letters, d);
+       if(ans < now)
+       {
+           ans = now;
+       }
+   } while (next_permutation(d.begin(), d.end()));
+
+   cout << ans;
+ 
     return 0;
 }
 
