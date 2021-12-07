@@ -208,7 +208,7 @@ int main(void)
 
    do
    {
-       int now = calc(a, letters, d);
+       int now = calc(a, letters, d); /
        if(ans < now)
        {
            ans = now;
