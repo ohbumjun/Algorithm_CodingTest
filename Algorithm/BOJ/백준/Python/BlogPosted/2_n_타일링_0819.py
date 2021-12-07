@@ -1,7 +1,5 @@
 # https://www.acmicpc.net/problem/11726
 
-# https://assb.tistory.com/entry/%EB%B0%B1%EC%A4%80-11726%EB%B2%88-2xn-%ED%83%80%EC%9D%BC%EB%A7%81
-
 from copy import deepcopy
 import heapq as hq
 import sys

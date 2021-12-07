@@ -82,7 +82,7 @@ int main(void)
     cin.tie(NULL);
     cout.tie(NULL);
  
-   freopen("input_C.txt", "r", stdin);
+   freopen("input_C.txt", "r", stdin); //
 
    input();
    solve();
