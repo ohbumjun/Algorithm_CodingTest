@@ -105,7 +105,7 @@ int main(void)
     for (int i = cities.size() - 1; i >= 0; i--)
         cout << cities[i] << " ";
 
-    return 0;
+    return 0; //
 }
 
 
