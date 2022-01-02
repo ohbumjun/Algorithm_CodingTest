@@ -1,4 +1,4 @@
-# https://www.acmicpc.net/status?from_mine=1&problem_id=20056&user_id=dhsys112
+# https://www.acmicpc.net/problem/20056
 
 from copy import deepcopy
 import sys
