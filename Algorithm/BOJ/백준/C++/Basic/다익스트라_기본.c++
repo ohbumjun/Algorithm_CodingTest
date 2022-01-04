@@ -89,7 +89,7 @@ void dijkstra(int start_node)
         visited[now] = true;
         
         int edge_size = graph[now].size();
-       //  cout << "edge_size : " << edge_size << endl;
+       //  cout << "edge_size : " << edge_size << endl; //
         for (int j = 0; j < graph[now].size(); j++)
         {
             int nxt_node = graph[now][j].first;
