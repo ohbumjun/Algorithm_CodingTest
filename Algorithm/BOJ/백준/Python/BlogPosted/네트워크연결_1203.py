@@ -145,7 +145,6 @@ for _ in range(m):
 edges.sort()
 for edge in edges:
     cost, st, ed = edge
-
     if find_parent(parent, st) != find_parent(parent, ed):
         res += cost
         union(parent, st, ed)

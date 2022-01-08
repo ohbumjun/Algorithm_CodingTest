@@ -72,6 +72,9 @@ void solution()
     sort(edges.begin(), edges.end());
 
     // 총 거리 구하기 
+    // 굳이 2개의 반복문을 돌 필요가 없다
+    // 크루스칼은, 단순히, 모든 정점을 연결만 해주면 되기 때문에
+    // 간선의 비용이 적은 순서대로, 선택해가기만 하면 된다.
     for (int i = 0; i < M; i++)
     {
         int stN  = edges[i].node[0];
