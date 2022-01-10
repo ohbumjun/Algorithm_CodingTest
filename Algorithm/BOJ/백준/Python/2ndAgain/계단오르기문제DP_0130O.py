@@ -1,3 +1,5 @@
+# https://www.acmicpc.net/problem/2579
+
 if __name__ == "__main__" :
     n   = int(input())
     dy  = [0] * ( n + 1 )
