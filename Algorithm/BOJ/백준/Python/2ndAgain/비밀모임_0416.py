@@ -115,7 +115,6 @@ for _ in range(n):
             for j in range( 1 , node + 1 ) :
                 dy[i][j] = min(dy[i][j], dy[i][k] + dy[k][j] )
 
-
     minD = 1e9
     idx = -1
     for d in range( 1 , node + 1 ) :
