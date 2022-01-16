@@ -236,3 +236,189 @@ int main() {
 }
 
 '''
+
+
+# 별도 풀이 : 위 풀이보다 10배 느림
+'''
+#define _CRT_SECURE_NO_WARNINGS
+
+#include<iostream>
+#include <vector>
+#include <algorithm>
+#include <array>
+#include <functional>
+#include<queue>
+#include<map>
+#include <set>
+
+#define endl "\n"
+#define MAX 1000+1
+#define INF int(1e9)
+
+using namespace std;
+
+int ROW, COL;
+int ANS = INF;
+int dx[4] = { -1,1,0,0 };
+int dy[4] = { 0,0,-1,1 };
+
+std::vector<std::vector<char>> Maps;
+std::vector<std::vector<bool>> FstCheck;
+std::vector<std::vector<bool>> ScdCheck;
+std::array<pair<int, int>, 2> Coins = {};
+
+int main(void)
+{
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input_C.txt", "r", stdin); 
+
+    cin >> ROW >> COL;
+
+    // Map 제작
+    Maps.resize(ROW);
+    for (int row = 0; row < ROW; row++)
+    {
+        Maps[row].reserve(COL);
+    }
+
+    for (int i = 0; i < ROW; i++)
+    {
+        std::string Input;
+        cin >> Input;
+        for (const char& c : Input)
+        {
+            Maps[i].push_back(c);
+        }
+    }
+
+    // Check 배열 세팅
+    FstCheck = std::vector<std::vector<bool>>(ROW, std::vector<bool>(COL, false));
+    ScdCheck = std::vector<std::vector<bool>>(ROW, std::vector<bool>(COL, false));
+
+    /*
+    for (int i = 0; i < ROW; i++)
+    {
+	    for (int c = 0; c < COL; c++)
+	    {
+            cout << Maps[i][c] << " ";
+	    }
+        cout << endl;
+    }
+    */
+
+    // 동전 위치 확인
+    bool FCoinFound = false;
+
+    for (int row = 0; row < ROW; row++)
+    {
+	    for (int col = 0; col < COL; col++)
+	    {
+		    if (Maps[row][col] == 'o')
+		    {
+			    if (!FCoinFound)
+			    {
+                    Coins[0] = make_pair(row, col);
+                    // FstCheck[row][col] = true;
+                    FCoinFound = true;
+			    }
+                else
+                {
+	                Coins[1] = make_pair(row, col);
+                    // ScdCheck[row][col] = true;
+                }
+		    }
+	    }
+    }
+
+    queue<vector<int>> qCoins;
+    qCoins.push(vector<int>{Coins[0].first, Coins[0].second, Coins[1].first, Coins[1].second, 0});
+
+
+    bool fstCFall = false, secCFall = false;
+
+    while (!qCoins.empty())
+    {
+        vector<int> CurCoins = qCoins.front();
+        qCoins.pop();
+
+        int curFx   = CurCoins[0], curFy = CurCoins[1], curSx = CurCoins[2], curSy = CurCoins[3];
+        int curCnt = CurCoins[4];
+
+        // 10번보다 많이 눌렀다면 끝 
+        if (curCnt > 10)
+        {
+            continue;
+        }
+
+        for (int k = 0; k < 4; k++)
+        {
+            int nFx = curFx + dx[k], nFy  = curFy + dy[k];
+            int nSx = curSx + dx[k], nSy = curSy + dy[k];
+
+        	fstCFall = false; secCFall = false;
+
+            // 떨어짐 여부 조사 
+        	if (nFx < 0 || nFx >= ROW || nFy < 0 || nFy >= COL)
+            {
+                fstCFall = true;
+            }
+
+            if (nSx < 0 || nSx >= ROW || nSy < 0 || nSy >= COL)
+            {
+                secCFall = true;
+            }
+
+            // 벽 여부 조사
+            if (!fstCFall)
+            {
+	            if (Maps[nFx][nFy] == '#')
+	            {
+                    nFx = curFx;
+                    nFy = curFy;
+	            }
+            }
+
+            if (!secCFall)
+            {
+                if (Maps[nSx][nSy] == '#')
+                {
+                    nSx = curSx;
+                    nSy = curSy;
+                }
+            }
+
+            // 둘다 떨어지면 x
+            if (fstCFall && secCFall)
+                continue;
+
+            // 하나만 떨어진다면
+            else if (fstCFall || secCFall)
+            {
+	            // 여기서 버튼 최소횟수를 지정한다.
+                if (curCnt + 1 < ANS)
+                    ANS = curCnt + 1;
+                continue;
+            }
+
+            // 그게 아니라면 BFS 계속 진행
+            if (!fstCFall && !secCFall)
+            {
+                qCoins.push(vector<int>{nFx, nFy, nSx, nSy, curCnt + 1});
+            }
+        }
+    }
+
+    if (ANS == INF)
+        ANS = -1;
+
+    cout << ANS;
+
+    return 0;
+}
+
+
+
+'''
