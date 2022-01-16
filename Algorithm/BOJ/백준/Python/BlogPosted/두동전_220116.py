@@ -177,7 +177,7 @@ print(go(0, x1, y1, x2, y2))
 '''
 C++  -------------------------
 #include <iostream>
-using namespace std;
+using namespace std;//
 int n, m;
 string a[20];
 int dx[] = {0,0,1,-1};
