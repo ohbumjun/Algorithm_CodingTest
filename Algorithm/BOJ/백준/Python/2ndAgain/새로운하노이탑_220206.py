@@ -73,9 +73,7 @@ int main() {
     array < string, 3 > s // 각 막대에 대한 정보
     
     // 처음 상태 세팅 
-    for (int i=0
-         i < 3
-         i++) {
+    for (int i = 0; i < 3; i++) {
         int cnt
         cin >> cnt
         if (cnt > 0) {
@@ -85,12 +83,8 @@ int main() {
         }
     }
     int cnt[3] = {0, 0, 0}
-    for (int i=0
-         i < 3
-         i++) {
-        for (int j=0
-             j < s[i].length()
-             j++) {
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < s[i].length(); j++) {
             cnt[s[i][j]-'A'] += 1 // 최종상태를 확인하기 위해, 각 알파벳의 개수 넣어주기 
         }
     }
