@@ -1,75 +1,117 @@
-// https://programmers.co.kr/learn/courses/30/lessons/92342
-
 #include <string>
 #include <vector>
-
-using namespace std;
+#include <algorithm>
 
 #define END 11
 
-vector<int> answer;
-int max_score = -1;
+using namespace std;
 
-int get_score(vector<int> &a, vector<int> &r) {
-    int apeach = 0, ryan = 0;
-    for(int i=0; i<END; ++i) {
-        if(a[i] == 0 && r[i] == 0) continue; // 둘 다 0점이면 패스
-        
-        if(a[i] >= r[i]) apeach += (10-i); // 어피치 >= 라이언이면 어피치가
-        else ryan += (10-i); // 어피치 < 라이언이면 라이언이 점수 획득
-    }
-    
-    if(ryan > apeach) return ryan - apeach;
-    else return -1;
-}
+vector<int> vecAnswer;
+int MaxScore = 0;
 
-bool shoot_lower_score(vector<int> &ryan) {
-    for(int i=END-1; i>=0; --i) { // 0점 과녁부터 비교
-        if(ryan[i] > answer[i]) return true;
-        else if(ryan[i] < answer[i]) return false;
-    }
-    return false;    
-}
+void DFS(int N, int ArrowLeft, int PrevIndex,
+    vector<int>& vecApichScore, vector<int>& vecRyanScore)
+{
+    // 더이상 쏠 화살이 없다면
+    if (ArrowLeft == 0)
+    {
+        // 여기서 점수를 비교해야 한다.
 
-void func(vector<int> &apeach, vector<int> &ryan, int chance, int idx) {
-    if(idx == END || chance == 0) {
-        int score = get_score(apeach, ryan);
-        if(score != -1) {
-            /*
-            	낮은 점수를 더 많이 맞힌 경우가 우선 순위가 있기 때문에,
-                화살이 남아있으면 0점에 나머지 화살을 모두 쏨
-            */
-            if(chance > 0) ryan[idx-1] = chance; 
-            
-            if(score == max_score && shoot_lower_score(ryan)) {
-                answer = ryan;
+        int RyanScr = 0;
+        int ApichScr = 0;
+
+        // cout << "Hello" << endl;
+
+        // 맨 마지막 0점은 비교하지 않는다.
+        for (int i = 0; i < 10; i++)
+        {
+            int Score = 10 - i;
+
+            if (vecRyanScore[i] == 0 && vecApichScore[i] == 0)
+                continue;
+
+            if (vecRyanScore[i] > vecApichScore[i])
+            {
+                RyanScr += Score;
             }
-            
-            else if(score > max_score) {
-                max_score = score;
-                answer = ryan;
+            else if (vecRyanScore[i] <= vecApichScore[i])
+            {
+                ApichScr += Score;
             }
-            
-            ryan[idx-1] = 0;
-        }        
+        }
+
+        // Apich Score가 더 크거나 같다면 X 
+        if (ApichScr >= RyanScr)
+            return;
+
+        // 비교
+        /*
+        cout << "vec RyanScore" << RyanScr << endl;
+        for (const auto& elem : vecRyanScore)
+            cout << elem << " ";
+        cout << endl;
+
+        cout << "vec ApichScore" << ApichScr << endl;
+        for (const auto& elem : vecApichScore)
+            cout << elem << " ";
+        cout << endl;
+        cout << endl;
+        */
+
+        int DiffScore = RyanScr - ApichScr;
+
+        // 현재 최대값과 비교한다
+        if (MaxScore < DiffScore)
+        {
+            MaxScore = DiffScore;
+            vecAnswer = vecRyanScore;
+        }
+        else if (MaxScore == DiffScore)
+        {
+            for (int i = END - 1; i >= 0; i--)
+            {
+                if (vecAnswer[i] < vecRyanScore[i])
+                {
+                    vecAnswer = vecRyanScore;
+                    break;
+                }
+                else if (vecAnswer[i] > vecRyanScore[i])
+                    break;
+            }
+        }
+
         return;
-    }    
-    
-    if(chance > apeach[idx]) { // 어피치보다 한 발 더 맞추기
-        ryan[idx] = apeach[idx] + 1;
-        func(apeach, ryan, chance-ryan[idx], idx+1);
-        ryan[idx] = 0;
     }
-    
-    func(apeach, ryan, chance, idx+1); // 쏘지 않고 다음 과녁으로
+    // 그게 아니라면, 중복 조합을 만들어나간다.
+    for (int i = PrevIndex; i < END; i++)
+    {
+        vecRyanScore[i] += 1;
+        DFS(N, ArrowLeft - 1, i, vecApichScore, vecRyanScore);
+        vecRyanScore[i] -= 1;
+    }
 }
 
 vector<int> solution(int n, vector<int> info) {
-    vector<int> ryan(END, 0);
-    
-    func(info, ryan, n, 0);
-    
-    if(max_score == -1) return {-1};
-    
-    return answer;
+
+  vector<int> vecRyanScore;
+    vecRyanScore.resize(END); // 11 발을 쏠 것이다.
+
+    // 라이언이 쏠 수 있는 모든 경우의 수를 구하고 --> 중복 조합
+    // 각각에 대해 점수차를 계산해서
+    DFS( END, n, 0, info, vecRyanScore);
+
+    // 나중에 정렬 이후, 정답 출력 
+    // sort(vecAnswer.begin(), vecAnswer.end());
+
+    // vecAnswer 가 비어있다면 우승할 수 없는 경우
+    if (vecAnswer.empty())
+    {
+        std::vector<int> Answer;
+        Answer.push_back(-1);
+        return Answer;
+    }
+    else
+    {
+        return vecAnswer;
+    }
 }
