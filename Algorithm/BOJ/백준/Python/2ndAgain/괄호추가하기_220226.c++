@@ -23,7 +23,7 @@ string str;
 // 연산함수
 int cal (int a, int b, char oper)
 {
-    int result = a;
+    int result = a; //
 
 	switch (oper)
 	{
