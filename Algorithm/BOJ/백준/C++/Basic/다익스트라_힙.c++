@@ -15,7 +15,7 @@
 using namespace std;
 
 int V, E, start_node;
-vector<pair<int, int>> graph[NODE_MAX];
+vector<pair<int, int>> graph[NODE_MAX]; //
 int   dist[NODE_MAX];
 
 void input()
