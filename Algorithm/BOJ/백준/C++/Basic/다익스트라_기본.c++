@@ -35,7 +35,7 @@ void input()
     {
         int st, ed, cost;
         cin >> st >> ed >> cost;
-        graph[st].push_back(make_pair(ed,cost));////
+        graph[st].push_back(make_pair(ed,cost));/////
     }
 }
 

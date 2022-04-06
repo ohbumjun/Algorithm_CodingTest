@@ -60,6 +60,7 @@ int main(void)
 }
 
 
+// 2) 순열
 #define _CRT_SECURE_NO_WARNINGS
 
 #include<iostream>
