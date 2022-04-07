@@ -4,7 +4,7 @@
 
 using namespace std; //
 
-int check[7];	//노드 연결용, 연결노드가 바뀌는지 체크 
+int check[7];	//노드 연결용, 연결노드가 바뀌는지 체크 --
 
 class Edge{
 public:
