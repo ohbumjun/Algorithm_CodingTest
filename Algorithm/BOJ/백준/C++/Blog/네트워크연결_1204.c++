@@ -86,7 +86,7 @@ void solution()
             ans += cost;
         }
     }
-    cout << ans;
+    cout << ans; //
 }
 
 int main(void)
