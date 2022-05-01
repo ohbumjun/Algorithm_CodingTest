@@ -91,7 +91,7 @@ int main() {
 
     freopen("input_c.txt", "r", stdin);
 
-    Input();
+    Input(); //
 
     Solve();
 
