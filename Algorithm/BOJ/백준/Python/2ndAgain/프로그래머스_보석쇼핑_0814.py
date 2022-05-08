@@ -12,7 +12,7 @@ from collections import defaultdict
 def solution(gems):
     ans = []
     len_gem = len(gems)
-    # 보석들 종류의 갯수를 알아내야 한다
+    # 보석들 종류의 갯수를 알아내야 한다.
     set_gems = set(gems)
     prec_len = len(set_gems)
 
