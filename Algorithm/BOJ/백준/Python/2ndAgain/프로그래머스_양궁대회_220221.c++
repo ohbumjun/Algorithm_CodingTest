@@ -10,7 +10,7 @@ vector<int> vecAnswer;
 int MaxScore = 0;
 
 void DFS(int N, int ArrowLeft, int PrevIndex,
-    vector<int>& vecApichScore, vector<int>& vecRyanScore)
+    vector<int>& vecApichScore, vector<int>& vecRyanScore) //
 {
     // 더이상 쏠 화살이 없다면
     if (ArrowLeft == 0)
