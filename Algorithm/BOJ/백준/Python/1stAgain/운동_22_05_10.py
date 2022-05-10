@@ -37,7 +37,7 @@ for _ in range(E):
     graph[st][ed] = cst
 
 # 플로이드 와샬을 통해서 각 정점에서 다른 정점 까지의 최소 거리 구하기
-dp = [[INT_MAX] * V for _ in range(V)]
+dp = [[INT_MAX] * V for _ in range(V)] #
 # 자기 자신까지의 거리 0
 for i in range(V):
     dp[i][i] = 0
