@@ -104,3 +104,75 @@ vector<int> solution(vector<string> gems) {
 }
 
 // 2번째 --> 투포인터
+#include <string>
+#include <vector>
+#include <iostream>
+#include <queue>
+#include <set>
+#include <unordered_map>
+
+#define INF int(1e9)
+
+using namespace std;
+
+vector<int> solution(vector<string> gems) {
+    
+    vector<int> answer = vector<int>{INF, INF};
+    int ansMinLength = INF;
+    
+    // 1) 총 몇개의 보석들이 진열되어 있는지 판단 -> unordered map 에 false 로 세팅
+    // 2) 해당 숫자 만큼 Sliding Window 실행
+    // 3) 해당 Window 숫자 안에서 Unique 한 값 개수 추가
+    // 4) 이동할 때마다, 이전것 제거 + 다음 것 추가 하는 로직 세팅
+    
+    int TotUniqNum = 0;
+    int curUniqN = 0;
+    queue<string> qWindow;
+    unordered_map<string, int> mapInclude;
+    
+    size_t gemSize = gems.size();
+    
+    for (const auto & gem : gems)
+        mapInclude[gem] = 0;
+    
+    TotUniqNum = mapInclude.size();
+    
+    int edP = 0;
+    
+    for (int stP = 0; stP < gemSize; ++stP)
+    {
+        while (curUniqN < TotUniqNum && edP < gemSize)
+        {
+            if (mapInclude[gems[edP]] == 0)
+                curUniqN += 1;
+            
+            mapInclude[gems[edP]] += 1;
+            
+            qWindow.push(gems[edP]);
+            
+            edP += 1;
+        }
+        
+        // 만약 모두 포함되어 있다면 return;
+        if (curUniqN == TotUniqNum)  
+        {
+            if (edP - stP < ansMinLength)
+           {
+                answer = vector<int>{stP + 1, edP};
+                ansMinLength = edP - stP;
+           }
+        }
+        
+        // 기존 것 제거
+        const string& outGem = qWindow.front();
+        qWindow.pop();
+
+        mapInclude[outGem] -= 1;
+
+        if (mapInclude[outGem] == 0)
+            curUniqN -= 1;
+    }
+    
+    
+    return answer;
+}
