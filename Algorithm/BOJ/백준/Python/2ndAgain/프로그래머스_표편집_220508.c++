@@ -17,7 +17,7 @@ string solution(int n, int k, vector<string> cmd) {
     // n - 1개 추가 생성
     for (int i = 1; i < n; ++i)
     {
-        cursor->next = new Node(i, cursor, NULL);
+        cursor->next = new Node(i, cursor, NULL); //
         cursor = cursor->next;
     }
     

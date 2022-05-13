@@ -103,7 +103,7 @@ vector<int> solution(vector<string> gems) {
     return answer;
 }
 
-// 2번째 --> 투포인터
+// 2번째 --> 투포인터 
 #include <string>
 #include <vector>
 #include <iostream>
@@ -117,7 +117,8 @@ using namespace std;
 
 vector<int> solution(vector<string> gems) {
     
-    vector<int> answer = vector<int>{INF, INF};
+    vector<int> answer;
+    int stN = INF, edN = INF;
     int ansMinLength = INF;
     
     // 1) 총 몇개의 보석들이 진열되어 있는지 판단 -> unordered map 에 false 로 세팅
@@ -148,8 +149,6 @@ vector<int> solution(vector<string> gems) {
             
             mapInclude[gems[edP]] += 1;
             
-            qWindow.push(gems[edP]);
-            
             edP += 1;
         }
         
@@ -158,21 +157,21 @@ vector<int> solution(vector<string> gems) {
         {
             if (edP - stP < ansMinLength)
            {
-                answer = vector<int>{stP + 1, edP};
+                stN = stP; edN = edP;
                 ansMinLength = edP - stP;
            }
         }
         
         // 기존 것 제거
-        const string& outGem = qWindow.front();
-        qWindow.pop();
+        mapInclude[gems[stP]] -= 1;
 
-        mapInclude[outGem] -= 1;
-
-        if (mapInclude[outGem] == 0)
+        if (mapInclude[gems[stP]] == 0)
             curUniqN -= 1;
     }
     
+    answer.reserve(2);
+    answer.push_back(stN + 1);
+    answer.push_back(edN);
     
     return answer;
 }
