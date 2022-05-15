@@ -10,7 +10,7 @@ struct Node
 };
 
 string solution(int n, int k, vector<string> cmd) {
-    string answer (n, 'X');
+    string answer (n, 'X'); //
     
     Node* cursor = new Node(0, NULL, NULL);
     
