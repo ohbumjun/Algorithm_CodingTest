@@ -18,7 +18,7 @@ for _ in range(m):
     if cst < dp[st][ed] : 
         dp[st][ed] = cst
         cities[st][ed] = []
-        cities[st][ed].append(st + 1)
+        cities[st][ed].append(st + 1) #
 
 # for d in dp : print(d)
 
