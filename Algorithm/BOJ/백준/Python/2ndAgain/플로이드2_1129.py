@@ -24,7 +24,7 @@ for _ in range(m):
 
 # 플로이드 와샬을 이용해서, 한 도시에서 다른 도시로 가는 비용 계산
 for k in range(n):
-    for r in range(n):
+    for r in range(n):  #
         for c in range(n):
             if dp[r][c] > dp[r][k] + dp[k][c] :
                 dp[r][c] = dp[r][k] + dp[k][c]
