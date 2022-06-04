@@ -147,7 +147,7 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    freopen("input_c.txt", "r", stdin);
+    freopen("input_c.txt", "r", stdin); //
 
     Input();
 
