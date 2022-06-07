@@ -21,7 +21,7 @@ ans = 0
 
 '''
 노션 해설
-https://www.notion.so/cdee042ce9b846198664fb80deb47fc1
+https://www.notion.so/cdee042ce9b846198664fb80deb47fc1 //
 
 x,y : 행 , 열
 sum : 거기까지 칸에 써있는 수의 합 
