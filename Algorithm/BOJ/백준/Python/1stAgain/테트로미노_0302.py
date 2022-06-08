@@ -15,7 +15,7 @@ dRow = [0, -1, 0, 1]
 arr = [list(map(int, input().split())) for _ in range(n)]
 ans = 0
 # x, y 좌표
-# sum : 지금까지 간 간격에 있던 수들의 합
+# sum : 지금까지 간 간격에 있던 수들의 합 ----
 # cnt : 몇칸 갔는지 ( 4칸까지 ! )
 
 
