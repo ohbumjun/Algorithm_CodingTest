@@ -1,7 +1,7 @@
-# https://programmers.co.kr/learn/courses/30/lessons/17676
+# https://programmers.co.kr/learn/courses/30/lessons/17676  ---
 #
 
-def get_request_count_during_one_second(time, start_and_end_times):
+def get_request_count_during_one_second(time, start_and_end_times): 
     # time을 기준으로 log 들이 몇개나 포함되어 있는가
     request_count = 0
     start_time = time
