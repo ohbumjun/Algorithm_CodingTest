@@ -26,7 +26,7 @@ string solution(int n, int k, vector<string> cmd) {
         cursor = cursor->prev;
     }
     
-    stack<Node*> delStack;
+    stack<Node*> delStack; //
     
     for (const string& str : cmd)
     {
