@@ -17,7 +17,7 @@ def rotate(key, m):
             # ---
             # 행.을 기준으로 생각한다면,
             # 회전 후 위치의 관점에서는, 오른쪽에서 왼쪽으로
-            # 따라서 key의 m-1-i가 , rst의 행이 된다
+            # 따라서 key의 m-1-i가 , rst의 행이 된다 //
             rst[j][m-1-i] = key[i][j]
     return rst
 

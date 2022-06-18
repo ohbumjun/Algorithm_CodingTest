@@ -37,7 +37,7 @@ string solution(int n, int k, vector<string> cmd) {
             if (str[0] == 'U')
             {
                 while (num--)
-                    cursor = cursor->prev;
+                    cursor = cursor->prev;//
             }
             else 
             {
