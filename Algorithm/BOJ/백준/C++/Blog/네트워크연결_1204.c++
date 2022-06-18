@@ -98,7 +98,7 @@ int main(void)
    freopen("input_c.txt", "r", stdin);
 
    input();
-   solution();
+   solution(); //
  
     return 0;
 }
