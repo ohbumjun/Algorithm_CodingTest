@@ -103,4 +103,135 @@ int main(void)
     return 0;
 }
 
+// Prim 알고리즘
+#define _CRT_SECURE_NO_WARNINGS
 
+#include<iostream>
+#include <vector>
+#include <array>
+#include <list>
+#include <set>
+#include <stack>
+#include <queue>
+#include <functional>
+#include <algorithm>
+#include <unordered_map>
+#include <bitset>
+#include <cstring>
+
+#define endl "\n"
+#define MAX 1000+1
+#define INF int(1e9)
+
+using namespace std;
+
+int Graph[MAX][MAX] = {INF,};
+
+// i번째 정점과 가장 가까운 정점
+int vecNearest[MAX];
+
+// 최소 비용 신장 트리 에서 해당 정점까지의 최단 거리
+// (최소 비용 신장 트리에 속하는 정점들은 -1 값)
+int vecDist[MAX];
+
+int N, M;
+
+void Input()
+{
+    cin >> N >> M;
+
+    for (int r = 1; r <= N; ++r)
+        for (int c = 1; c <= N; ++c)
+            Graph[r][c] = INF;
+
+    for (int i = 0; i < M; ++i)
+    {
+        int st, ed, cost;
+        cin >> st >> ed >> cost;
+        Graph[st][ed] = cost;
+        Graph[ed][st] = cost;
+    }
+    
+}
+
+void Solve()
+{
+    memset(vecNearest, INF, sizeof(vecNearest));
+
+    for (int i = 0; i <= N; ++i)
+        vecDist[i] = INF;
+
+	// 1번째 정점을 포함시킨 이후 진행
+    int Answer = 0;
+
+    vecDist[1] = -1;
+
+    // for (int i = 1; i <= N; ++i)
+    // {
+    //     for (int c = 1; c <= N; ++c)
+    //     {
+    //         cout << Graph[i][c] << ".";
+    //     }
+    //     cout << endl;
+    // }
+
+ 
+    for (int i = 2; i <= N; ++i)
+    {
+	    if (Graph[1][i] != INF) // 1번째 정점과 연결된 녀석이라면 
+	    {
+            vecNearest[i] = 1;
+            vecDist[i] = Graph[1][i];
+	    }
+    }
+
+
+    // 이후 N - 1 개의 정점을 추가로 포함시키면 된다.
+    for (int i = 0; i < N - 1; ++i)
+    {
+        int minDist = INF, minNode = -1;
+
+
+        // 모든 정점 중에서, 최소 비용에 속하지 않으면서, 가장 가까운 거리에 있는 정점들을 선택해간다.
+	    for (int t = 2; t <= N; ++t)
+	    {
+		    if (vecDist[t] != -1 && vecDist[t] < minDist)
+		    {
+                minDist = vecDist[t], minNode = t;
+		    }
+	    }
+
+        vecDist[minNode] = -1;
+
+   
+        Answer += minDist;
+
+        // 선택된 노드를 기준으로 최소 비용 정보를 Update
+        for (int t = 2; t <= N; ++t)
+        {
+            // 최소 비용에 속하지 않은 노드들에 대해서 
+	        if (vecDist[t] > Graph[minNode][t])
+	        {
+                vecDist[t] = Graph[minNode][t];
+                vecNearest[t] = minNode;
+	        }
+        }
+    }
+
+    cout << Answer << endl;
+}
+
+int main() {
+
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+
+    freopen("input_c.txt", "r", stdin);
+
+    Input();
+    Solve();
+
+    return 0;
+}
