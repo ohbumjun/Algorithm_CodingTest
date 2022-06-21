@@ -28,7 +28,7 @@ print(a)
 # 2) 가로 : 0을 만나면 , 진짜 값 저장 , 옆으로 가고
 #       또 0이면 , 이전 것에 10을 곱해주고 저장
 #       만약 , 1을 만나면, 합계에 저장해주고, 저장한 거 0으로
-#       만들고 , 다시 시작, 만약에 맨 마지막 열을 만나면 그냥 저장
+#       만들고 , 다시 시작, 만약에 맨 마지막 열을 만나면 그냥 저장 //
 # 3) 세로 : 가로와 마찬가지로 만든다
 
 ans = 0
@@ -38,7 +38,7 @@ a = itertools.product([0, 1], repeat=N*M)
 
 
 def to_matrix(one_d, col):
-    return [one_d[i:i+col] for i in range(0, len(one_d), col)]
+    return [one_d[i:i+col] for i in range(0, len(one_d), col)] 
 
 
 for x in a:
