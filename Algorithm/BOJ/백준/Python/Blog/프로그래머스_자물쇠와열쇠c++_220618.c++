@@ -111,7 +111,7 @@ bool solution(vector<vector<int>> key, vector<vector<int>> originLock) {
             for (int k = 0; k < 4; ++k)
             {
                 rotate(key);
-                if (IsMatch(r, c, key, lock))
+                if (IsMatch(r, c, key, lock)) //
                     return true;
             }
         }
