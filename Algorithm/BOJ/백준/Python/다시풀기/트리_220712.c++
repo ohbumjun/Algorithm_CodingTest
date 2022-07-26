@@ -36,7 +36,7 @@ while (1) {
 	}
 	for (int i = 1; i <= N; ++i)
 		if (!visited[i])
-			if (DFS(i, 0)) ans++;
+			if (DFS(i, 0)) ans++; //
 
 	cout << "Case " << ++cnt;
 	if (ans == 0) cout << ": No trees.";
