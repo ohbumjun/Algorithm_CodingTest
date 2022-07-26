@@ -18,7 +18,7 @@ void DFS(int N, int ArrowLeft, int PrevIndex,
         // 여기서 점수를 비교해야 한다.
 
         int RyanScr = 0;
-        int ApichScr = 0;
+        int ApichScr = 0; //
 
         // cout << "Hello" << endl;
 
