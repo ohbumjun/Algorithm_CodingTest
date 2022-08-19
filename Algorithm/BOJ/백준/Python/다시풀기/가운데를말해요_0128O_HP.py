@@ -9,7 +9,7 @@ n = int(sys.stdin.readline())
 maxHeap = []
 minHeap = []
 
-for i in range(n):
+for i in range(n): #
 
     num = int(sys.stdin.readline())
 
