@@ -73,7 +73,7 @@ int a[501]
 int d[501][501]
 int go(int i, int j) {
     if (i == j) {
-        return 0
+        return 0; --> 왜냐하면, 합치는 비용 자체는 전혀 없기 때문이다.
     }
     if (d[i][j] != -1) {
         return d[i][j]
