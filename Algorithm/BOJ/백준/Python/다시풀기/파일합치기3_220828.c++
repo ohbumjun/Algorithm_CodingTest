@@ -53,6 +53,7 @@ void Solve()
 			queue.push(num);
 		}
 
+        // 정답의 범위를 고려하여 long long 으로 선언해야 한다.
 		long long totSum = 0;
 
 		while (queue.size() > 1)

@@ -12,7 +12,7 @@ using namespace std;
 
 vector<vector<int>> board;
 vector<int> card;
-int dRow[] = {-1, 1, 0, 0}; //
+int dRow[] = {-1, 1, 0, 0}; ////
 int dCol[] = {0, 0, 1, -1};
 int answer = INF;
 int r,c;
