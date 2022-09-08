@@ -54,7 +54,7 @@ void Solve()
             vecSum[i] = (vecSum[i - 1] + cInput) % M;
         }
 
-        // 1) M 으로 나뉘는 부분합 첫번째 경우
+        // 1) M 으로 나뉘는 부분합 첫번째 경우 //
         // 0 ~ i Idx 까지의 부분합 고려
         if (vecSum[i] == 0)
             answer += 1;
