@@ -25,7 +25,7 @@ using namespace std;
 int N, M;
 vector<int> vecParent;
 
-int find_parent(vector<int>& vecParent, int child)
+int find_parent(vector<int>& vecParent, int child) //
 {
     if (vecParent[child] != child)
         return find_parent(vecParent, vecParent[child]);
