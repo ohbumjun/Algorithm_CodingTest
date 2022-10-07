@@ -38,7 +38,7 @@ void Input()
 	for (int i = 0; i < E; ++i)
 	{
 		cin >> st >> ed >> cst;
-		vecGraph[st].push_back(make_pair(ed, cst)); //
+		vecGraph[st].push_back(make_pair(ed, cst)); ////
 	}
 }
 
