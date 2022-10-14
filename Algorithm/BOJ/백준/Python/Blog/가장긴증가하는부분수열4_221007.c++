@@ -15,7 +15,7 @@
 using namespace std;
 
 int N;
-std::vector<int> vecNums;
+std::vector<int> vecNums; //
 std::vector<int> dpNums;
 std::vector<int> answerNums;
 
