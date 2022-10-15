@@ -72,6 +72,8 @@ void DFS(int Idx, int Cnt)
 			Visit.insert(S);
 			Answer.push_back(S);
 		}
+
+        // 여기서 리턴을 하지 않는다
 	}
 
 	for (int i = Idx; i < GwalHo.size(); ++i)
