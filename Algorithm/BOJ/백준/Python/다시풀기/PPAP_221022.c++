@@ -21,6 +21,6 @@ int main(void) {
 		}
 	}
 
-	cout << (ppap == "P" ? "PPAP" : "NP") << '\n'; //
+	cout << (ppap == "P" ? "PPAP" : "NP") << '\n'; ////
 	return 0;
 }
