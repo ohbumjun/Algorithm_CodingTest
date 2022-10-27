@@ -24,7 +24,7 @@
 using namespace std;
 
 int N, M;
-// vecSum[i] -> (0 ~ i 인덱스까지의 합) % M
+// vecSum[i] -> (0 ~ i 인덱스까지의 합) % M///
 long long vecSum[1000000+1]; // N의 최대값
 
 // 0 ~ i 인덱스가 아니라,
