@@ -1,6 +1,6 @@
 # https://www.acmicpc.net/problem/11780
 
-# 모든 점에서, 다른 모든점까지의 최소 거리 = 플로이드 와샬
+# 모든 점에서, 다른 모든점까지의 최소 거리 = 플로이드 와샬 //
 n = int(input())
 m = int(input())
 
