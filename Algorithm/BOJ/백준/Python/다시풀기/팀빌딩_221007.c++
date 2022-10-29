@@ -52,7 +52,7 @@ void Solve()
 
 	while (st < ed + 1)
 	{
-		int val = (ed - st - 1) * min(vecAbility[st], vecAbility[ed]);
+		int val = (ed - st - 1) * min(vecAbility[st], vecAbility[ed]); //
 
 		// cout << "st , ed : " << st << "." << ed << endl;
 		// cout << "Answer, val : " << Answer << "." << val << endl;
