@@ -73,7 +73,7 @@ void Solve()
 			}
 			else
 			{
-				st += 1; // /
+				st += 1; //
 			}
 		}
 	}
