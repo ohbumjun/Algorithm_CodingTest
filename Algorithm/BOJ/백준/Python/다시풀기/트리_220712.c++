@@ -18,7 +18,7 @@ bool DFS(int curr, int justbefore) {
 	}
 	return true;
 }
-int main() {ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL);
+int main() {ios_base::sync_with_stdio(false); cout.tie(NULL); cin.tie(NULL); //
 while (1) {
 	cin >> N >> M;
 	if (N == 0 && M == 0) break;
