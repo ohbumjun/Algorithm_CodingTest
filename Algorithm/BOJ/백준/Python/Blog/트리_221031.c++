@@ -4,7 +4,7 @@
 using namespace std;
 
 int N, M, cnt;
-bool visited[555];
+bool visited[555]; // 
 vector<int> adj[555];
 
 bool DFS(int curr, int justbefore) {
