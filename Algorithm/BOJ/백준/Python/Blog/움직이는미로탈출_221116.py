@@ -155,3 +155,178 @@ int main() {
 }
 
 '''
+''' 자체 풀이 버전
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <string>
+#include <set>
+#include <queue>
+#include <algorithm>
+#include <unordered_map>
+
+#define endl "\n"
+
+using namespace std;
+
+vector<vector<char>> mapChess;
+vector<vector<bool>> mapCheck;
+
+int dRow[] = {-1,1,0,0, -1,-1,1, 1,0 };
+int dCol[] = { 0,0,1,-1,-1, 1,-1,1,0 };
+
+void Input()
+{
+    mapChess.resize(8);
+    mapCheck.resize(8);
+
+    for (int i = 0; i < 8; ++i)
+    {
+        mapChess[i].resize(8);
+        mapCheck[i].resize(8);
+    }
+
+    for (int r = 7; r >= 0; --r)
+    {
+        for (int c = 0; c < 8; ++c)
+        {
+            char input;
+            cin >> input;
+            // 아래행에서부터 시작하기
+            mapChess[r][c] = input;
+
+            // 방문 여부
+            mapCheck[r][c] = false;
+        }
+    }
+
+    // Init Map
+    //cout << "Init Map" << endl;
+    //for (int r = 7; r >=0; --r)
+    //{
+    //    for (int c = 0; c < 8; ++c)
+    //    {
+    //        cout << mapChess[r][c] << ",";
+    //    }
+    //    cout << endl;
+    //}
+};
+
+void DEBUGMap(vector<vector<bool>>& curCheck, int curRow, int curCol)
+{
+    cout << "curR, curC : " << curRow << "," << curCol << endl;
+    cout << "check" << endl;
+    for (int r = 7; r >= 0; --r)
+    {
+        for (int c = 0; c < 8; ++c)
+        {
+            cout << curCheck[r][c] << ".";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+void Solve()
+{
+    // Queue : r,c, map
+    queue<tuple<int, int, vector<vector<char>>, vector<vector<bool>>>> Queue;
+    Queue.push(make_tuple(0, 0, mapChess, mapCheck));
+
+    while (!Queue.empty())
+    {
+        auto [curRow, curCol, curMap, curCheck] = Queue.front();
+        Queue.pop();
+
+        curCheck[curRow][curCol] = true;
+
+        vector<pair<int, int>> vNxtPoses;
+
+        // 현재 위치에서 이동 가능한 새로운 위치 정보를 vector 에 모아둔다
+        for (int k = 0; k < 9; ++k)
+        {
+            int nxtRow = curRow + dRow[k];
+            int nxtCol  = curCol + dCol[k];
+
+            // 범위
+            if (nxtRow < 0 || nxtRow >= 8 || nxtCol < 0 || nxtCol >= 8)
+                continue;
+
+            // 벽 X
+            if (curMap[nxtRow][nxtCol] == '#')
+                continue;
+
+            // 이미 방문 ? X (But 제자리인 경우는 예외)
+            if (k != 8 && curCheck[nxtRow][nxtCol])
+                continue;
+
+            // 조사하던 와중 목적지에 도달하면 1 을 출력하고 break
+            if (nxtRow == 7 && nxtCol == 7)
+            {
+                cout << 1 << endl;
+                exit(0);
+            }
+
+            vNxtPoses.push_back(make_pair(nxtRow, nxtCol));
+        }
+
+        // 무한 루프를 어떻게 해결해야 하는가.
+
+        vector<vector<char>> newMap = curMap;
+
+        // 현재 벽들을 한칸 내린다
+        // 아래서부터 내린다.
+        for (int r = 0; r < 8; r++)
+        {
+            for (int c = 0; c < 8; ++c)
+            {
+                if (curMap[r][c] == '#')
+                {
+                    // 현재 위치는 벽 X
+                    newMap[r][c] = '.';
+
+                    // 맨 아래에 있던 벽은 사라짐
+                    if (r == 0)
+                        continue;
+
+                    // 아래칸을 벽으로 세팅
+                    newMap[r - 1][c] = '#';
+                }
+            }
+        }
+
+        // 새로운 위치 정보 중에서 벽과 부딪히는 부분들을 제외시킨다.
+        for (const auto& [nR, nC] : vNxtPoses)
+        {
+            // 그 다음에 벽이라면 이동 X
+            if (newMap[nR][nC] == '#')
+                continue;
+
+            // 새로운 위치 정보와 함께 새롭게 Queue 에 추가한다.
+            Queue.push(make_tuple(nR, nC, newMap, curCheck));
+        }
+    }
+
+
+    cout << 0 << endl;
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input_c.txt", "r", stdin);
+
+    Input();
+
+    Solve();
+    
+    return 0;
+}
+
+
+'''
