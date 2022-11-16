@@ -134,9 +134,7 @@ int main() {
         tie(x, y, t) = q.front()
         q.pop()
         if (x == 0 & & y == 7) ans = true
-        for (int k=0
-             k < 9
-             k++) {
+        for (int k=0; k < 9; k++) {
             int nx = x+dx[k]
             int ny = y+dy[k]
             int nt = min(t+1, 8)
