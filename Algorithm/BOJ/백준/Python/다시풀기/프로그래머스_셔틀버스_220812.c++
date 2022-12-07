@@ -20,7 +20,7 @@ int MaxLimitBusTime = -1;
 
 // 2. 마지막 셔틀에 자리가 남지 않을 경우
 // - 크루원들이 도착하는 시간 어느 중간에 도착해야 한다는 것
-// - 콘을 제외하고, 생각할 때, 셔틀 버스 탑승한 마지막 크루원의 시간 - 1
+// - 콘을 제외하고, 생각할 때, 셔틀 버스 탑승한 마지막 크루원의 시간 - 1 //
 
 
 string solution(int N, int T, int M, vector<string> timetable) {

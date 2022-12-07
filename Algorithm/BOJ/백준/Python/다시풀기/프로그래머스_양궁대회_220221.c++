@@ -58,7 +58,7 @@ void DFS(int N, int ArrowLeft, int PrevIndex,
         cout << endl;
         */
 
-        int DiffScore = RyanScr - ApichScr;
+        int DiffScore = RyanScr - ApichScr; //
 
         // 현재 최대값과 비교한다
         if (MaxScore < DiffScore)
@@ -93,7 +93,7 @@ void DFS(int N, int ArrowLeft, int PrevIndex,
 
 vector<int> solution(int n, vector<int> info) {
 
-  vector<int> vecRyanScore;
+    vector<int> vecRyanScore;
     vecRyanScore.resize(END); // 11 발을 쏠 것이다.
 
     // 라이언이 쏠 수 있는 모든 경우의 수를 구하고 --> 중복 조합
