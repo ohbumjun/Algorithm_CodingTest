@@ -221,99 +221,95 @@ print(ans)
 # include <tuple>
 # include <queue>
 # include <cstring>
-using namespace std
-int a[100][100]
-int d[100][100]
-int dx[] = {0, 0, 1, -1}
-int dy[] = {1, -1, 0, 0}
-int n, m
-vector < pair < int, int >> candi
-int ans = -1 // 불가능하면 -1을 return 해주어야 하므로 초기값을 -1로 세팅 
+using namespace std;
+int a[100][100];
+int d[100][100];
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
+int n, m;
+vector < pair < int, int >> candi;
+int ans = -1; // 불가능하면 -1을 return 해주어야 하므로 초기값을 -1로 세팅 
 void bfs() {
-    memset(d, -1, sizeof(d))
-    queue < pair < int, int >> q
-    for (int i=0
-         i < n
+    memset(d, -1, sizeof(d));
+    queue < pair < int, int >> q;
+    for (int i=0;
+         i < n;
          i++) {
-        for (int j=0
-             j < n
+        for (int j=0;
+             j < n;
              j++) {
             if (a[i][j] == 3) { // 바이러스가 놓인칸은 3 
-                q.push(make_pair(i, j))
-                d[i][j] = 0
+                q.push(make_pair(i, j));
+                d[i][j] = 0;
             }
         }
     }
     while (!q.empty()) {
-        int x, y
-        tie(x, y) = q.front()
-        q.pop()
-        for (int k=0
-             k < 4
+        int x, y;
+        tie(x, y) = q.front();
+        q.pop();
+        for (int k=0;
+             k < 4;
              k++) {
-            int nx = x+dx[k]
-            int ny = y+dy[k]
-            if (0 <= nx & & nx < n & & 0 <= ny & & ny < n) {
-                if (a[nx][ny] != 1 & & d[nx][ny] == -1) {
-                    d[nx][ny] = d[x][y] + 1
-                    q.push(make_pair(nx, ny))
+            int nx = x+dx[k];
+            int ny = y+dy[k];
+            if (0 <= nx && nx < n && 0 <= ny && ny < n) {
+                if (a[nx][ny] != 1 && d[nx][ny] == -1) {
+                    d[nx][ny] = d[x][y] + 1;
+                    q.push(make_pair(nx, ny));
                 }
             }
         }
     }
-    int cur = 0
-    for (int i=0
-         i < n
+    int cur = 0;
+    for (int i=0;
+         i < n;
          i++) {
-        for (int j=0
-             j < n
+        for (int j=0;
+             j < n;
              j++) {
             if (a[i][j] != 1) { // 벽이 아니면 갈 수 있다 
-                if (d[i][j] == -1) return // 갈수 없는 곳이 존재한다면 그냥 무시 
-                if (cur < d[i][j]) cur = d[i][j]
+                if (d[i][j] == -1) return; // 갈수 없는 곳이 존재한다면 그냥 무시 
+                if (cur < d[i][j]) cur = d[i][j];
             }
         }
     }
-    if (ans == -1 | | ans > cur) {
-        ans = cur
+    if (ans == -1 || ans > cur) {
+        ans = cur;
     }
 }
 void go(int index, int cnt) {
     if (index == candi.size()) {
         if (cnt == m) {
-            bfs()
+            bfs();
         }
     } else {
-        int x, y
-        tie(x, y) = candi[index]
-        a[x][y] = 3 // 바이러스를 놓은칸 3
-        go(index+1, cnt+1)
-        a[x][y] = 0 // 바이러스를 안놓음 
-        go(index+1, cnt)
+        int x, y;
+        tie(x, y) = candi[index];
+        a[x][y] = 3; // 바이러스를 놓은칸 3
+        go(index+1, cnt+1);
+        a[x][y] = 0; // 바이러스를 안놓음 
+        go(index+1, cnt);
     }
 }
 int main() {
-    cin >> n >> m
-    for (int i=0
-         i < n
+    cin >> n >> m;
+    for (int i=0;
+         i < n;
          i++) {
-        for (int j=0
-             j < n
+        for (int j=0;
+             j < n;
              j++) {
-            cin >> a[i][j]
+            cin >> a[i][j];
             if (a[i][j] == 2) {
-                ## 2라는 것은, 바이러스를 놓을 수 있는 '빈칸'을 의미한다 
-                ## 즉, 2는, 바이러스를 놓을 수 있는 후보이기 때문에
-                ## candi 에 넣기는 하되, 
-                ## 실질적으로 빈칸이기 때문에, 0으로 만들어주는 것이다 
-                a[i][j] = 0
-                candi.push_back(make_pair(i, j))
+                a[i][j] = 0;
+                candi.push_back(make_pair(i, j));
             }
         }
     }
-    go(0, 0) // 어디에 바이러스를 놓을지 검사 
-    cout << ans << '\n'
-    return 0
+    go(0, 0); // 어디에 바이러스를 놓을지 검사 
+    cout << ans << '\n';
+    return 0;
 }
 
 '''
