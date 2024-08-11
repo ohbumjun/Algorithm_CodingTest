@@ -43,7 +43,7 @@ void checknode( node v ){ // v : row 에 해당한다.
         else:
             for v의 모든 자식 노드 v에 대해 :
                 checknode(u)
-}
+} //
 
 '''
 
