@@ -54,7 +54,7 @@ void dijkstra(int start)
         for (int i = 0; i < edge_size; i++)
         {
             int nxt_node = graph[cur_node][i].first;
-            int nxt_cost  = dist[cur_node] + graph[cur_node][i].second;
+            int nxt_cost  = dist[cur_node] + graph[cur_node][i].second; // 
             if (nxt_cost < dist[nxt_node])
             {
                 dist[nxt_node] = nxt_cost;
