@@ -15,6 +15,7 @@
         "xutility": "cpp",
         "iosfwd": "cpp",
         "algorithm": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "string": "cpp"
     }
 }
