@@ -1,4 +1,216 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/84021
+// 1) 시간 초과 풀이
+
+
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stack>
+#include <stdlib.h>
+#include <vector>
+
+using namespace std;
+
+int answer = 0;
+int dRow[] = { -1,1,0,0 };
+int dCol[] = { 0,0,-1,1 };
+vector<vector<bool>> board;
+vector<vector<bool>> tableMap;
+vector<vector<pair<int, int>>> puzzles;
+
+vector<vector<bool>> spinBoard(const vector<vector<bool>>& cBoard)
+{
+    int rowSize = cBoard.size();
+    int colSize = cBoard[0].size();
+    vector<vector<bool>> tempBoard(colSize, vector<bool>(rowSize, false));
+
+    for (int r = 0; r < rowSize; ++r)
+        for (int c = 0; c < colSize; ++c)
+            tempBoard[rowSize - c - 1][r] = cBoard[r][c];
+
+    return tempBoard;
+}
+
+vector<pair<int, int>> toZeroBase(const vector<pair<int, int>>& cPuzzle)
+{
+    vector<pair<int, int>> returnPuz;
+
+    int minRow = cPuzzle[0].first;
+    int minCol = cPuzzle[0].second;
+
+    returnPuz.reserve(cPuzzle.size());
+
+    for (int i = 1; i < cPuzzle.size(); ++i)
+    {
+        minRow = min(minRow, cPuzzle[i].first);
+        minCol = min(minCol, cPuzzle[i].second);
+    }
+
+    for (int i = 0; i < cPuzzle.size(); ++i)
+    {
+        int cRow = cPuzzle[i].first - minRow;
+        int cCol = cPuzzle[i].second - minCol;
+        returnPuz.push_back({ cRow, cCol });
+    }
+
+    return returnPuz;
+}
+
+vector<vector<pair<int, int>>> extractEmptyPoses(const vector<vector<bool>>& cBoard)
+{
+    int rowSize = cBoard.size();
+    int colSize = cBoard[0].size();
+    vector<vector<bool>> dfsVisit(rowSize, vector<bool>(colSize, false));
+    vector<vector<pair<int, int>>> emptyPoses;
+
+    for (int stRow = 0; stRow < rowSize; ++stRow)
+    {
+        for (int stCol = 0; stCol < colSize; ++stCol)
+        {
+            // 빈칸은 1. 
+            if (cBoard[stRow][stCol] == 0) continue;
+
+            // 이미 방문은 x
+            if (dfsVisit[stRow][stCol]) continue;
+
+            vector<pair<int, int>> curEmpty;
+
+            curEmpty.push_back({ stRow, stCol });
+            dfsVisit[stRow][stCol] = true;
+
+            stack<pair<int, int>> dfsStack;
+            dfsStack.push({ stRow, stCol });
+
+            while (dfsStack.empty() == false)
+            {
+                int cRow = dfsStack.top().first;
+                int cCol = dfsStack.top().second;
+                dfsStack.pop();
+
+                for (int dir = 0; dir < 4; ++dir)
+                {
+                    int nxtRow = cRow + dRow[dir];
+                    int nxtCol = cCol + dCol[dir];
+                    if (nxtRow < 0 || nxtRow >= rowSize || nxtCol < 0 || nxtCol >= colSize)
+                        continue;
+                    if (dfsVisit[nxtRow][nxtCol])
+                        continue;
+                    // 빈칸은 1. 
+                    if (cBoard[nxtRow][nxtCol] == 0) continue;
+                    curEmpty.push_back({ nxtRow, nxtCol });
+                    dfsVisit[nxtRow][nxtCol] = true;
+                    dfsStack.push({ nxtRow, nxtCol });
+                }
+            }
+
+            emptyPoses.push_back(curEmpty);
+        }
+    }
+
+    return emptyPoses;
+}
+
+void dfs(int accCnt, int calCnt, vector<bool>& visit, vector<vector<bool>> cBoard)
+{
+    if (calCnt > puzzles.size())
+        return;
+
+    answer = max(accCnt, answer);
+
+    for (int i = 0; i < puzzles.size(); ++i)
+    {
+        if (visit[i]) continue;
+        visit[i] = true;
+
+        const vector<pair<int, int>>& cPuzzle = puzzles[i];
+
+        int cnt = 0;
+
+        while (cnt++ < 4)
+        {
+            // 현재 퍼즐을 4번 모두 회전 시켜볼 수 있음.
+
+            // 각 케이스마다, 넣을 수 있는 빈공간 좌표들을 뽑아낸다.
+            const vector<vector<pair<int, int>>>& emptyPoses = extractEmptyPoses(cBoard);
+
+            for (const vector<pair<int, int>>& emptyPos : emptyPoses)
+            {
+                if (emptyPos.size() != cPuzzle.size())
+                    continue;
+
+                // 그 다음 그 좌표들과 현재 좌표가 일치하는지 확인
+                const vector<pair<int, int>>& zeroPuzzle = toZeroBase(cPuzzle);
+                const vector<pair<int, int>>& zeroEmpty = toZeroBase(emptyPos);
+
+                bool isMatch = true;
+
+                for (int r = 0; r < zeroPuzzle.size(); ++r)
+                {
+                    if (zeroPuzzle[r] != zeroEmpty[r])
+                    {
+                        isMatch = false;
+                        break;
+                    }
+                }
+
+                if (isMatch == false) continue;
+
+                // 일치할 수도 있고, 안할 수도 있다.
+
+                // 일치하면 accCnt 를 + 1 증가시켜서 넘겨주고
+                // 또한 일치시킨 board 부분을 false 로 세팅
+                vector<vector<bool>> copyBoard = cBoard;
+
+                for (const pair<int, int>& pos : emptyPos)
+                    copyBoard[pos.first][pos.second] = false;
+
+                // calCnt 는 + 1 무조건 시켜주기.
+                dfs(accCnt + emptyPos.size(), calCnt + 1, visit, copyBoard);
+            }
+
+            cBoard = spinBoard(cBoard);
+        }
+
+        visit[i] = false;
+    }
+}
+
+int solution(vector<vector<int>> game_board, vector<vector<int>> table) 
+{
+     int table_rows = table.size();
+     int table_cols = table[0].size();
+
+     board.resize(table_rows, vector<bool>(table_cols, false));
+     tableMap.resize(table_rows, vector<bool>(table_cols, false));
+
+     // 각 조각을 회전시키는 것이 아니라
+     // game board 자체를 회전시키는 방법도 존재한다.
+     // 그리고 각각 조각을 그 회전된 game board 에 끼워맞추는 방법도 있을 것이다.
+     // game board 에서는 0을
+     // table 에서는 1을 추출하면 되는데
+     // 이것을 하나의 값으로 통일하는 방법도 생각해볼 필요가 있다.
+     for (int row = 0; row < table_rows; ++row)
+     {
+         for (int col = 0; col < table_cols; ++col)
+         {
+             int boardValue = game_board[row][col];
+             int tableValue = table[row][col];
+
+             board[row][col] = !boardValue;
+             tableMap[row][col] = tableValue;
+         }
+     }
+
+     puzzles = extractEmptyPoses(tableMap);
+
+     vector<bool> visit(puzzles.size(), false);
+     dfs(0, 0, visit, board);
+
+
+    return answer;
+}
+
+// 2) 정석 풀이
 
 #include <string>
 #include <vector>
