@@ -1,8 +1,6 @@
 // https://school.programmers.co.kr/learn/courses/30/lessons/84021
 // 1) 시간 초과 풀이
 
-
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <stack>
@@ -260,7 +258,8 @@ vector<vector<bool>> rotateOnce(vector<vector<bool>> origin){
 // 이때 인자로 들어오는 emptyPoses 은, rePos 를 통해 0.0 으로 맞춰진 것이 아닌
 // 원본 좌표 정보가 들어오게 된다.
 // emptyPoses 에는 원본 board 에서 0 이었던 부분. 즉, 비어있던 부분들의 좌표 정보가 들어오게 된다.
-vector<vector<bool>> fillBoard(vector<Point> emptyPoses, vector<vector<bool> > board)
+vector<vector<bool>> fillBoard(vector<Point> emptyPoses, 
+    vector<vector<bool> > board)
 {
     for(int i = 0; i < emptyPoses.size(); i++){
         int row = emptyPoses[i].row;
@@ -273,7 +272,8 @@ vector<vector<bool>> fillBoard(vector<Point> emptyPoses, vector<vector<bool> > b
 
 // 빈공간, 퍼즐 추출하기 (해당 퍼즐을 구분하는 기준은, vector 에 담긴 point 들)
 // isPuzzle : puzzle 을 조사하는지 / board 를 조사하는지
-vector<Point> getPuzzle(int sRow,int sCol, const vector<vector<bool>>& targetDatas)
+vector<Point> getPuzzle(int sRow,int sCol, 
+const vector<vector<bool>>& targetDatas)
 {
     int dRow[] = {0,0,-1,1};
     int dCol[] = {-1,1,0,0};
@@ -419,7 +419,7 @@ int solution(vector<vector<int>> game_board, vector<vector<int> > table) {
     // 해당 로직은, 매 방문 로직을 마무리할 때마다 다시 reset
     fill(check.begin(),check.end(),vector<bool>(check.size(),false));
     
-    while(count--){
+    while(count--){ //
         
         // 일단 원본 board 에서 0 들을 empty list 에 넣는다.
         // 
