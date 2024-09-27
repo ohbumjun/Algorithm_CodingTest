@@ -105,7 +105,7 @@ void go(int x, int y, int sum, int cnt) {
     if (x < 0 || x >= n || y < 0 || y >= m) return;
     if (c[x][y]) return;
 
-    c[x][y] = true; 
+    c[x][y] = true; //
 
     // [10][20][40][60]
 
