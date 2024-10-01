@@ -3,7 +3,7 @@
 import sys
 from collections import deque
 sys.stdin = open("input.txt", "rt")
-sys.setrecursionlimit(10000)
+sys.setrecursionlimit(10000) ##
 
 # 이진 탐색
 def findPlace(tmp, val):
