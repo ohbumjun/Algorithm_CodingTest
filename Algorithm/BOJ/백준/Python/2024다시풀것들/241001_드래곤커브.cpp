@@ -107,9 +107,12 @@ void makeCurve(int curGen, int targetGen, int stR, int stC,
 	vector<int> newDirs;
 	for (int i = accDirs.size() - 1; i >= 0; --i)
 	{
-		int newDir = get90RightDir(accDirs[i]);
-		newDir = getOpDir(newDir);
-		newDirs.push_back(newDir);
+		// int newDir = get90RightDir(accDirs[i]);
+		// newDir = getOpDir(newDir);
+		// newDirs.push_back(newDir);
+
+		// 사실상 서쪽...
+		newDirs.push_back((accDirs[i] + 1) % 4);
 	}
 
 	int curR = stR, curC = stC;
@@ -203,7 +206,7 @@ int main() {
 	return 0;
 }
 
-// 정답 코드
+// 정답 코드 (2번째 풀이)
 #include <iostream>
 #include <vector>
 #include <deque>
@@ -211,9 +214,13 @@ int main() {
 using namespace std;
 
 int N;
+
+// 1번째 풀이와 차이점
+// 1번째 : Map[101][101] 은 하나의 칸 개념. 4변을 모두 표현
+// 정답 : 그냥 말 그대로 꼭짓점으로 표현
 int Map[101][101];
 int cnt = 0;
-int dx[4] = { 1, 0, -1, 0 };
+int dx[4] = { 1, 0, -1, 0 }; // 동, 북, 서, 남
 int dy[4] = { 0, -1, 0, 1 };
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -242,7 +249,9 @@ int main() {
 		}
 	}
 
-	for (i = 0; i < 100; i++) {
+	for (i = 0; i < 100; i++) { // 여기서 101 이 되면 안된다.
+		// 결국은, 맨 마지막 + 1은, 3x3 이라고 하면, 3x3 을 넘어서
+		// 오른쪽 아래에 있는 격자 하나를 더 고려하는 꼴이 되기 때문이다.
 		for (j = 0; j < 100; j++) {
 			if (Map[i][j] && Map[i][j + 1] && Map[i + 1][j] && Map[i + 1][j + 1]) {
 				cnt++;
@@ -251,13 +260,6 @@ int main() {
 	}
 
 	cout << cnt << endl;
-	
-	//for (i = 0; i <= 100; i++) {
-	//	for (j = 0; j <= 100; j++) {
-	//		cout << Map[i][j];
-	//	}
-	//	cout << endl;
-	//}
 
 	return 0;
 }
