@@ -252,7 +252,8 @@ bool go() {
  
 void dfs(int dep,int x,int y) {
     if (ans <= dep) return;
-    if (go()) {
+    if (go()) 
+    {
         ans = dep;
         return;
     }
@@ -260,18 +261,22 @@ void dfs(int dep,int x,int y) {
  
     // 아래로 가겠다 !! : row부터 검사 
     for (int Y = y; Y <= H; Y++) {
-        for (int X = 0; X <= N; X++) {
+        for (int X = x; X <= N; X++) {
             /*
             오른쪽으로 가겠다 ! : col부터 검사
             for (int X = x; X <= N; X++) {
                 for (int Y = 0; Y <= H; Y++) {
             */
-            if (map[Y][X] == 0 && map[Y][X - 1] == 0 && map[Y][X + 1] == 0) {
+            if (map[Y][X] == 0 && map[Y][X - 1] == 0 && 
+            map[Y][X + 1] == 0) {
                 map[Y][X] = 1;
                 dfs(dep + 1, X, Y);
                 map[Y][X]=0;
             }
         }
+        // 현재 row 에서 다음 col 로
+        // 단, 다음 row 부터는 다시 맨 왼쪽부터
+        // 이거 때문에 고생함
         x = 1;
     }
 }
