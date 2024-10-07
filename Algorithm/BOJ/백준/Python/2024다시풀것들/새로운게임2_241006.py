@@ -90,6 +90,273 @@ for turn in range(1, 1001):
 print(-1)
 
 '''
+>> 1번째 풀이
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <string>
+#include <cstring>
+#include <climits>
+#include <set>
+#include <queue>
+#include <math.h>
+#include <stack>
+#include <algorithm>
+#include <unordered_map>
+
+#define endl "\n"
+#define INT_MAX int(1e9)
+#define MAX 10001
+
+// #define DEBUG 1
+
+using namespace std;
+
+int N, K;
+int dRow[]	= { 0, 0, -1, 1 }; // 오,왼,위,아
+int dCol[]	= { 1, -1, 0, 0 };
+struct Horse
+{
+	int r, c, dir, n;
+};
+enum class KAN
+{
+	WHITE,
+	RED,
+	BLUE
+};
+// 여러 Horse, [0] 가 가장 밑. 말 숫자
+vector<vector<vector<int>>> Chess;
+vector<vector<KAN>> Map;
+vector<Horse> HorseMap;
+
+int getOpdir(int dir)
+{
+	if (dir == 0) return 1;
+	if (dir == 1) return 0;
+	if (dir == 2) return 3;
+	if (dir == 3) return 2;
+}
+
+void Input()
+{
+	cin >> N >> K;
+	HorseMap.resize(K);
+	Chess.resize(N, vector<vector<int>>(N));
+	Map.resize(N, vector<KAN>(N));
+
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			int kan;
+			cin >> kan;
+			Map[i][j] = (KAN)kan;
+		}
+	}
+
+	for (int k = 0; k < K; ++k)
+	{
+		int r, c, dir;
+		cin >> r >> c >> dir;
+		Horse horse = { r - 1, c - 1, dir - 1, k};
+		Chess[r-1][c-1].push_back(k);
+		HorseMap[k] = horse;
+	}
+}
+
+bool moveRed(int oldR, int oldC, int nxtR, int nxtC, int curIdx)
+{
+	// HorseMap 정보도 update 한다.
+	// Chess 판에서 현재 칸에 있는 모든 내용을 순서반대로 올린다.
+	for (int idx = Chess[oldR][oldC].size() - 1;
+		idx >= curIdx; --idx)
+	{
+		int horseNum = Chess[oldR][oldC][idx];
+		HorseMap[horseNum].r = nxtR;
+		HorseMap[horseNum].c = nxtC;
+		Chess[nxtR][nxtC].push_back(Chess[oldR][oldC][idx]);
+	}
+	
+	Chess[oldR][oldC].erase(Chess[oldR][oldC].begin() + curIdx, 
+		Chess[oldR][oldC].end());
+	
+	if (Chess[nxtR][nxtC].size() >= 4)
+		return false;
+
+	return true;
+}
+
+bool moveWhite(int oldR, int oldC, int nxtR, int nxtC, int curIdx)
+{
+	// HorseMap 정보도 update 한다.
+	// Chess 판에서 현재 칸에 있는 모든 내용을 그대로 올린다.
+	for (int idx = curIdx; idx < Chess[oldR][oldC].size(); ++idx)
+	{
+		int horseNum = Chess[oldR][oldC][idx];
+		HorseMap[horseNum].r = nxtR;
+		HorseMap[horseNum].c = nxtC;
+		Chess[nxtR][nxtC].push_back(Chess[oldR][oldC][idx]);
+	}
+
+	if (Chess[nxtR][nxtC].size() >= 4)
+		return false;
+
+	Chess[oldR][oldC].erase(Chess[oldR][oldC].begin() + curIdx, 
+		Chess[oldR][oldC].end());
+	return true;
+}
+
+void Solve()
+{
+	// 말 위에 말을 올릴 수 있음
+	// white, red, blue
+	// 1. 말 이동
+	// - 흰색 : 이동 -> 그냥 쌓아올리기
+	// - 빨간색 : 이동 + 순서 반대로 변경. 로직 상으로는 현재 애들 순서 변경
+	//   그 다음 칸 위에 쌓아올리기
+	// - 파란색
+	//   방향 반대로 
+	//   이동 칸이 파란색이면, 이동 X
+	//   그게 아니라면, 이동
+	// - 벗어남
+	//   파란색과 같은 로직 적용하기
+
+	// r,c 탐색
+	// 2개 이상일 수 있잖아.
+	// 그러면 재귀 ? 로 더이상 이동할 말이 없을 때까지 반복하자.
+	int turn = 1;
+
+	while (turn <= 1000)
+	{
+		bool end = false;
+		for (int k = 0; k < K; ++k)
+		{
+			Horse curHorse = HorseMap[k];
+			int oldR = curHorse.r;
+			int oldC = curHorse.c;
+			int nxtR = curHorse.r + dRow[curHorse.dir];
+			int nxtC = curHorse.c + dCol[curHorse.dir];
+			int curIdx = -1;
+
+			for (int idx = 0; idx < Chess[oldR][oldC].size(); ++idx)
+			{
+				if (Chess[oldR][oldC][idx] == k)
+				{
+					curIdx = idx;
+					break;
+				}
+			}
+
+			// 범위 벗어나는 가
+			if (nxtR < 0 || nxtR >= N || nxtC < 0 || nxtC >= N)
+			{
+				curHorse.dir = getOpdir(curHorse.dir);
+				nxtR = oldR + dRow[curHorse.dir];
+				nxtC = oldC + dCol[curHorse.dir];
+				KAN nxtKan = Map[nxtR][nxtC];
+				HorseMap[k].dir = curHorse.dir;
+				// 이동
+				if (nxtKan == KAN::RED)
+				{
+					if (!moveRed(oldR, oldC, nxtR, nxtC, curIdx))
+					{
+						end = true;
+						break;
+					}
+				}
+				else // WHITE
+				{
+					if (!moveWhite(oldR, oldC, nxtR, nxtC, curIdx))
+					{
+						end = true;
+						break;
+					}
+				}
+			}
+			else
+			{
+				KAN nxtKan = Map[nxtR][nxtC];
+				if (nxtKan == KAN::BLUE)
+				{
+					curHorse.dir = getOpdir(curHorse.dir);
+					nxtR = oldR + dRow[curHorse.dir];
+					nxtC = oldC + dCol[curHorse.dir];
+					HorseMap[k].dir = curHorse.dir;
+					if (nxtR >= 0 && nxtR < N && nxtC >= 0 && nxtC < N)
+					{
+						nxtKan = Map[nxtR][nxtC];
+						// 이동
+						// 1) 빨강
+						// 2) 흰색
+						if (nxtKan == KAN::RED)
+						{
+							if (!moveRed(oldR, oldC, nxtR, nxtC, curIdx))
+							{
+								end = true;
+								break;
+							}
+						}
+						else // WHITE
+						{
+							if (!moveWhite(oldR, oldC, nxtR, nxtC, curIdx))
+							{
+								end = true;
+								break;
+							}
+						}
+					}
+				}
+				else if (nxtKan == KAN::RED)
+				{
+					if (!moveRed(oldR, oldC, nxtR, nxtC, curIdx))
+					{
+						end = true;
+						break;
+					}
+				}
+				else // WHITE
+				{
+					if (!moveWhite(oldR, oldC, nxtR, nxtC, curIdx))
+					{
+						end = true;
+						break;
+					}
+				}
+			}
+		}
+		if (end)
+			break;
+		turn += 1;
+	}
+
+	if (turn > 1000)
+		cout << -1 << endl;
+	else
+		cout << turn << endl;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	freopen("input_c.txt", "r", stdin);
+
+	Input();
+
+	Solve();
+
+	return 0;
+}
+
+'''
+
+'''
+>> 정답 풀이
 C++
 
 #include <iostream>
@@ -105,7 +372,9 @@ int opposite(int dir) {
     if (dir == 2) return 3;
     return 2;
 }
-void go(vector<vector<vector<pair<int,int>>>> &a, vector<tuple<int,int,int>> &where, int x, int y, int nx, int ny, int start) {
+void go(vector<vector<vector<pair<int,int>>>> &a, 
+vector<tuple<int,int,int>> &where, int x, int y, int nx, int ny, 
+int start) {
     for (int i=start; i<a[x][y].size(); i++) {
         auto &p = a[x][y][i];
         a[nx][ny].push_back(p);
@@ -122,7 +391,8 @@ int main() {
             cin >> board[i][j];
         }
     }
-    vector<vector<vector<pair<int,int>>>> a(n, vector<vector<pair<int,int>>>(n));
+    vector<vector<vector<pair<int,int>>>> a(n, 
+        vector<vector<pair<int,int>>>(n));
     vector<tuple<int,int,int>> where(m);
     for (int i=0; i<m; i++) {
         int x, y, dir;
