@@ -298,3 +298,213 @@ int main() {
 
 
 */
+
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <thread>
+#include <vector>
+#include <string>
+#include <cstring>
+#include <climits>
+#include <set>
+#include <queue>
+#include <math.h>
+#include <stack>
+#include <algorithm>
+#include <unordered_map>
+
+#define endl "\n"
+#define INT_MAX int(1e9)
+#define MAX 10001
+
+// #define DEBUG 1
+
+using namespace std;
+
+// 1. 포인트 : 2차원 배열 보다 1차원 배열이 더 쉽다
+// 2. 시작 위치는, nextPos[] 의 맨 마지막
+// 이동 위치는 [0] 이라는 구분.
+// 3. 모든 조합 만들고 나서 이동 x. 이동하면서 선택.
+
+// 위치 정보
+// next 칸
+// score
+
+int ans = 0;
+vector<int> pos;
+vector<vector<int>> nextPos;
+vector<int> score;
+vector<int> dices;
+const int END = 32;
+
+void Input()
+{
+	for (int i = 0; i < 10; ++i)
+	{
+		int d;
+		cin >> d;
+		dices.push_back(d);
+	}
+
+	nextPos.resize(33, vector<int>());
+	score.resize(33, 0);
+	pos.resize(4, 0);
+
+	// 시작 ~ 39까지 (0 ~ 19)
+	// 13 ~ 28까지 (20 ~ 26) 25 : 23임.
+	// 22 ~ 24까지(27 ~ 28)
+	// 30 ~ 도착까지(29 ~ 32)
+	for (int i = 0; i < 19; ++i)
+	{
+		int nxt = i + 1;
+		nextPos[i].push_back(nxt);
+		if (i == 5 || i == 10 || i == 15) // 10,20,30
+		{
+			int extra = i;
+			if (i == 5)  // 10 -> 13
+				extra = 20;
+			if (i == 10) // 20 -> 22
+				extra = 27;
+			if (i == 15) // 30 -> 28
+				extra = 26;
+			nextPos[i].push_back(extra);
+		}
+	}
+	nextPos[19].push_back(31);
+
+	for (int i = 20; i <= 22; ++i)
+		nextPos[i].push_back(i + 1);
+	for (int i = 26; i >= 24; --i)
+		nextPos[i].push_back(i -1);
+	nextPos[23].push_back(29);
+
+	nextPos[27].push_back(28);
+	nextPos[28].push_back(23);
+
+	nextPos[29].push_back(30);
+	nextPos[30].push_back(31);
+	nextPos[31].push_back(32);
+	nextPos[32].push_back(32);
+
+
+	// score
+	for (int i = 0; i < 20; ++i)
+		score[i] = i * 2;
+	
+	for (int i = 20; i <= 22; ++i)
+		score[i] = 13 + (i - 20) * 3;
+	
+	score[26] = 28;
+	score[25] = 27;
+	score[24] = 26;
+
+	score[23] = 25;
+
+	score[27] = 22;
+	score[28] = 24;
+	
+	score[29] = 30;
+	score[30] = 35;
+	score[31] = 40;
+	score[32] = 0;
+}
+
+bool checkDup(int curMalPos, int curMalIdx)
+{
+	if (curMalPos == END)
+		return false;
+	for (int i = 0; i < 4; ++i)
+	{
+		if (i == curMalIdx)
+			continue;
+		if (pos[i] == END)
+			continue;
+		if (pos[i] == curMalPos)
+			return true;
+	}
+	return false;
+}
+
+void dfs(int diceIdx, int sum, vector<int>& selected)
+{
+	if (diceIdx == 10)
+	{
+		if (sum == 188)
+		{
+			bool h = true;
+		}
+		ans = max(ans, sum);
+		return;
+	}
+	int dice = dices[diceIdx];
+	for (int i = 0; i < 4; ++i)
+	{
+		if (diceIdx == 3 && i == 1)
+		{
+			bool h = true;
+		}
+		if (pos[i] == END)
+			continue;
+		int oldPos = pos[i];
+		int malPos = pos[i];
+		int cScore = score[malPos];
+		int firstNext = nextPos[malPos][nextPos[malPos].size() - 1];
+		malPos= firstNext;
+
+		for (int move = 1; move < dice; ++move)
+			malPos = nextPos[malPos][0];
+
+		if (checkDup(malPos, i))
+			continue;
+
+		int lastScore = score[malPos];
+		
+		// 위치 정보 update
+		pos[i] = malPos;
+		selected.push_back(i);
+		dfs(diceIdx + 1, sum + lastScore, selected);
+		selected.pop_back();
+		pos[i] = oldPos;
+	}
+}
+
+void Solve()
+{
+	/*
+	dfs (cnt, sum)
+	if cnt == 10, return sum
+	for (mal < 4)
+		- 현재 주사위를, 해당 mal 로 던지기
+		- 이미 도착한 말이면, continue
+		- dice 개수만큼 이동
+		- 맨 처음 칸은 adf[-1] 로 이동
+		- 이후에는 adj[0] 으로 이동
+		- 이동 가능한지 파악.
+		- 이동 후, 위치 정보 update
+	*/
+
+	// debug 용
+	vector<int> selected;
+	dfs(0, 0, selected);
+
+	cout << ans << endl;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+
+	cin.tie(NULL);
+	cout.tie(NULL);
+
+	freopen("input_c.txt", "r", stdin);
+
+	Input();
+
+	Solve();
+
+	return 0;
+}
+
+
