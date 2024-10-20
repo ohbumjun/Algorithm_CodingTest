@@ -59,21 +59,13 @@ void LearnWord(int NumWords, int PrevLearnedIdx, int CurrentWord)
         // 모든 알파벳들을 돌면서
         size_t WordSize = vecWordsInt.size();
 
-        // cout << "CurrentWord    : " << bitset<32>(CurrentWord) << endl;
-    	// printf("CurrentWord : %d\n", CurrentWord);
-
         for (size_t i = 0; i < WordSize; ++i)
         {
-            // cout << "vecWordsInt[i] : " << bitset<32>(vecWordsInt[i]) << endl;
-            // cout << "learned Word : " << bitset<32>(vecWordsInt[i] & CurrentWord) << endl;
-
             if ((vecWordsInt[i] & CurrentWord) == vecWordsInt[i])
             {
                 CanLearnNum += 1;
             }
         }
-
-    	// cout << endl;
 
         if (ANS < CanLearnNum)
             ANS = CanLearnNum;
