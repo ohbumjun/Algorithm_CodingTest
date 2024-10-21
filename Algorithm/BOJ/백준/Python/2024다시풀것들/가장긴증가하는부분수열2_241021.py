@@ -70,7 +70,6 @@ if __name__ == "__main__" :
 #define INT_MAX int(1e9)
 #define MAX 10001
 
-// #define DEBUG 1
 
 using namespace std;
 int N;
@@ -100,7 +99,6 @@ void Solve()
 		{
 			// LIS 에서 현재 원소가 들어갈 위치를 찾아서 넣어준다.
 			// 단, 같은 원소는 ...?
-			int insertIdx = -1;
 			int left = 0;
 			int right = LIS.size() - 1;
 
