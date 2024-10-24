@@ -49,7 +49,7 @@ public:
             slastHeight.pop();
             slastIdx.pop();
 
-            int area = topH * (heights.size() - topIdx);
+            int area = topH * (heights.size() - topIdx); //
             maxArea = maxArea < area ? area : maxArea;
         }
 
