@@ -321,7 +321,8 @@ long long calculatePoint() {
 	//그룹 생성에 사용된 패의 개수
 	int numUsedTiles = 0;
 
-	//특정 패가 그룹 생성에 사용되었는지 여부: 하나의 패를 여러 번 사용할 수 없다.
+	//특정 패가 그룹 생성에 사용되었는지 여부: 
+	// 하나의 패를 여러 번 사용할 수 없다.
 	vector<bool> tileUsed(gridSize, false);
 
 	//그룹 생성: 모든 패가 그룹 생성에 사용될 때 까지 반복한다.
