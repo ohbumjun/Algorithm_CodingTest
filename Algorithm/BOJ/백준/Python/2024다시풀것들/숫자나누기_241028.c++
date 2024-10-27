@@ -50,6 +50,9 @@ int solution(vector<int> arrayA, vector<int> arrayB) {
     for (int n : arrayB) lcm_b = lcm(lcm_b, n);
     
     answer = checkNotDivided(arrayA, lcm_b);
+
+    // 맨 처음 풀이에서는, lcm_a, lcm_b 가 둘다 조건에 만족할 수 있다는
+    // 것을 간과했다.
     answer = max(checkNotDivided(arrayB, lcm_a), answer);
     
     return answer; 
