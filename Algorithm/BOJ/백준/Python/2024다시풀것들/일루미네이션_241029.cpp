@@ -182,6 +182,10 @@ int main() {
 // 만약 둘러쌓인 것이라면 0 을 리턴
 // 한편, 가장 자리 건물들의 벽도 cnt 해야 하므로
 // 해당 부분은 별도로 처리
+
+// https://velog.io/@nnnyeong/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%ED%92%80%EC%9D%B4-%EB%B6%84%EC%84%9D-BOJ-5547-%EC%9D%BC%EB%A3%A8%EB%AF%B8%EB%84%A4%EC%9D%B4%EC%85%98
+// 혹은 해당 방법과 같이 행,열을 늘려서 고려하는 방법도 있다.
+
 #include <iostream>
 #include <vector>
 #include <queue>
