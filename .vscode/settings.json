@@ -17,6 +17,7 @@
         "algorithm": "cpp",
         "unordered_map": "cpp",
         "string": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "ios": "cpp"
     }
 }
