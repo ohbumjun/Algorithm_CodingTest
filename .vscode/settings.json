@@ -18,6 +18,7 @@
         "unordered_map": "cpp",
         "string": "cpp",
         "numeric": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "utility": "cpp"
     }
 }
