@@ -1,4 +1,5 @@
 // https://leetcode.com/problems/ipo/
+// https://www.youtube.com/watch?v=1IUzNJ6TPEM&t=309s
 
 class Solution {
 public:
