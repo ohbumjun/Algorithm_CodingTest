@@ -200,7 +200,7 @@ void Solve()
 
 
 		// 1. move santa
-		// 2. dead time 처리 방식.
+		// 2. dead time 처리 방식. //
 
 
 		// 2. 모든 산타 이동
