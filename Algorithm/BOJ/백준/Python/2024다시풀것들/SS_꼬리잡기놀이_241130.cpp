@@ -685,7 +685,7 @@ int getK(int group, int r, int c)
 	assert(k != -1);
 	return k;
 }
-
+ //
 void Solve()
 {
 	/*
