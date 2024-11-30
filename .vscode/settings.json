@@ -19,6 +19,9 @@
         "string": "cpp",
         "numeric": "cpp",
         "ios": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "bitset": "cpp",
+        "ranges": "cpp",
+        "span": "cpp"
     }
 }
