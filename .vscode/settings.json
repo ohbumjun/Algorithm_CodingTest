@@ -22,6 +22,7 @@
         "utility": "cpp",
         "bitset": "cpp",
         "ranges": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "set": "cpp"
     }
 }
