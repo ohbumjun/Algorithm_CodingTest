@@ -70,7 +70,6 @@ if __name__ == "__main__" :
 #define INT_MAX int(1e9)
 #define MAX 10001
 
-
 using namespace std;
 int N;
 vector<int> nums;
