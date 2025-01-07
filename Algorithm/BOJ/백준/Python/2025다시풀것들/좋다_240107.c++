@@ -1,4 +1,6 @@
 // https://www.acmicpc.net/problem/1253
+
+// 1) 이분탐색
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
@@ -80,5 +82,87 @@ int main() {
 
     cout << Answer << endl;
     
+    return 0;
+}
+
+// 2) 투포인터
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <vector>
+#include <set>
+#include <queue>
+#include <stack>
+#include <tuple>
+#include <unordered_map>
+#include <algorithm>
+#include <cassert>
+using namespace std;
+
+#define INT_MAX int(1e9)
+
+int N;
+
+vector<long long> values;
+
+void Input()
+{
+    cin >> N;
+
+	values.resize(N);
+
+    for (int i = 0; i < N; i++)
+    {
+		cin >> values[i];
+    }
+
+    sort(values.begin(), values.end());
+}
+
+void Solve()
+{
+    int answer = 0;
+    for (int f = 0; f < N; ++f)
+    {
+        long long target= values[f];
+        vector<long long> valuesCopy = values;
+        valuesCopy.erase(valuesCopy.begin() + f);
+        int left = 0;
+        int right = valuesCopy.size() - 1;
+
+        while (left < right)
+        {
+            int mid = valuesCopy[right] + valuesCopy[left];
+            if (mid == target)
+            {
+                answer += 1;
+                break;
+            }
+            else
+            {
+                if (mid < target)
+                    left += 1;
+                else // mid > target 
+                    right -= 1;
+            }
+        }
+    }
+    // 정렬
+    // f + s -> s 이후부터 끝까지 이분탐색
+    cout << answer << endl;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input_c.txt", "r", stdin);
+
+    Input();
+
+    Solve();
+
     return 0;
 }
