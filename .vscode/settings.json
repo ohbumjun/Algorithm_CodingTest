@@ -23,6 +23,7 @@
         "bitset": "cpp",
         "ranges": "cpp",
         "span": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "xiosbase": "cpp"
     }
 }
