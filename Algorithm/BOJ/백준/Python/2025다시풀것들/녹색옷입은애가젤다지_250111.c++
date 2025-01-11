@@ -1,3 +1,115 @@
+// https://www.acmicpc.net/problem/4485
+
+// 1) 번째 풀이 : 기본 dfs -> 시간 초과
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+#include <vector>
+#include <set>
+#include <queue>
+#include <stack>
+#include <tuple>
+#include <unordered_map>
+#include <algorithm>
+#include <cassert>
+using namespace std;
+
+#define INT_MAX int(1e9)
+
+int N;
+
+int dRow[] = { 0, 0, -1, 1 };
+int dCol[]= { -1, 1, 0, 0 };
+
+int maps[125][125];
+bool check[125][125];
+int minCost[125][125];
+
+void dfs(int curR, int curC, bool(*check)[125], int accDist)
+{
+    minCost[curR][curC] = accDist;
+    if (curR == N - 1 && curC == N - 1)
+		return;
+    check[curR][curC] = true;
+    for (int d = 0; d < 4; ++d)
+    {
+        int nRow = curR + dRow[d];
+        int nCol = curC + dCol[d];
+        if (nRow < 0 || nRow >= N || nCol < 0 || nCol >= N)
+			continue;
+        if (check[nRow][nCol])
+			continue;
+        int nxtDist = accDist + maps[nRow][nCol];
+        if (minCost[nRow][nCol] <= nxtDist)
+            continue;
+        dfs(nRow, nCol, check, nxtDist);
+    }
+    check[curR][curC] = false;
+}
+
+void Input()
+{
+
+}
+
+void Solve()
+{
+    // 특정 영역 까지의 단순 최단 거리 X
+    // 거쳐가는 비용을 최소로
+    // bfs 도 애매하다. 각 경로마다 최단 거리를 진행해야 하니까 ?
+
+    int turn = 1;
+    while (true)
+    {
+        cin >> N;
+        
+        if (N == 0)
+			break;
+
+        for (int r = 0; r < N; ++r)
+            for (int c = 0; c < N; ++c)
+                check[r][c] = false;
+
+        for (int r = 0; r < N; ++r)
+            for (int c = 0; c < N; ++c)
+                minCost[r][c] = INT_MAX;
+
+        for (int r = 0; r < N; ++r)
+            for (int c = 0; c < N; ++c)
+                cin >> maps[r][c];
+        dfs(0, 0, check, maps[0][0]);
+
+        // for (int r = 0; r < N; ++r)
+        // {
+        //     for (int c = 0; c < N; ++c)
+        //         std::cout << minCost[r][c] << " ";
+        //     std::cout << endl;
+        // }
+
+        std::cout << "Problem " << turn << ": " << minCost[N - 1][N - 1] << "\n";
+
+        turn += 1;
+    }
+   
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+
+    cin.tie(NULL);
+    cout.tie(NULL);
+
+    freopen("input_c.txt", "r", stdin);
+
+    Input();
+
+    Solve();
+
+    return 0;
+}
+
+
+// 2) 2번째 풀이 : 다익스트라
 #define _CRT_SECURE_NO_WARNINGS
 
 #include<iostream>
